@@ -14,6 +14,11 @@
       "meta": {
         "type": "Text",
         "default": "now",
+        "validations": {
+          "required": true
+        }
+      },
+      "configuration": {
         "placeholder": "now"
       }
     },
@@ -73,6 +78,9 @@
       "meta": {
         "type": "Text",
         "placeholder": "%d-%m-%Y %H:%M"
+      },
+      "configuration": {
+        "placeholder": "%A, %B %d, %Y %I:%M %p"
       }
     },
     {

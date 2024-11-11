@@ -128,6 +128,10 @@ const dateStrftime = async ({
     strftimeDefault !== "custom" ? strftimeDefault : strftimeStr;
   let datetimeObject: Date;
 
+  if (!strFormat) {
+    throw new Error("Custom strtime is not defined");
+  }
+
   if (datetime instanceof Date) {
     datetimeObject = datetime;
   } else if (
