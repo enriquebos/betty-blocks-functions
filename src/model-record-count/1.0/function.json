@@ -1,0 +1,66 @@
+{
+  "description": "Count the amount of records in the model with additional filter",
+  "label": "Model Record Count",
+  "category": "CRUD",
+  "icon": {
+    "name": "SumIcon",
+    "color": "Orange"
+  },
+  "options": [
+    {
+      "name": "model",
+      "label": "Model",
+      "info": "The model for which you want to retrieve the records count",
+      "meta": {
+        "type": "Model",
+        "validations": {
+          "required": true
+        }
+      }
+    },
+    {
+      "name": "filter",
+      "label": "Filter",
+      "info": "Filter based on Data API filter with variable options",
+      "meta": {
+        "type": "Text"
+      },
+      "configuration": {
+        "placeholder": "_and: [ { name: { eq: \"Betty\" } }, { age: { eq: 28 } } ]"
+      }
+    },
+    {
+      "name": "filterVars",
+      "info": "Variables to be used in the filter option",
+      "label": "Variables",
+      "meta": {
+        "type": "Map"
+      }
+    },
+    {
+      "name": "result",
+      "label": "Result",
+      "info": "The count of the model",
+      "meta": {
+        "type": "Output",
+        "validations": {
+          "required": true
+        },
+        "output": {
+          "anyOf": [
+            {
+              "type": "Text"
+            },
+            {
+              "type": "Number"
+            }
+          ]
+        }
+      },
+      "configuration": {
+        "placeholder": "model_record_count"
+      }
+    }
+  ],
+  "yields": "NONE"
+}

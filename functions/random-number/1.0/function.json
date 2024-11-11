@@ -8,33 +8,49 @@
     },
     "options": [
         {
-            "meta": {
-                "type": "Number"
-            },
             "name": "min",
             "label": "Minimum",
-            "info": "Enter the minimum value of the range for the random number.",
-            "advanced": false
+            "info": "Enter the minimum value for the random number",
+            "meta": {
+                "type": "Number",
+                "validations": {
+                    "required": true
+                }
+            },
+            "configuration": {
+                "placeholder": "0"
+            }
         },
         {
-            "meta": {
-                "type": "Number"
-            },
             "name": "max",
             "label": "Maximum",
-            "info": "Enter the maximum value of the range for the random number.",
-            "advanced": false
+            "info": "Enter the maximum value for the random number",
+            "meta": {
+                "type": "Number",
+                "validations": {
+                    "required": true
+                }
+            },
+            "configuration": {
+                "placeholder": "100"
+            }
         },
         {
+            "name": "returning",
+            "label": "As",
+            "info": "The name of the variable you want for the generated number",
             "meta": {
                 "type": "Output",
+                "validations": {
+                    "required": true
+                },
                 "output": {
                     "anyOf": [{ "type": "Number" }, { "type": "Text" }]
                 }
             },
-            "name": "returning",
-            "label": "As",
-            "info": "The name of the variable you want for the newly generated number"
+            "configuration": {
+                "placeholder": "random_number"
+            }
         }
     ],
     "yields": "NONE"
