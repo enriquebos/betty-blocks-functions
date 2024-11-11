@@ -1,0 +1,41 @@
+{
+  "description": "Generate a random number as integer or string",
+  "label": "Random Number",
+  "category": "Misc",
+  "icon": {
+    "name": "NumberIcon",
+    "color": "Orange"
+  },
+  "options": [
+    {
+      "meta": {
+        "type": "Number"
+      },
+      "name": "min",
+      "label": "Minimum",
+      "info": "Enter the minimum value of the range for the random number.",
+      "advanced": false
+    },
+    {
+      "meta": {
+        "type": "Number"
+      },
+      "name": "max",
+      "label": "Maximum",
+      "info": "Enter the maximum value of the range for the random number.",
+      "advanced": false
+    },
+    {
+      "meta": {
+        "type": "Output",
+        "output": {
+          "anyOf": [{ "type": "Number" }, { "type": "Text" }]
+        }
+      },
+      "name": "returning",
+      "label": "As",
+      "info": "The name of the variable you want for the newly generated number"
+    }
+  ],
+  "yields": "NONE"
+}
