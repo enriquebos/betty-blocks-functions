@@ -1,0 +1,123 @@
+{
+  "description": "Format dates using strftime method",
+  "label": "Date/Time Formatter (strftime)",
+  "category": "Misc",
+  "icon": {
+    "name": "DateDayIcon",
+    "color": "Orange"
+  },
+  "options": [
+    {
+      "name": "datetime",
+      "label": "Datetime input, YYYY-MM-DD hh:mm:ss notation, datetime object or unix time",
+      "info": "Use \"now\", \"today\" or empty for current datetime",
+      "meta": {
+        "type": "Text",
+        "default": "now",
+        "placeholder": "now"
+      }
+    },
+    {
+      "name": "strftimeDefault",
+      "label": "Default formats",
+      "info": "Default formats, choose custom to enable custom strftime field",
+      "meta": {
+        "type": "Select",
+        "validations": {
+          "required": true
+        },
+        "values": [
+          {
+            "label": "2024-09-19",
+            "value": "%Y-%m-%d"
+          },
+          {
+            "label": "2024-09-19 16:43",
+            "value": "%Y-%m-%d %H:%M"
+          },
+          {
+            "label": "Thu 2024-09-19 16:43",
+            "value": "%a %Y-%m-%d %H:%M"
+          },
+          {
+            "label": "Thursday, September 19, 2024 16:43",
+            "value": "%A, %B %d, %Y %H:%M"
+          },
+          {
+            "label": "09-19-2024",
+            "value": "%m-%d-%Y"
+          },
+          {
+            "label": "09-19-2024 16:43",
+            "value": "%m-%d-%Y %H:%M"
+          },
+          {
+            "label": "Thu 09-19-2024 16:43",
+            "value": "%a %m-%d-%Y %H:%M"
+          },
+          {
+            "label": "Thursday, September 19, 2024 04:34 PM",
+            "value": "%A, %B %d, %Y %I:%M %p"
+          },
+          {
+            "label": "Custom strftime",
+            "value": "custom"
+          }
+        ]
+      }
+    },
+    {
+      "name": "strftimeStr",
+      "label": "Custom Strftime format",
+      "info": "Quick string format using % formatting check the README.md for detailed info",
+      "meta": {
+        "type": "Text",
+        "placeholder": "%d-%m-%Y %H:%M"
+      }
+    },
+    {
+      "name": "timeZoneOffset",
+      "label": "UTC timezone offset for your zone (i.e. NL3 = UTC+1, USA2 = UTC-6)",
+      "meta": {
+        "type": "Select",
+        "validations": {
+          "required": true
+        },
+        "values": [
+          { "label": "UTC-8", "value": "-480" },
+          { "label": "UTC-7", "value": "-420" },
+          { "label": "UTC-6", "value": "-360" },
+          { "label": "UTC-5", "value": "-300" },
+          { "label": "UTC-4", "value": "-240" },
+          { "label": "UTC-3", "value": "-180" },
+          { "label": "UTC-2", "value": "-120" },
+          { "label": "UTC-1", "value": "-60" },
+          { "label": "UTC", "value": "0" },
+          { "label": "UTC+1", "value": "60" },
+          { "label": "UTC+2", "value": "120" },
+          { "label": "UTC+3", "value": "180" },
+          { "label": "UTC+4", "value": "240" },
+          { "label": "UTC+5", "value": "300" },
+          { "label": "UTC+6", "value": "360" },
+          { "label": "UTC+7", "value": "420" },
+          { "label": "UTC+8", "value": "480" }
+        ]
+      }
+    },
+    {
+      "name": "result",
+      "label": "Result",
+      "info": "Result as text",
+      "meta": {
+        "type": "Output",
+        "validations": {
+          "required": true
+        },
+        "output": {
+          "type": "Text"
+        }
+      }
+    }
+  ],
+  "yields": "NONE"
+}
