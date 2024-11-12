@@ -3,6 +3,10 @@ Typescript flavourd betty functions! Enter `./src` and click on a function for v
 
 
 ## Requirements
+Node only installation:
+- Node V18.20.4
+
+Recommended installation:
 - nvm (latest)
 - nvm zsh hook (Add to `~/.zshrc`)
 ```bash
