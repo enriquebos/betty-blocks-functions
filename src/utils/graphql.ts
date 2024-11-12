@@ -1,5 +1,8 @@
+import { formatStringMap } from "./utilityFuncs";
+
 interface QueryOptionalOptions {
   filter?: string;
+  filterVars?: { key: string; value: string }[];
   take?: number;
   skip?: number;
   bodyQuery?: string;
@@ -9,9 +12,10 @@ interface QueryOptionalOptions {
 export async function queryRecords(
   modelName: string,
   options: QueryOptionalOptions,
-): Promise<string> {
+): Promise<string | number> {
   const {
     filter = "",
+    filterVars = [],
     take = 200,
     skip = 0,
     bodyQuery = "",
@@ -22,7 +26,9 @@ export async function queryRecords(
     throw new Error("No bodyQuery has been provided");
   }
 
-  const where = filter ? `where: { ${filter} }, ` : "";
+  const where = filter
+    ? `where: { ${formatStringMap(filter, filterVars)} }, `
+    : "";
   const skip_fmt = count ? "" : `, skip: ${skip}`;
 
   const generateQuery = `query {
@@ -30,6 +36,8 @@ export async function queryRecords(
         ${count ? "totalCount" : `results { ${bodyQuery} }`}
       }
     }`;
+
+  console.log(generateQuery);
 
   // @ts-expect-error: Cannot find name 'gql'
   const { data, errors } = await gql(generateQuery);
@@ -39,4 +47,23 @@ export async function queryRecords(
   }
 
   return data[`all${modelName}`][count ? "totalCount" : "results"];
+}
+
+export async function deleteManyQuery(
+  modelName: string,
+  ids: string[],
+): Promise<void> {
+  // @ts-expect-error: Cannot find name 'gql'
+  const { errors }: any[] = await gql(
+    `mutation($input: ${modelName}Input) {
+      deleteMany${modelName}(input: $input) {
+        id
+      }
+    }`,
+    { input: { ids } },
+  );
+
+  if (errors) {
+    throw errors;
+  }
 }

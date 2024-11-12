@@ -124,6 +124,9 @@
         "output": {
           "type": "Text"
         }
+      },
+      "configuration": {
+        "placeholder": "date_string"
       }
     }
   ],

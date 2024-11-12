@@ -12,10 +12,7 @@
       "label": "Minimum",
       "info": "Enter the minimum value for the random number",
       "meta": {
-        "type": "Number",
-        "validations": {
-          "required": true
-        }
+        "type": "Number"
       },
       "configuration": {
         "placeholder": "0"
@@ -36,7 +33,7 @@
       }
     },
     {
-      "name": "returning",
+      "name": "result",
       "label": "As",
       "info": "The name of the variable you want for the generated number",
       "meta": {

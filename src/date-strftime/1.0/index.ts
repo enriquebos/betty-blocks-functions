@@ -1,3 +1,10 @@
+interface DateStrftimeParams {
+  datetime: Date | string;
+  strftimeDefault: string;
+  strftimeStr: string;
+  timeZoneOffset: string;
+}
+
 function strftime(sFormat: string, date: Date = new Date()): string {
   if (typeof sFormat !== "string") {
     return "";
@@ -107,23 +114,12 @@ function strftime(sFormat: string, date: Date = new Date()): string {
   });
 }
 
-interface DateStrftimeParams {
-  datetime: Date | string;
-  strftimeDefault: string;
-  strftimeStr: string;
-  timeZoneOffset: string;
-}
-
-interface DateStrftimeResult {
-  result: string;
-}
-
 const dateStrftime = async ({
   datetime,
   strftimeDefault,
   strftimeStr,
   timeZoneOffset,
-}: DateStrftimeParams): Promise<DateStrftimeResult> => {
+}: DateStrftimeParams): Promise<{ result: string | number | object }> => {
   const strFormat =
     strftimeDefault !== "custom" ? strftimeDefault : strftimeStr;
   let datetimeObject: Date;

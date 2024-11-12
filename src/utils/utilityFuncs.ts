@@ -25,10 +25,10 @@ export function formatStringMap(
       if (replacement !== undefined) {
         text = text.replaceAll(match[0], replacement);
       } else {
-        console.log(`Info: unknown map variable '${key}' in text field`);
+        console.log(`Unknown map variable '${key}' in text field`);
       }
     } catch (TypeError) {
-      console.log("Info: unknown map variable in text field");
+      console.log("Unknown map variable in text field");
     }
   }
 
