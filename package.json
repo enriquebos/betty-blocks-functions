@@ -10,8 +10,6 @@
   "scripts": {
     "format": "prettier ./src/**/*.{ts,json} --write",
     "build": "npm run format && tsc -p ./tsconfig.json && echo '\nBuilded the betty functions\nPublishing..'",
-    "publish": "npm run build && bb functions publish",
-    "fmt": "npm run format",
-    "pub": "npm run publish"
+    "publish": "npm run build && bb functions publish"
   }
 }
