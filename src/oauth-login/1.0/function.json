@@ -1,0 +1,114 @@
+{
+  "description": "Get metadata, access and refresh token from Oauth 2.0 Service",
+  "label": "Oauth2 Login",
+  "category": "Authentication",
+  "icon": {
+    "color": "Orange",
+    "name": "UserKeyIcon"
+  },
+  "options": [
+    {
+      "name": "tokenEndpoint",
+      "label": "Token endpoint",
+      "info": "The URL endpoint to fetch the token",
+      "meta": {
+        "type": "Text"
+      },
+      "configuration": {
+        "placeholder": "https://login.microsoftonline.com/common/oauth2/token"
+      }
+    },
+    {
+      "name": "redirectUri",
+      "label": "Redirect URL",
+      "meta": {
+        "type": "Text"
+      },
+      "configuration": {
+        "placeholder": "https://example.betty.app/oauth/callback"
+      }
+    },
+    {
+      "name": "clientId",
+      "label": "Client ID",
+      "meta": {
+        "type": "Text"
+      },
+      "configuration": {
+        "placeholder": "6779ef20e75817b79602"
+      }
+    },
+    {
+      "name": "clientSecret",
+      "label": "Client Secret",
+      "meta": {
+        "type": "Text"
+      },
+      "configuration": {
+        "placeholder": "94a08da1fecbb6e8b46990538c7b50b2"
+      }
+    },
+    {
+      "name": "code",
+      "label": "Authorization code",
+      "meta": {
+        "type": "Text"
+      },
+      "configuration": {
+        "placeholder": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.."
+      }
+    },
+    {
+      "name": "accessToken",
+      "label": "Access token as",
+      "meta": {
+        "type": "Output",
+        "output": {
+          "type": "Text"
+        }
+      },
+      "configuration": {
+        "placeholder": "access_token"
+      }
+    },
+    {
+      "name": "refreshToken",
+      "label": "refresh token as",
+      "meta": {
+        "type": "Output",
+        "output": {
+          "type": "Text"
+        }
+      },
+      "configuration": {
+        "placeholder": "refresh_token"
+      }
+    },
+    {
+      "name": "schemaModel",
+      "label": "Schema Model Metadata",
+      "meta": {
+        "type": "SchemaModel"
+      }
+    },
+    {
+      "name": "as",
+      "label": "As",
+      "info": "Metadata as schema model",
+      "meta": {
+        "type": "Output",
+        "validations": {
+          "required": true
+        },
+        "output": {
+          "type": "Object",
+          "schemaModel": "schemaModel"
+        }
+      },
+      "configuration": {
+        "placeholder": "metadata"
+      }
+    }
+  ],
+  "yields": "NONE"
+}

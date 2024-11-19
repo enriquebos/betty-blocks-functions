@@ -3,4 +3,5 @@ node_modules/
 .tmp/
 .DS_Store
 config.json
+config-bcp.json
 package-lock.json
