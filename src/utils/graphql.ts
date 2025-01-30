@@ -49,6 +49,13 @@ export async function queryRecords(
   return data[`all${modelName}`][count ? "totalCount" : "results"];
 }
 
+export function removeEmptyRelation(bodyQuery: String): String {
+  for (let i = 0; i < 6; i++) {
+    bodyQuery = bodyQuery.replaceAll(/\w+ \{\s*\}/g, "");
+  }
+  return bodyQuery[0] === "," ? bodyQuery.replace(", ", "") : bodyQuery;
+}
+
 export async function deleteManyQuery(
   modelName: string,
   ids: string[],
