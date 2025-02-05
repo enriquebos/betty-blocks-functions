@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "private": "true",
   "devDependencies": {
-    "@betty-blocks/cli": "^25.99.0",
-    "prettier": "^3.3.3",
-    "typescript": "^5.6.3"
+    "@betty-blocks/cli": "^25.106.0",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.3"
   },
   "scripts": {
     "format": "prettier ./src/**/*.{ts,json} --write",
     "build": "npm run format && tsc -p ./tsconfig.json && echo '\nBuilded the betty functions'",
-    "publish": "echo '\nPublishing..' && npm run build && bb functions publish"
+    "publish": "echo '\nPublishing..' && npm run build && bb functions publish",
+    "updated-packages": "npm i -g npm-check-updates && ncu -u && npm install"
   }
 }
