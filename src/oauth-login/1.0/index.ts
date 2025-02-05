@@ -39,7 +39,7 @@ const getAccessAndIdToken = async ({
     code: code,
   }).map(
     ([property, value]) =>
-      encodeURIComponent(property) + "=" + encodeURIComponent(value)
+      encodeURIComponent(property) + "=" + encodeURIComponent(value),
   );
 
   const accessTokenResponse = await fetch(tokenEndpoint, {

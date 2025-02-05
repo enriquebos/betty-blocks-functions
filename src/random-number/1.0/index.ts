@@ -1,18 +1,15 @@
-interface RandomNumberParams {
-  min: number;
-  max: number;
-}
-
 const generateRandomNumber = async ({
   min,
   max,
-}: RandomNumberParams): Promise<{ result: string | number }> => {
-  const mini: number = Math.ceil(min ? min : 0);
-  const maxi: number = Math.floor(max);
-  const randomNumber: number =
-    Math.floor(Math.random() * (maxi - mini + 1)) + mini;
+}: {
+  min?: number;
+  max?: number;
+}): Promise<{ result: string | number }> => {
+  const minNumber: number = Math.ceil(min ?? 0);
+  const maxNumber: number = Math.floor(max ?? 100);
+
   return {
-    result: randomNumber,
+    result: Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber,
   };
 };
 

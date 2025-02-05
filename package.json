@@ -11,7 +11,7 @@
     "typescript": "^5.7.3"
   },
   "scripts": {
-    "format": "prettier ./src/**/*.{ts,json} --write",
+    "format": "prettier \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" --write",
     "build": "npm run format && tsc -p ./tsconfig.json && echo '\nBuilded the betty functions'",
     "publish": "echo '\nPublishing..' && npm run build && bb functions publish",
     "publish-prod": "echo '\nPublishing..' && npm run build && node minify.mjs && bb functions publish",

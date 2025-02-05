@@ -16,7 +16,7 @@ export async function queryRecords(
   const {
     filter = "",
     filterVars = [],
-    take = 200,
+    take = 50,
     skip = 0,
     bodyQuery = "",
     count = false,
@@ -29,15 +29,12 @@ export async function queryRecords(
   const where = filter
     ? `where: { ${formatStringMap(filter, filterVars)} }, `
     : "";
-  const skip_fmt = count ? "" : `, skip: ${skip}`;
-
+  const skipFmt = count ? "" : `, skip: ${skip}`;
   const generateQuery = `query {
-      all${modelName} (${where}take: ${count ? 1 : take}${skip_fmt}) {
-        ${count ? "totalCount" : `results { ${bodyQuery} }`}
-      }
-    }`;
-
-  console.log(generateQuery);
+    all${modelName} (${where}take: ${count ? 1 : take}${skipFmt}) {
+      ${count ? "totalCount" : `results { ${bodyQuery} }`}
+    }
+  }`;
 
   // @ts-expect-error: Cannot find name 'gql'
   const { data, errors } = await gql(generateQuery);
@@ -49,14 +46,7 @@ export async function queryRecords(
   return data[`all${modelName}`][count ? "totalCount" : "results"];
 }
 
-export function removeEmptyRelation(bodyQuery: String): String {
-  for (let i = 0; i < 6; i++) {
-    bodyQuery = bodyQuery.replaceAll(/\w+ \{\s*\}/g, "");
-  }
-  return bodyQuery[0] === "," ? bodyQuery.replace(", ", "") : bodyQuery;
-}
-
-export async function deleteManyQuery(
+export async function deleteManyMutation(
   modelName: string,
   ids: string[],
 ): Promise<void> {
