@@ -33,7 +33,7 @@ Users can optionally bind the result to a schema model by selecting a predefined
 The result of the evaluated expression is stored in the specified output variable. This can be used in subsequent actions within the workflow.
 
 ### Prefab (function.json)
-![Function prefab](./function_prefab.png)
+![function_prefab](https://github.com/user-attachments/assets/f4f1189d-99e2-4563-840d-9d53762b7d46)
 
 ### Advanced Expressions
 
