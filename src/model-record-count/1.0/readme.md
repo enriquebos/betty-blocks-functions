@@ -17,7 +17,7 @@ Result:
 _and: [ { name: { eq: \"John\" } }, { age: { eq: 28 } } ]
 
 ### Prefab (function.json)
-![Function prefab](./function_prefab.png)
+![function_prefab](https://github.com/user-attachments/assets/71ae2ee3-a040-47ca-9c8f-880413672774)
 
 ### GraphQL operators
 | Operator       | Description                                 |
