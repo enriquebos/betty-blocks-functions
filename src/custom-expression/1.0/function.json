@@ -1,6 +1,6 @@
 {
   "description": "Evaluate a javascript expression (use {{name_of_your_value}} to interpolate values).",
-  "label": "Custom Expression",
+  "label": "Expression",
   "category": "Misc",
   "icon": {
     "name": "ExpressionIcon",
@@ -8,33 +8,35 @@
   },
   "options": [
     {
+      "name": "expression",
+      "label": "Expression",
       "meta": {
         "type": "MultilineText",
         "validations": { "required": true }
       },
-      "name": "expression",
-      "label": "Expression",
       "configuration": {
         "placeholder": "\"{{first_name}}\" + \" \" + \"{{last_name}}\""
       }
     },
     {
-      "info": "Map the values that you want to use in your expression.",
+      "name": "variables",
       "label": "Variables",
+      "info": "Map the values that you want to use in your expression.",
       "meta": {
         "type": "Map"
-      },
-      "name": "variables"
+      }
     },
     {
+      "name": "schemaModel",
+      "label": "Schema Model",
       "info": "The schema model can be utilized to type the output of this step when it is an object or an array of objects.",
       "meta": {
         "type": "SchemaModel"
-      },
-      "name": "schemaModel",
-      "label": "Schema Model"
+      }
     },
     {
+      "name": "result",
+      "label": "Result",
       "info": "The result of the expression.",
       "meta": {
         "type": "Output",
@@ -63,8 +65,9 @@
           ]
         }
       },
-      "name": "result",
-      "label": "Result"
+      "configuration": {
+        "placeholder": "result"
+      }
     }
   ],
   "yields": "NONE"
