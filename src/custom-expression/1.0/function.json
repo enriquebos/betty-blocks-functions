@@ -1,0 +1,71 @@
+{
+  "description": "Evaluate a javascript expression (use {{name_of_your_value}} to interpolate values).",
+  "label": "Custom Expression",
+  "category": "Misc",
+  "icon": {
+    "name": "ExpressionIcon",
+    "color": "Orange"
+  },
+  "options": [
+    {
+      "meta": {
+        "type": "MultilineText",
+        "validations": { "required": true }
+      },
+      "name": "expression",
+      "label": "Expression",
+      "configuration": {
+        "placeholder": "\"{{first_name}}\" + \" \" + \"{{last_name}}\""
+      }
+    },
+    {
+      "info": "Map the values that you want to use in your expression.",
+      "label": "Variables",
+      "meta": {
+        "type": "Map"
+      },
+      "name": "variables"
+    },
+    {
+      "info": "The schema model can be utilized to type the output of this step when it is an object or an array of objects.",
+      "meta": {
+        "type": "SchemaModel"
+      },
+      "name": "schemaModel",
+      "label": "Schema Model"
+    },
+    {
+      "info": "The result of the expression.",
+      "meta": {
+        "type": "Output",
+        "validations": {
+          "required": true
+        },
+        "output": {
+          "anyOf": [
+            {
+              "type": "Text"
+            },
+            {
+              "type": "Boolean"
+            },
+            {
+              "type": "Number"
+            },
+            {
+              "type": "Object"
+            },
+            {
+              "type": "Array",
+              "schemaModel": "schemaModel",
+              "dataType": "SCHEMA"
+            }
+          ]
+        }
+      },
+      "name": "result",
+      "label": "Result"
+    }
+  ],
+  "yields": "NONE"
+}

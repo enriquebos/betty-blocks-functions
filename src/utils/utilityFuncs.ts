@@ -6,9 +6,15 @@ export function* chunkArray<T>(
     yield array.slice(i, i + chunkSize);
 }
 
+export function variableMap(
+  variables: { key: string; value: string }[],
+): Record<string, string> {
+  return Object.fromEntries(variables.map(({ key, value }) => [key, value]));
+}
+
 export function formatStringMap(
   text: string,
-  map: { key: string; value: string }[],
+  variables: { key: string; value: string }[],
 ): string {
   const regex = /\{\{(!|&|\{)?\s*(.*?)\s*}}+/g;
   let match: RegExpExecArray | null;
@@ -20,7 +26,7 @@ export function formatStringMap(
 
     try {
       const key = match[2];
-      const replacement = map.find((e) => e.key === key)?.value;
+      const replacement = variables.find((e) => e.key === key)?.value;
 
       if (replacement !== undefined) {
         text = text.replaceAll(match[0], replacement);
