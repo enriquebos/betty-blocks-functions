@@ -50,3 +50,19 @@ Adding a `config.json` to the root file containing
 ```bash
 npm run publish
 ```
+
+### Recommended addition
+Inside VSCode there is a schema option, this will allow you to autocomplete your function.json.
+Navigate to the [VSCode settins JSON file](https://code.visualstudio.com/docs/getstarted/settings#_settings-json-file) and add the following:
+```json
+"json.schemas": [
+    {
+        "fileMatch": [
+            "/functions/**/function.json",
+        ],
+        "url": "https://raw.githubusercontent.com/bettyblocks/json-schema/master/schemas/actions/function.json"
+    }
+],
+```
+
+![Screen_Recording_2025-02-10_at_23 10 51-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/23c8a978-ad50-4d51-a5f0-a00dc479fd87)
