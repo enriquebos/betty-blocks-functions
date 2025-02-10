@@ -7,4 +7,4 @@ This step allows to easily login to OAuth2 with ability for a custom token endpo
 
 
 ### Prefab (function.json)
-![Function prefab](./function_prefab.png)
+![function_prefab](https://github.com/user-attachments/assets/c5de1e91-2ebf-4e39-8731-9ae7220c7e39)
