@@ -59,6 +59,10 @@
             },
             {
               "type": "Array",
+              "dataType": "INTEGER"
+            },
+            {
+              "type": "Array",
               "schemaModel": "schemaModel",
               "dataType": "SCHEMA"
             }
