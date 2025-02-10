@@ -20,7 +20,7 @@ To ensure the right time is picked select the offset. If you're unsure pick "UTC
 There are 3 examples provided the zone can be found in the URL after ide.
 
 ### Prefab (function.json)
-![Function prefab](./function_prefab.png)
+![function_prefab](https://github.com/user-attachments/assets/fa6fe74c-3bbb-4fa7-af70-94e63417f1b3)
 
 ### Supported conversion specifications:
 
