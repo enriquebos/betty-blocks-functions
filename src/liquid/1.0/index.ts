@@ -1,6 +1,4 @@
-// @ts-ignore
-import { Liquid } from "../../utils/liquid.min";
-import { groupBy } from "remeda";
+import renderLiquidTemplate from "../../utils/template";
 
 interface ContextItem {
   key: string;
@@ -15,22 +13,8 @@ interface LiquidParams {
 const liquid = async ({
   template,
   context = [],
-}: LiquidParams): Promise<{ as: string }> => {
-  const engine = new Liquid();
-
-  engine.registerFilter("group", (collection: any[], key: string) =>
-    groupBy(collection, (item) => item[key]),
-  );
-
-  const as = engine.parseAndRenderSync(
-    template,
-    context.reduce<Record<string, any>>((ctx, { key, value }) => {
-      ctx[key] = value;
-      return ctx;
-    }, {}),
-  );
-
-  return { as };
-};
+}: LiquidParams): Promise<{ as: string }> => ({
+  as: renderLiquidTemplate(template, context),
+});
 
 export default liquid;
