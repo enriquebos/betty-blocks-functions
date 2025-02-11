@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": "true",
   "scripts": {
-    "format": "prettier \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" --write",
+    "format": "prettier \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" \"./tests\" --write",
+    "test": "jest",
     "build": "npm run format && tsc -p ./tsconfig.json && rm -rf functions/utils/liquid.min.js && node post-build.mjs",
     "publish": "npm run build && bb functions publish",
     "update-packages": "ncu -u -x glob && npm install"
@@ -13,10 +14,12 @@
   },
   "devDependencies": {
     "@betty-blocks/cli": "^25.107.0",
+    "@types/jest": "^29.5.14",
     "glob": "^10.4.5",
     "minify": "^13.0.0",
     "npm-check-updates": "^17.1.14",
     "prettier": "^3.5.0",
+    "ts-jest": "^29.2.5",
     "typescript": "^5.7.3"
   }
 }

@@ -1,9 +1,14 @@
 export function* chunkArray<T>(
   array: T[],
   chunkSize: number,
-): Generator<T[], void, unknown> {
-  for (let i = 0; i < array.length; i += chunkSize)
+): Generator<T[], void, void> {
+  if (chunkSize <= 0 || !Number.isInteger(chunkSize)) {
+    throw new RangeError("chunkSize must be a positive integer");
+  }
+
+  for (let i = 0; i < array.length; i += chunkSize) {
     yield array.slice(i, i + chunkSize);
+  }
 }
 
 export function variableMap(
@@ -17,28 +22,16 @@ export function formatStringMap(
   variables: { key: string; value: string }[],
 ): string {
   const regex = /\{\{(!|&|\{)?\s*(.*?)\s*}}+/g;
-  let match: RegExpExecArray | null;
+  const variableMap = new Map(variables.map((v) => [v.key, v.value]));
 
-  while ((match = regex.exec(text)) !== null) {
-    if (match.index === regex.lastIndex) {
-      regex.lastIndex++;
+  return text.replace(regex, (match, _prefix, key) => {
+    if (variableMap.has(key)) {
+      return variableMap.get(key);
+    } else {
+      console.log(`Unknown map variable '${key}' in text field`);
+      return match;
     }
-
-    try {
-      const key = match[2];
-      const replacement = variables.find((e) => e.key === key)?.value;
-
-      if (replacement !== undefined) {
-        text = text.replaceAll(match[0], replacement);
-      } else {
-        console.log(`Unknown map variable '${key}' in text field`);
-      }
-    } catch (TypeError) {
-      console.log("Unknown map variable in text field");
-    }
-  }
-
-  return text;
+  });
 }
 
 export function strftime(sFormat: string, date: Date = new Date()): string {
@@ -46,11 +39,13 @@ export function strftime(sFormat: string, date: Date = new Date()): string {
     return "";
   }
 
-  const nDay = date.getDay();
-  const nDate = date.getDate();
-  const nMonth = date.getMonth();
-  const nYear = date.getFullYear();
-  const nHour = date.getHours();
+  const nDay = date.getUTCDay();
+  const nDate = date.getUTCDate();
+  const nMonth = date.getUTCMonth();
+  const nYear = date.getUTCFullYear();
+  const nHour = date.getUTCHours();
+  const nMinutes = date.getUTCMinutes();
+  const nSeconds = date.getUTCSeconds();
   const nTime = date.getTime();
   const aDays = [
     "Sunday",
@@ -80,7 +75,7 @@ export function strftime(sFormat: string, date: Date = new Date()): string {
     (nYear % 4 === 0 && nYear % 100 !== 0) || nYear % 400 === 0;
   const getThursday = (): Date => {
     const target = new Date(date);
-    target.setDate(nDate - ((nDay + 6) % 7) + 3);
+    target.setUTCDate(nDate - ((nDay + 6) % 7) + 3);
     return target;
   };
   const zeroPad = (nNum: number, nPad: number): string =>
@@ -112,11 +107,11 @@ export function strftime(sFormat: string, date: Date = new Date()): string {
         "%l": ((nHour + 11) % 12) + 1,
         "%m": zeroPad(nMonth + 1, 2),
         "%n": nMonth + 1,
-        "%M": zeroPad(date.getMinutes(), 2),
+        "%M": zeroPad(nMinutes, 2),
         "%p": nHour < 12 ? "AM" : "PM",
         "%P": nHour < 12 ? "am" : "pm",
         "%s": Math.round(nTime / 1000),
-        "%S": zeroPad(date.getSeconds(), 2),
+        "%S": zeroPad(nSeconds, 2),
         "%u": nDay || 7,
         "%V": (() => {
           const target = getThursday();
