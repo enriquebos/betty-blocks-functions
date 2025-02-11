@@ -2,19 +2,21 @@
   "name": "app-functions",
   "version": "1.0.0",
   "private": "true",
+  "scripts": {
+    "format": "prettier \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" --write",
+    "build": "npm run format && tsc -p ./tsconfig.json && rm -rf functions/utils/liquid.min.js && node post-build.mjs",
+    "publish": "npm run build && bb functions publish",
+    "update-packages": "ncu -u && npm install"
+  },
+  "dependencies": {
+    "remeda": "^2.20.1"
+  },
   "devDependencies": {
-    "@betty-blocks/cli": "^25.106.0",
+    "@betty-blocks/cli": "^25.107.0",
     "glob": "^10.4.5",
     "minify": "^13.0.0",
     "npm-check-updates": "^17.1.14",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.0",
     "typescript": "^5.7.3"
-  },
-  "scripts": {
-    "format": "prettier \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" --write",
-    "build": "npm run format && tsc -p ./tsconfig.json",
-    "publish": "npm run build && bb functions publish",
-    "publish-prod": "npm run build && node minify.mjs && bb functions publish",
-    "updated-packages": "ncu -u && npm install"
   }
 }
