@@ -34,3 +34,4 @@ Users can optionally bind the result to a schema model by selecting a predefined
 The result of the evaluated expression is stored in the specified output variable. This can be used in subsequent actions within the workflow.  
 
 ### Prefab (function.json)   
+![Screenshot 2025-02-11 at 09 31 49](https://github.com/user-attachments/assets/6b526938-3915-449e-9e92-cccd0710783d)
