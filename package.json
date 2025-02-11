@@ -6,7 +6,7 @@
     "format": "prettier \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" --write",
     "build": "npm run format && tsc -p ./tsconfig.json && rm -rf functions/utils/liquid.min.js && node post-build.mjs",
     "publish": "npm run build && bb functions publish",
-    "update-packages": "ncu -u && npm install"
+    "update-packages": "ncu -u -x glob && npm install"
   },
   "dependencies": {
     "remeda": "^2.20.1"
