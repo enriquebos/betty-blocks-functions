@@ -1,5 +1,3 @@
-# Expression Prefab (LiquidJS)  
-
 ## Summary  
 This prefab enables users to evaluate a JavaScript expression dynamically using LiquidJS syntax (`{{ variable_name }}`). It allows seamless data interpolation, making it ideal for formatting and manipulating data in a no-code/low-code environment. In this example, we concatenate a first name and a last name with a space in between.
 
