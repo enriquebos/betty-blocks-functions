@@ -18,12 +18,10 @@ interface ExpressionResult {
 const customExpression = async ({
   expression,
   variables,
-}: ExpressionInput): Promise<ExpressionResult> => {
-  return {
-    result: new Function(
-      `return ${templayed(expression)(variableMap(variables))}`,
-    )(),
-  };
-};
+}: ExpressionInput): Promise<ExpressionResult> => ({
+  result: new Function(
+    `return ${templayed(expression)(variableMap(variables))}`,
+  )(),
+});
 
 export default customExpression;
