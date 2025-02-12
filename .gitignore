@@ -1,4 +1,5 @@
 functions/
+coverage/
 node_modules/
 src/background-action/
 .tmp/
