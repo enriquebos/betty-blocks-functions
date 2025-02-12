@@ -1,4 +1,3 @@
-,md  
 # Expression Prefab (LiquidJS)  
 
 ## Summary  
