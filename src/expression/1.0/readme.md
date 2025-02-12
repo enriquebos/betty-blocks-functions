@@ -1,14 +1,14 @@
 # Expression Prefab
 
 ## Summary
-This prefab allows users to evaluate a JavaScript expression dynamically by interpolating values using Mustache syntax (`{{variable_name}}`). In this example, it concatenates a first name and a last name with a space in between. This functionality is useful for formatting and manipulating data within a no-code/low-code environment.  
+This prefab allows users to evaluate a JavaScript expression dynamically by interpolating values using Mustache syntax (`{{variable_name}}`). In this example, it concatenates a first name and a last name with a space in between. This functionality is useful for formatting and manipulating data within a no-code/low-code environment.
 
 ## Inputs
 
 ### Expression
-Define the JavaScript expression to be evaluated. Variables inside double curly brackets (`{{variable_name}}`) are replaced with actual values at runtime.  
+Define the JavaScript expression to be evaluated. Variables inside double curly brackets (`{{variable_name}}`) are replaced with actual values at runtime.
 
-Example:  
+Example:
 ```javascript
 "{{first_name}}" + " " + "{{last_name}}"
 ```
@@ -38,6 +38,8 @@ The result of the evaluated expression is stored in the specified output variabl
 ### Advanced Expressions
 
 ## Functions:
+
+Note: Passing strings in functions need to have quotes around them in order to work.
 
 ```javascript
 (function(one, two) {
