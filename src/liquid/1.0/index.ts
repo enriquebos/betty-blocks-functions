@@ -1,4 +1,4 @@
-import renderLiquidTemplate from "../../utils/template";
+import renderLiquidTemplate from "../../utils/liquid";
 
 interface ContextItem {
   key: string;
