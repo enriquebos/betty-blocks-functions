@@ -30,11 +30,13 @@ const customExpression = async ({
   if (debug) {
     console.log({
       template: template,
-      variables: parsedVars,
+      variables: JSON.stringify(parsedVars),
     });
   }
   if (logError) {
-    throw new Error(`{ template: ${template}, variables: ${parsedVars} }`);
+    throw new Error(
+      `{ template: ${template}, variables: ${JSON.stringify(parsedVars)} }`,
+    );
   }
 
   return {
