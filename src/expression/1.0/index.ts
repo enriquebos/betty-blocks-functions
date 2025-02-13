@@ -9,6 +9,8 @@ interface Variable {
 interface ExpressionInput {
   expression: string;
   variables: Variable[];
+  debug: Boolean;
+  logError: Boolean;
 }
 
 interface ExpressionResult {
@@ -18,10 +20,26 @@ interface ExpressionResult {
 const customExpression = async ({
   expression,
   variables,
-}: ExpressionInput): Promise<ExpressionResult> => ({
-  result: new Function(
-    `return ${templayed(expression)(variableMap(variables))}`,
-  )(),
-});
+  debug,
+  logError,
+}: ExpressionInput): Promise<ExpressionResult> => {
+  const parsedVars = variableMap(variables);
+  const template = templayed(expression)(parsedVars);
+  const templateFunction = new Function(`return ${template}`);
+
+  if (debug) {
+    console.log({
+      template: template,
+      variables: parsedVars,
+    });
+  }
+  if (logError) {
+    throw new Error(`{ template: ${template}, variables: ${parsedVars} }`);
+  }
+
+  return {
+    result: templateFunction(),
+  };
+};
 
 export default customExpression;
