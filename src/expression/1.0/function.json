@@ -68,24 +68,6 @@
       "configuration": {
         "placeholder": "result"
       }
-    },
-    {
-      "name": "debug",
-      "label": "Debug logging",
-      "advanced": true,
-      "meta": {
-        "type": "Boolean",
-        "default": false
-      }
-    },
-    {
-      "name": "logError",
-      "label": "Throw log to error",
-      "advanced": true,
-      "meta": {
-        "type": "Boolean",
-        "default": false
-      }
     }
   ],
   "yields": "NONE"
