@@ -8,16 +8,16 @@ declare type NestedSort = {
   [key: string]: "ASC" | "DESC" | NestedSort;
 };
 
+declare interface FieldObject {
+  [key: string]: FieldType | FieldObject;
+}
+
 declare type FieldType =
   | NumberConstructor
   | StringConstructor
   | BooleanConstructor
   | DateConstructor
   | FieldObject;
-
-declare interface FieldObject {
-  [key: string]: FieldType | FieldObject;
-}
 
 declare interface QueryOptionalOptions {
   skip?: number;
