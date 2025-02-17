@@ -1,12 +1,11 @@
-import {
-  queryOne,
-  queryAll,
-  modelCount,
-  mutationCreate,
-  mutationCreateMany,
-  mutationDelete,
-  mutationDeleteMany,
-} from "../../utils/graphql";
+import mutationCreate from "../../utils/graphql/mutationCreate";
+import mutationDelete from "../../utils/graphql/mutationDelete";
+import mutationUpdate from "../../utils/graphql/mutationUpdate";
+import mutationUpsert from "../../utils/graphql/mutationUpsert";
+import mutationCreateMany from "../../utils/graphql/mutationCreateMany";
+import mutationDeleteMany from "../../utils/graphql/mutationDeleteMany";
+import mutationUpdateMany from "../../utils/graphql/mutationUpdateMany";
+import mutationUpsertMany from "../../utils/graphql/mutationUpsertMany";
 
 interface WebUser {
   id: number;
@@ -47,7 +46,7 @@ const testTing = async () => {
     order: "ASC",
   };
 
-  const newPokemonData = { name: "Panda", weight: 150 };
+  const newPokemonData = { name: "Panda 0", weight: 150 };
   const newPokemonsData = [
     { name: "Panda 1", weight: 150 },
     { name: "Panda 2", weight: 150 },
@@ -67,13 +66,44 @@ const testTing = async () => {
   // });
   // const count = await modelCount("Pokemon", where);
   // const newPokemon = await mutationCreate("Pokemon", newPokemonData);
-  // const deletePokemon = await mutationDeleteMany("Pokemon", [129]);
-  const createPokemons = await mutationCreateMany("Pokemon", newPokemonsData);
-  // const updatePokemon = await mutationUpdate("Pokemon", 131, {
-  //   name: "Panda!",
+  // const createPokemons = await mutationCreateMany("Pokemon", newPokemonsData);
+  // const deletePokemon = await mutationDelete("Pokemon", 133);
+  // const deletePokemons = await mutationDeleteMany(
+  //   "Pokemon",
+  //   [134, 135, 136, 137, 138],
+  // );
+  // const updatePokemon = await mutationUpdate("Pokemon", 139, {
+  //   name: "Panda!!!",
   // });
+  // const updatePokemons = await mutationUpdateMany(
+  //   "Pokemon",
+  //   { name: "Panda SAME2!!!" },
+  //   { id: { in: [139, 140] } },
+  // );
+  //
+  // const upsertPokemon = await mutationUpsert(
+  //   "Pokemon",
+  //   {
+  //     pokemonId: "unique:999",
+  //     name: "Panda UP!!!",
+  //     weight: 150,
+  //   },
+  //   ["pokemonId"],
+  // );
+  const upsertPokemons = await mutationUpsertMany("Pokemon", [
+    {
+      id: "999",
+      name: "Panda UP!!!",
+      weight: 150,
+    },
+    {
+      id: "1000",
+      name: "Panda UP2!!!",
+      weight: 150,
+    },
+  ]);
 
-  throw new Error(JSON.stringify(createPokemons));
+  throw new Error(JSON.stringify(upsertPokemons));
 };
 
 export default testTing;

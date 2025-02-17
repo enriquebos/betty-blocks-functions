@@ -1,16 +1,17 @@
 import { gqlRequest } from "./utils";
 
-export default async function mutationDelete(
-  modelName: string,
+export default async function mutationDelete<T extends string>(
+  modelName: T,
   id: number,
-): Promise<{ string: { id: number } }> {
-  throw new Error("mutationDelete");
-  return await gqlRequest(
-    `mutation ($id: ID!) {
+): Promise<number> {
+  const response = await gqlRequest<{ [key in `delete${T}`]: { id: number } }>(
+    `mutation {
       delete${modelName}(id: $id) {
         id
       }
     }`,
     { id: id },
   );
+
+  return response[`delete${modelName}`].id;
 }

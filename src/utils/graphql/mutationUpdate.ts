@@ -1,17 +1,18 @@
 import { gqlRequest } from "./utils";
 
-export default async function mutationUpdate(
-  modelName: string,
+export default async function mutationUpdate<T extends string>(
+  modelName: T,
   id: number,
-  partialRecord: Object,
-): Promise<Object> {
-  throw new Error("mutationUpdate");
-  return gqlRequest(
-    `mutation ($id: ID!, $input: ${modelName}Input!) {
+  partialRecord: object,
+): Promise<number> {
+  const response = await gqlRequest<{ [key in `update${T}`]: { id: number } }>(
+    `mutation {
       update${modelName}(id: $id, input: $input) {
         id
       }
     }`,
     { id: id, input: partialRecord },
   );
+
+  return response[`update${modelName}`].id;
 }

@@ -1,20 +1,23 @@
 import { gqlRequest } from "./utils";
 
-export default async function mutationDeleteMany(
-  modelName: string,
+export default async function mutationDeleteMany<T extends string>(
+  modelName: T,
   ids: number[],
-): Promise<Object[]> {
-  throw new Error("mutationDeleteMany");
+): Promise<number[]> {
   if (ids.length === 0) {
-    return [];
+    return Promise.resolve([]);
   }
 
-  return gqlRequest(
-    `mutation ($input: [ID!]!) {
+  const response = await gqlRequest<{
+    [key in `deleteMany${T}`]: { id: number }[];
+  }>(
+    `mutation {
       deleteMany${modelName}(input: $input) {
         id
       }
     }`,
-    { input: ids },
+    { input: { ids: ids } },
   );
+
+  return response[`deleteMany${modelName}`].map((item) => item.id);
 }

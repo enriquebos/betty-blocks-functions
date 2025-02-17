@@ -1,21 +1,20 @@
 import { gqlRequest } from "./utils";
 
-export default async function mutationUpdateMany(
-  modelName: string,
-  where: string,
-  partialRecords: Object[],
-): Promise<Object[]> {
-  throw new Error("mutationUpdateMany");
-  if (partialRecords.length === 0) {
-    return [];
-  }
-
-  return gqlRequest(
-    `mutation ($where: String!, $input: [${modelName}Input!]!) {
+export default async function mutationUpdateMany<T extends string>(
+  modelName: T,
+  partialRecord: object,
+  where: object = {},
+): Promise<number[]> {
+  const response = await gqlRequest<{
+    [key in `updateMany${T}`]: { id: number }[];
+  }>(
+    `mutation {
       updateMany${modelName}(where: $where, input: $input) {
         id
       }
     }`,
-    { where: where, input: partialRecords },
+    { input: partialRecord, where: where },
   );
+
+  return response[`updateMany${modelName}`].map((item) => item.id);
 }

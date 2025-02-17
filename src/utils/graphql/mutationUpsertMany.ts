@@ -1,20 +1,23 @@
 import { gqlRequest } from "./utils";
 
-export default async function mutationUpsertMany(
-  modelName: string,
-  records: Object[],
-): Promise<Object[]> {
-  throw new Error("mutationUpsertMany");
+export default async function mutationUpsertMany<T extends string>(
+  modelName: T,
+  records: object[],
+): Promise<number[]> {
   if (records.length === 0) {
-    return [];
+    return Promise.resolve([]);
   }
 
-  return gqlRequest(
-    `mutation ($input: [${modelName}Input!]!) {
+  const response = await gqlRequest<{
+    [key in `upsertMany${T}`]: { id: number }[];
+  }>(
+    `mutation {
       upsertMany${modelName}(input: $input) {
         id
       }
     }`,
     { input: records },
   );
+
+  return response[`upsertMany${modelName}`].map((item) => item.id);
 }
