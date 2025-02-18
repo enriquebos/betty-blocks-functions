@@ -5,12 +5,12 @@
   "scripts": {
     "format": "prettier \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" \"./tests\" --write --print-width 120",
     "test": "jest",
-    "build": "npm run format && npm run test && tsc -p ./tsconfig.json && rm -rf functions/utils/liquid.min.js && node post-build.mjs",
-    "publish": "npm run build && bb functions publish",
+    "build": "npm run format && tsc -p ./tsconfig.json && rm -rf functions/utils/liquid.min.js && node post-build.mjs",
+    "publish": "npm run build && npm run test && bb functions publish",
     "update-packages": "ncu -u -x glob && npm install"
   },
   "dependencies": {
-    "remeda": "^2.20.1"
+    "remeda": "^2.20.2"
   },
   "devDependencies": {
     "@betty-blocks/cli": "^25.107.0",
@@ -18,7 +18,7 @@
     "glob": "^10.4.5",
     "minify": "^13.0.0",
     "npm-check-updates": "^17.1.14",
-    "prettier": "^3.5.0",
+    "prettier": "^3.5.1",
     "ts-jest": "^29.2.5",
     "typescript": "^5.7.3"
   }
