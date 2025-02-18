@@ -15,10 +15,7 @@ interface ExpressionResult {
   result: any;
 }
 
-const customExpression = async ({
-  expression,
-  variables,
-}: ExpressionInput): Promise<ExpressionResult> => {
+const customExpression = async ({ expression, variables }: ExpressionInput): Promise<ExpressionResult> => {
   const parsedVars = variableMap(variables);
   const template: string = templayed(expression)(parsedVars);
   let functionOutput: string;

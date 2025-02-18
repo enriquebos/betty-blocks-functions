@@ -13,8 +13,7 @@ const dateStrftime = async ({
   strftimeStr,
   timeZoneOffset,
 }: DateStrftimeParams): Promise<{ result: string | number | object }> => {
-  const strFormat =
-    strftimeDefault !== "custom" ? strftimeDefault : strftimeStr;
+  const strFormat = strftimeDefault !== "custom" ? strftimeDefault : strftimeStr;
   let datetimeObject: Date;
 
   if (!strFormat) {
@@ -42,9 +41,7 @@ const dateStrftime = async ({
     throw new Error("Invalid datetime input, is the notation correct?");
   }
 
-  datetimeObject.setTime(
-    datetimeObject.getTime() + parseInt(timeZoneOffset.toString()) * 60 * 1000,
-  );
+  datetimeObject.setTime(datetimeObject.getTime() + parseInt(timeZoneOffset.toString()) * 60 * 1000);
   return { result: strftime(strFormat, datetimeObject) };
 };
 

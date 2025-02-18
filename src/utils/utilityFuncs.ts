@@ -1,7 +1,4 @@
-export function* chunkArray<T>(
-  array: T[],
-  chunkSize: number,
-): Generator<T[], void, void> {
+export function* chunkArray<T>(array: T[], chunkSize: number): Generator<T[], void, void> {
   if (chunkSize <= 0 || !Number.isInteger(chunkSize)) {
     throw new RangeError("chunkSize must be a positive integer");
   }
@@ -11,16 +8,11 @@ export function* chunkArray<T>(
   }
 }
 
-export function variableMap(
-  variables: { key: string; value: string }[],
-): Record<string, string> {
+export function variableMap(variables: Array<{ key: string; value: string }>): Record<string, string> {
   return Object.fromEntries(variables.map(({ key, value }) => [key, value]));
 }
 
-export function formatStringMap(
-  text: string,
-  variables: { key: string; value: string }[],
-): string {
+export function formatStringMap(text: string, variables: Array<{ key: string; value: string }>): string {
   const regex = /\{\{(!|&|\{)?\s*(.*?)\s*}}+/g;
   const variableMap = new Map(variables.map((v) => [v.key, v.value]));
 
@@ -47,15 +39,7 @@ export function strftime(sFormat: string, date: Date = new Date()): string {
   const nMinutes = date.getUTCMinutes();
   const nSeconds = date.getUTCSeconds();
   const nTime = date.getTime();
-  const aDays = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  const aDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
   const aMonths = [
     "January",
     "February",
@@ -71,15 +55,13 @@ export function strftime(sFormat: string, date: Date = new Date()): string {
     "December",
   ];
   const aDayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-  const isLeapYear = (): boolean =>
-    (nYear % 4 === 0 && nYear % 100 !== 0) || nYear % 400 === 0;
+  const isLeapYear = (): boolean => (nYear % 4 === 0 && nYear % 100 !== 0) || nYear % 400 === 0;
   const getThursday = (): Date => {
     const target = new Date(date);
     target.setUTCDate(nDate - ((nDay + 6) % 7) + 3);
     return target;
   };
-  const zeroPad = (nNum: number, nPad: number): string =>
-    (Math.pow(10, nPad) + nNum + "").slice(1);
+  const zeroPad = (nNum: number, nPad: number): string => (Math.pow(10, nPad) + nNum + "").slice(1);
 
   return sFormat.replace(/%[a-z]+\b/gi, (sMatch: string): string => {
     return (
@@ -92,17 +74,12 @@ export function strftime(sFormat: string, date: Date = new Date()): string {
         "%C": Math.floor(nYear / 100),
         "%d": zeroPad(nDate, 2),
         "%e": nDate,
-        "%F": new Date(nTime - date.getTimezoneOffset() * 60000)
-          .toISOString()
-          .slice(0, 10),
+        "%F": new Date(nTime - date.getTimezoneOffset() * 60000).toISOString().slice(0, 10),
         "%G": getThursday().getFullYear(),
         "%g": (getThursday().getFullYear() + "").slice(2),
         "%H": zeroPad(nHour, 2),
         "%I": zeroPad(((nHour + 11) % 12) + 1, 2),
-        "%j": zeroPad(
-          aDayCount[nMonth] + nDate + (nMonth > 1 && isLeapYear() ? 1 : 0),
-          3,
-        ),
+        "%j": zeroPad(aDayCount[nMonth] + nDate + (nMonth > 1 && isLeapYear() ? 1 : 0), 3),
         "%k": nHour,
         "%l": ((nHour + 11) % 12) + 1,
         "%m": zeroPad(nMonth + 1, 2),
@@ -123,10 +100,7 @@ export function strftime(sFormat: string, date: Date = new Date()): string {
             target.setMonth(0, 1 + ((4 - nJan1 + 7) % 7));
           }
 
-          return zeroPad(
-            1 + Math.ceil((n1stThu - target.getTime()) / 604800000),
-            2,
-          );
+          return zeroPad(1 + Math.ceil((n1stThu - target.getTime()) / 604800000), 2);
         })(),
         "%w": nDay,
         "%x": date.toLocaleDateString(),

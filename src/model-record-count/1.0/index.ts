@@ -6,22 +6,13 @@ async function gqlQuery(
   // @ts-ignore
   options,
 ): Promise<Object[] | number> {
-  const {
-    filter = "",
-    filterVars = [],
-    take = 50,
-    skip = 0,
-    bodyQuery = "",
-    count = false,
-  } = options;
+  const { filter = "", filterVars = [], take = 50, skip = 0, bodyQuery = "", count = false } = options;
 
   if (count === false && !bodyQuery) {
     throw new Error("No bodyQuery has been provided");
   }
 
-  const where = filter
-    ? `where: { ${formatStringMap(filter, filterVars)} }, `
-    : "";
+  const where = filter ? `where: { ${formatStringMap(filter, filterVars)} }, ` : "";
   const skipFmt = count ? "" : `, skip: ${skip}`;
   const generateQuery = `query {
     all${modelName} (${where}take: ${count ? 1 : take}${skipFmt}) {
@@ -31,9 +22,9 @@ async function gqlQuery(
 
   const data: Record<string, any> = await gqlRequest(generateQuery);
 
-  return (
-    data as { [key: string]: { totalCount?: number; results?: Object[] } }
-  )[`all${modelName}`][count ? "totalCount" : "results"];
+  return (data as { [key: string]: { totalCount?: number; results?: Object[] } })[`all${modelName}`][
+    count ? "totalCount" : "results"
+  ];
 }
 
 interface ModelRecordCountParams {

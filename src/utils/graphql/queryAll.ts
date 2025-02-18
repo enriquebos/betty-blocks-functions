@@ -1,30 +1,27 @@
-import {
-  gqlRequest,
-  formatSort,
-  formatWhere,
-  formatResponse,
-  formatResultsField,
-} from "./utils";
+import { gqlRequest, formatResponse, generateRequest } from "./utils";
+import { requestMethod, requestOperation } from "./enums";
 
 export default async function queryAll<T>(
   modelName: string,
-  fields: FieldObject,
-  options: QueryOptionalOptions = {},
-): Promise<T[]> {
-  const response = (await gqlRequest(`query {
-    all${modelName}${
-      options.skip || options.sort || options.take || options.where
-        ? `(
-        ${options.skip !== undefined ? `skip: ${options.skip}` : ""}
-        ${options.sort !== undefined ? `sort: ${formatSort(options.sort)}` : ""}
-        ${options.take !== undefined ? `take: ${options.take}` : ""}
-        ${options.where !== undefined ? `where: ${formatWhere(options.where)}` : ""}
-      ) {`
-        : " {"
-    }
-      results { ${formatResultsField(fields)} }
-    }
-  }`)) as { [key: string]: { results: T[] } };
+  options?: {
+    fields?: Partial<Record<keyof T, any>>;
+    queryArguments?: {
+      skip?: number;
+      sort?: Sort;
+      take?: number;
+      where?: object;
+      totalCount?: boolean;
+    };
+  }
+): Promise<{ totalCount: number; data: T[] }> {
+  const response = (await gqlRequest(
+    generateRequest<T>(modelName, requestMethod.Query, requestOperation.All, options)
+  )) as {
+    [key: string]: { results: T[]; totalCount: number };
+  };
 
-  return formatResponse(response[`all${modelName}`].results, fields) as T[];
+  return {
+    totalCount: response[`all${modelName}`].totalCount,
+    data: formatResponse(response[`all${modelName}`].results, options?.fields) as T[],
+  };
 }

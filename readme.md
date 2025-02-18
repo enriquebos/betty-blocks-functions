@@ -1,5 +1,5 @@
 # Betty Blocks functions
-Typescript flavourd betty functions! Enter `./src` and click on a function for various action steps.
+Typescript flavoured betty functions! Enter `./src` and click on a function for various action steps.
 
 
 ## Requirements

@@ -1,9 +1,4 @@
-import {
-  chunkArray,
-  variableMap,
-  formatStringMap,
-  strftime,
-} from "../../src/utils/utilityFuncs";
+import { chunkArray, variableMap, formatStringMap, strftime } from "../../src/utils/utilityFuncs";
 
 describe("chunkArray", () => {
   it("should chunk an array into smaller arrays of given size", () => {
@@ -125,9 +120,7 @@ describe("formatStringMap", () => {
     const variables = [{ key: "name", value: "Charlie" }];
 
     expect(formatStringMap(text, variables)).toBe("Welcome, {{ user }}!");
-    expect(console.log).toHaveBeenCalledWith(
-      "Unknown map variable 'user' in text field",
-    );
+    expect(console.log).toHaveBeenCalledWith("Unknown map variable 'user' in text field");
   });
 
   test("should handle special character prefixes correctly", () => {

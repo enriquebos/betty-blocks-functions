@@ -1,20 +1,18 @@
-import {
-  gqlRequest,
-  formatWhere,
-  formatResultsField,
-  formatResponse,
-} from "./utils";
+import { gqlRequest, generateRequest, formatResponse } from "./utils";
+import { requestMethod, requestOperation } from "./enums";
 
 export default async function queryOne<T>(
   modelName: string,
-  fields: FieldObject,
-  where: object = {},
+  options?: {
+    fields?: Partial<Record<keyof T, any>>;
+    queryArguments?: {
+      where?: object;
+    };
+  }
 ): Promise<T> {
-  const response = (await gqlRequest(`query {
-    one${modelName}${Object.keys(where).length !== 0 ? `(where: ${formatWhere(where)})` : ""} {
-      ${formatResultsField(fields)}
-    }
-  }`)) as Record<string, object>;
+  const response = (await gqlRequest<T>(
+    generateRequest<T>(modelName, requestMethod.Query, requestOperation.One, options)
+  )) as Record<string, object>;
 
-  return formatResponse(response[`one${modelName}`], fields) as T;
+  return formatResponse(response[`one${modelName}`], options?.fields) as T;
 }

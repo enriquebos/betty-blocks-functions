@@ -6,6 +6,9 @@ import mutationCreateMany from "../../utils/graphql/mutationCreateMany";
 import mutationDeleteMany from "../../utils/graphql/mutationDeleteMany";
 import mutationUpdateMany from "../../utils/graphql/mutationUpdateMany";
 import mutationUpsertMany from "../../utils/graphql/mutationUpsertMany";
+import queryAll from "../../utils/graphql/queryAll";
+import queryOne from "../../utils/graphql/queryOne";
+import GraphqlModel from "../../utils/graphql/helperObject";
 
 interface WebUser {
   id: number;
@@ -57,13 +60,18 @@ const testTing = async () => {
   // Remove duplicates
   // Handle mass delete with relation
 
-  // const one = await queryOne<Pokemon>("Pokemon", pokeFields, where);
-  // const all = await queryAll<Pokemon>("Pokemon", pokeFields, {
-  //   where: where,
-  //   take: 10,
-  //   skip: 5,
-  //   sort: sort,
-  // });
+  // const data = await queryOne<Pokemon>("Pokemon", { fields: pokeFields, queryArguments: { where: where } });
+  const { totalCount, data } = await queryAll<Pokemon>("Pokemon", {
+    fields: pokeFields,
+    queryArguments: {
+      where: where,
+      take: 10,
+      skip: 5,
+      sort: sort,
+      totalCount: true,
+    },
+  });
+  throw new Error(JSON.stringify(totalCount));
   // const count = await modelCount("Pokemon", where);
   // const newPokemon = await mutationCreate("Pokemon", newPokemonData);
   // const createPokemons = await mutationCreateMany("Pokemon", newPokemonsData);
@@ -90,20 +98,25 @@ const testTing = async () => {
   //   },
   //   ["pokemonId"],
   // );
-  const upsertPokemons = await mutationUpsertMany("Pokemon", [
-    {
-      id: "999",
-      name: "Panda UP!!!",
-      weight: 150,
-    },
-    {
-      id: "1000",
-      name: "Panda UP2!!!",
-      weight: 150,
-    },
-  ]);
+  // const upsertPokemons = await mutationUpsertMany("Pokemon", [
+  //   {
+  //     id: "999",
+  //     name: "Panda UP!!!",
+  //     weight: 150,
+  //   },
+  //   {
+  //     id: "1000",
+  //     name: "Panda UP2!!!",
+  //     weight: 150,
+  //   },
+  // ]);
 
-  throw new Error(JSON.stringify(upsertPokemons));
+  const pokemonModel = new GraphqlModel("Pokemon");
+
+  // const pokemonAmount = await pokemonModel.modelCount();
+  const fetchAllPokemons = await pokemonModel.queryAll<Pokemon>(pokeFields);
+
+  throw new Error(JSON.stringify(fetchAllPokemons));
 };
 
 export default testTing;

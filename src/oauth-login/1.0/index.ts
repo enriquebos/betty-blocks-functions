@@ -37,10 +37,7 @@ const getAccessAndIdToken = async ({
     redirect_uri: redirectUri,
     grant_type: "authorization_code",
     code: code,
-  }).map(
-    ([property, value]) =>
-      encodeURIComponent(property) + "=" + encodeURIComponent(value),
-  );
+  }).map(([property, value]) => encodeURIComponent(property) + "=" + encodeURIComponent(value));
 
   const accessTokenResponse = await fetch(tokenEndpoint, {
     method: "POST",

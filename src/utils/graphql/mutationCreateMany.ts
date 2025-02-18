@@ -1,9 +1,6 @@
 import { gqlRequest } from "./utils";
 
-export default async function mutationCreateMany<T extends string>(
-  modelName: T,
-  records: object[],
-): Promise<number[]> {
+export default async function mutationCreateMany<T extends string>(modelName: T, records: object[]): Promise<number[]> {
   if (records.length === 0) {
     return Promise.resolve([]);
   }
