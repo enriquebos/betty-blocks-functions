@@ -54,13 +54,13 @@ export default (template: string): ((vars: any) => string) => {
             : `if (typeof(o${i}) == "boolean" && o${i}) { s += "${block(context)}"; } else if (o${i}) { for (var i${i} = 0; i${i} < o${i}.length; i${i}++) { vars.push(o${i}[i${i}]); s += "${block(context)}"; vars.pop(); }}`) +
           '; s += "'
         );
-      })
+      }),
     );
   };
 
   return new Function(
     "vars",
     "s",
-    `vars = [vars], s = "${block(template.replace(/"/g, '\\"').replace(/(\n|\r\n)/g, "\\n"))}"; return s;`
+    `vars = [vars], s = "${block(template.replace(/"/g, '\\"').replace(/(\n|\r\n)/g, "\\n"))}"; return s;`,
   ) as (vars: any) => string;
 };

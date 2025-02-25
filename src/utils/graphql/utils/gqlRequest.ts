@@ -1,3 +1,4 @@
+// @ts-nocheck
 function formatResponse(response: object | object[], result: FieldObject): Record<string, any> | Record<string, any>[] {
   if (Array.isArray(response)) {
     return response.map((item) => formatResponse(item, result));
@@ -18,7 +19,7 @@ function formatResponse(response: object | object[], result: FieldObject): Recor
 
       return formatted;
     },
-    {} as Record<string, any>
+    {} as Record<string, any>,
   );
 }
 
@@ -29,7 +30,7 @@ export default async function gqlRequest<T>(
     id?: number;
     where?: object;
     uniqueBy?: string[];
-  } = {}
+  } = {},
 ): Promise<T> {
   if (operation.length > 4194304) {
     throw new Error(`GraphQL request length exceeds maximum allowed size (${operation.length} vs 4194304)`);

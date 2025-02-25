@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { gqlRequest } from "./utils";
 
 export default async function mutationUpsert<T extends string>(

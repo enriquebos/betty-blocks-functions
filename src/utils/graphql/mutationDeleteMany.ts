@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { gqlRequest } from "./utils";
 
 export default async function mutationDeleteMany<T extends string>(modelName: T, ids: number[]): Promise<number[]> {

@@ -1,24 +1,6 @@
 import { requestMethod, requestOperation } from "../enums";
-
-function formatSort(sortObject: Sort): string {
-  return JSON.stringify(sortObject).replaceAll('"', " ").replace(/\s:\s/g, ": ").replace(/\s,\s/g, ", ");
-}
-
-function formatWhere(whereObject: object): string {
-  if (typeof whereObject === "string") {
-    return `"${whereObject}"`;
-  }
-  if (Array.isArray(whereObject)) {
-    return `[ ${whereObject.map(formatWhere).join(", ")} ]`;
-  }
-  if (typeof whereObject === "object" && whereObject !== null) {
-    return `{ ${Object.entries(whereObject)
-      .map(([key, value]) => `${key}: ${formatWhere(value)}`)
-      .join(", ")} }`;
-  }
-
-  return String(whereObject);
-}
+import { whereToString } from "./where";
+import { sortToString } from "./sort";
 
 function formatResultsField<T>(fields: Partial<Record<keyof T, any>> | undefined): string {
   if (fields === undefined || Object.keys(fields).length === 0) {
@@ -58,7 +40,7 @@ export default function generateRequest<T>(
       where?: object;
       totalCount?: boolean;
     };
-  }
+  },
 ): string {
   const { skip, sort, take, where, totalCount } = options?.queryArguments || {};
   let requestArguments: string[] = [];
@@ -71,7 +53,7 @@ export default function generateRequest<T>(
   }
 
   if (sort !== undefined) {
-    requestArguments.push(`sort: ${formatSort(sort)}`);
+    requestArguments.push(`sort: { ${sortToString(sort)} }`);
   }
 
   if (take !== undefined) {
@@ -82,7 +64,7 @@ export default function generateRequest<T>(
   }
 
   if (where !== undefined) {
-    requestArguments.push(`where: ${formatWhere(where)}`);
+    requestArguments.push(`where: { ${whereToString(where)} }`);
   }
 
   const graphqlRequest = `${type} {

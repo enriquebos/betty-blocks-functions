@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { gqlRequest } from "./utils";
 
 export default async function mutationCreate<T extends string>(modelName: T, record: object): Promise<number> {

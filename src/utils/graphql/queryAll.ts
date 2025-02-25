@@ -12,10 +12,10 @@ export default async function queryAll<T>(
       where?: object;
       totalCount?: boolean;
     };
-  }
+  },
 ): Promise<{ totalCount: number; data: T[] }> {
   const response = (await gqlRequest(
-    generateRequest<T>(modelName, requestMethod.Query, requestOperation.All, options)
+    generateRequest<T>(modelName, requestMethod.Query, requestOperation.All, options),
   )) as {
     [key: string]: { results: T[]; totalCount: number };
   };

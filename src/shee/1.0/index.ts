@@ -8,7 +8,7 @@ import mutationUpdateMany from "../../utils/graphql/mutationUpdateMany";
 import mutationUpsertMany from "../../utils/graphql/mutationUpsertMany";
 import queryAll from "../../utils/graphql/queryAll";
 import queryOne from "../../utils/graphql/queryOne";
-import GraphqlModel from "../../utils/graphql/helperObject";
+import GraphqlModel from "../../utils/graphql/exts/helper";
 
 interface WebUser {
   id: number;
@@ -44,6 +44,7 @@ const testTing = async () => {
       },
     ],
   };
+
   const sort: Sort = {
     field: "name",
     order: "ASC",

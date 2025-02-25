@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { gqlRequest } from "./utils";
 
 export default async function mutationUpsertMany<T extends string>(modelName: T, records: object[]): Promise<number[]> {

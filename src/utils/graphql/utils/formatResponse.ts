@@ -13,10 +13,7 @@ export default function formatResponse(
 
       if (typeof valueFunc === "function") {
         formatted[key] = new valueFunc(value);
-      } else if (
-        typeof valueFunc === "object" &&
-        !(valueFunc instanceof Date)
-      ) {
+      } else if (typeof valueFunc === "object" && !(valueFunc instanceof Date)) {
         formatted[key] = formatResponse(value, valueFunc);
       } else {
         formatted[key] = value;

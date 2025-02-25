@@ -8,10 +8,10 @@ export default async function queryOne<T>(
     queryArguments?: {
       where?: object;
     };
-  }
+  },
 ): Promise<T> {
   const response = (await gqlRequest<T>(
-    generateRequest<T>(modelName, requestMethod.Query, requestOperation.One, options)
+    generateRequest<T>(modelName, requestMethod.Query, requestOperation.One, options),
   )) as Record<string, object>;
 
   return formatResponse(response[`one${modelName}`], options?.fields) as T;

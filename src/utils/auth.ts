@@ -36,7 +36,7 @@ function b64DecodeUnicode(str: string): string {
         code = "0" + code;
       }
       return "%" + code;
-    })
+    }),
   );
 }
 
