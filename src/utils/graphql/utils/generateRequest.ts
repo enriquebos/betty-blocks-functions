@@ -75,5 +75,7 @@ export default function generateRequest<T>(
       ${totalCount ? "totalCount" : ""}
   } }`;
 
+  console.log(graphqlRequest);
+
   return graphqlRequest;
 }

@@ -1,12 +1,13 @@
-export function whereToString<T>(where: T): string {
+export function whereToString<T>(where: T, _isRoot: boolean = true): string {
   if (Array.isArray(where)) {
-    return `[${where.map(whereToString).join(", ")}]`;
+    return `[${where.map((item) => whereToString(item, false)).join(", ")}]`;
   }
 
   if (typeof where === "object" && where !== null) {
-    return `{ ${Object.entries(where)
-      .map(([key, value]) => `${key}: ${whereToString(value)}`)
-      .join(", ")} }`;
+    const content = Object.entries(where)
+      .map(([key, value]) => `${key}: ${whereToString(value, false)}`)
+      .join(", ");
+    return _isRoot ? content : `{ ${content} }`;
   }
 
   return typeof where === "string" ? `"${where}"` : String(where);

@@ -6,9 +6,10 @@ import mutationCreateMany from "../../utils/graphql/mutationCreateMany";
 import mutationDeleteMany from "../../utils/graphql/mutationDeleteMany";
 import mutationUpdateMany from "../../utils/graphql/mutationUpdateMany";
 import mutationUpsertMany from "../../utils/graphql/mutationUpsertMany";
-import queryAll from "../../utils/graphql/queryAll";
 import queryOne from "../../utils/graphql/queryOne";
 import GraphqlModel from "../../utils/graphql/exts/helper";
+
+import { queryAll } from "../../utils/graphql";
 
 interface WebUser {
   id: number;
