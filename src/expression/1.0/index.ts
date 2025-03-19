@@ -9,13 +9,18 @@ interface Variable {
 interface ExpressionInput {
   expression: string;
   variables: Variable[];
+  debugLogging: Boolean;
 }
 
 interface ExpressionResult {
   result: any;
 }
 
-const customExpression = async ({ expression, variables }: ExpressionInput): Promise<ExpressionResult> => {
+const customExpression = async ({
+  expression,
+  variables,
+  debugLogging,
+}: ExpressionInput): Promise<ExpressionResult> => {
   const parsedVars = variableMap(variables);
   const template: string = templayed(expression)(parsedVars);
   let functionOutput: string;
@@ -24,7 +29,11 @@ const customExpression = async ({ expression, variables }: ExpressionInput): Pro
     functionOutput = new Function(`return ${template}`)();
   } catch (error) {
     const errorMessage: string = `Error evaluating expression: "${error.message}" (template: ${template} variables: ${JSON.stringify(parsedVars)})`;
-    console.error(errorMessage);
+
+    if (debugLogging) {
+      console.error(errorMessage);
+    }
+
     throw new Error(errorMessage);
   }
 
