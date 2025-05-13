@@ -38,10 +38,10 @@ const jsonFiles = await glob("./functions/**/*.json");
 
 await replaceLiquidJsFile();
 
-for (const path of jsFiles) {
-  const minifiedJs = await minify(path);
-  await replaceFileContent(path, minifiedJs);
-}
+// for (const path of jsFiles) {
+//   const minifiedJs = await minify(path);
+//   await replaceFileContent(path, minifiedJs);
+// }
 
 for (const path of jsonFiles) {
   const fileContent = await getFileContent(path);

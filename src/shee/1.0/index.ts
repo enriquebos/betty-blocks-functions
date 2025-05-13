@@ -11,6 +11,8 @@ import GraphqlModel from "../../utils/graphql/exts/helper";
 
 import { queryAll } from "../../utils/graphql";
 
+import { gqlRequest } from "../../utils/graphql/utils";
+
 interface WebUser {
   id: number;
   createdAt: Date;
@@ -63,17 +65,17 @@ const testTing = async () => {
   // Handle mass delete with relation
 
   // const data = await queryOne<Pokemon>("Pokemon", { fields: pokeFields, queryArguments: { where: where } });
-  const { totalCount, data } = await queryAll<Pokemon>("Pokemon", {
-    fields: pokeFields,
-    queryArguments: {
-      where: where,
-      take: 10,
-      skip: 5,
-      sort: sort,
-      totalCount: true,
-    },
-  });
-  throw new Error(JSON.stringify(totalCount));
+  // const { totalCount, data } = await queryAll<Pokemon>("Pokemon", {
+  //   fields: pokeFields,
+  //   queryArguments: {
+  //     where: where,
+  //     take: 10,
+  //     skip: 5,
+  //     sort: sort,
+  //     totalCount: true,
+  //   },
+  // });
+  // throw new Error(JSON.stringify(totalCount));
   // const count = await modelCount("Pokemon", where);
   // const newPokemon = await mutationCreate("Pokemon", newPokemonData);
   // const createPokemons = await mutationCreateMany("Pokemon", newPokemonsData);
@@ -98,8 +100,27 @@ const testTing = async () => {
   //     name: "Panda UP!!!",
   //     weight: 150,
   //   },
-  //   ["pokemonId"],
+  //   ["id"]
   // );
+
+  // @ts-ignore
+  const response = await gql(
+    `mutation {
+      upsertPokemon(input: $input, uniqueBy: $uniqueBy) {
+        id
+      }
+    }`,
+    {
+      input: {
+        name: "Panda UP!!!",
+        weight: 150,
+      },
+      uniqueBy: ["weight"],
+    },
+  );
+
+  throw new Error(JSON.stringify(response));
+
   // const upsertPokemons = await mutationUpsertMany("Pokemon", [
   //   {
   //     id: "999",

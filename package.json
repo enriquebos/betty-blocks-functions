@@ -10,6 +10,7 @@
     "update-packages": "ncu -u -x glob && npm install"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "remeda": "^2.20.2"
   },
   "devDependencies": {

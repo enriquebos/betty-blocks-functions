@@ -172,46 +172,46 @@ describe("strftime", () => {
   });
 
   it("should format %Y-%m-%d correctly", () => {
-    expect(strftime("%Y-%m-%d")).toBe("2023-10-05");
+    expect(strftime("%Y-%m-%d", "en", new Date(), 0, true)).toBe("2023-10-05");
   });
 
   it("should format %H:%M:%S correctly", () => {
-    expect(strftime("%H:%M:%S")).toBe("14:30:45");
+    expect(strftime("%H:%M:%S", "en", new Date(), 0, true)).toBe("14:30:45");
   });
 
   it("should format %I:%M %p correctly", () => {
-    expect(strftime("%I:%M %p")).toBe("02:30 PM");
+    expect(strftime("%I:%M %p", "en", new Date(), 0, true)).toBe("02:30 PM");
   });
 
   it("should format %A, %B %d, %Y correctly", () => {
-    expect(strftime("%A, %B %d, %Y")).toBe("Thursday, October 05, 2023");
+    expect(strftime("%A, %B %d, %Y", "en", new Date(), 0, true)).toBe("Thursday, October 05, 2023");
   });
 
   it("should format %j (day of the year) correctly", () => {
-    expect(strftime("%j")).toBe("278");
+    expect(strftime("%j", "en", new Date(), 0, true)).toBe("278");
   });
 
   it("should format %V (ISO week number) correctly", () => {
-    expect(strftime("%V")).toBe("40");
+    expect(strftime("%V", "en", new Date(), 0, true)).toBe("40");
   });
 
   it("should format %z (timezone offset) correctly", () => {
-    expect(strftime("%z")).toMatch(timeZoneOffsetReg);
+    expect(strftime("%z", "en", new Date(), 0, true)).toMatch(timeZoneOffsetReg);
   });
 
   it("should format %Zs (short timezone name) correctly", () => {
-    expect(strftime("%Zs")).toMatch(timeZoneReg);
+    expect(strftime("%Zs", "en", new Date(), 0, true)).toMatch(timeZoneReg);
   });
 
   it("should handle unknown format specifiers by returning them as-is", () => {
-    expect(strftime("%Q")).toBe("%Q");
+    expect(strftime("%Q", "en", new Date(), 0, true)).toBe("%Q");
   });
 
   it("should handle empty format string", () => {
-    expect(strftime("")).toBe("");
+    expect(strftime("", "en", new Date(), 0, true)).toBe("");
   });
 
   it("should handle invalid format string (non-string input)", () => {
-    expect(strftime(123 as any)).toBe("");
+    expect(strftime(123 as any, "en", new Date(), 0, true)).toBe("");
   });
 });

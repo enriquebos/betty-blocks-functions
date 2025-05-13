@@ -23,6 +23,36 @@
       }
     },
     {
+      "name": "timeZoneOffset",
+      "label": "Time offset in minutes",
+      "meta": {
+        "type": "Number"
+      },
+      "configuration": {
+        "placeholder": "0"
+      }
+    },
+    {
+      "name": "useUtc",
+      "label": "Use UTC",
+      "meta": {
+        "type": "Boolean",
+        "default": false
+      }
+    },
+    {
+      "name": "locale",
+      "label": "Locale",
+      "info": "Locale used for converting month and weekday names to the right language/format",
+      "meta": {
+        "type": "Text",
+        "default": "en"
+      },
+      "configuration": {
+        "placeholder": "en"
+      }
+    },
+    {
       "name": "strftimeDefault",
       "label": "Default formats",
       "info": "Default formats, choose custom to enable custom strftime field",
@@ -76,40 +106,10 @@
       "label": "Custom Strftime format",
       "info": "Quick string format using % formatting check the README.md for detailed info",
       "meta": {
-        "type": "Text",
-        "placeholder": "%d-%m-%Y %H:%M"
+        "type": "Text"
       },
       "configuration": {
         "placeholder": "%A, %B %d, %Y %I:%M %p"
-      }
-    },
-    {
-      "name": "timeZoneOffset",
-      "label": "UTC timezone offset for your zone (i.e. NL3 = UTC+1, USA2 = UTC-6)",
-      "meta": {
-        "type": "Select",
-        "validations": {
-          "required": true
-        },
-        "values": [
-          { "label": "UTC-8", "value": "-480" },
-          { "label": "UTC-7", "value": "-420" },
-          { "label": "UTC-6", "value": "-360" },
-          { "label": "UTC-5", "value": "-300" },
-          { "label": "UTC-4", "value": "-240" },
-          { "label": "UTC-3", "value": "-180" },
-          { "label": "UTC-2", "value": "-120" },
-          { "label": "UTC-1", "value": "-60" },
-          { "label": "UTC", "value": "0" },
-          { "label": "UTC+1", "value": "60" },
-          { "label": "UTC+2", "value": "120" },
-          { "label": "UTC+3", "value": "180" },
-          { "label": "UTC+4", "value": "240" },
-          { "label": "UTC+5", "value": "300" },
-          { "label": "UTC+6", "value": "360" },
-          { "label": "UTC+7", "value": "420" },
-          { "label": "UTC+8", "value": "480" }
-        ]
       }
     },
     {
