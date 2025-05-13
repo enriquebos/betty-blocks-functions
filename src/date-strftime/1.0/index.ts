@@ -1,7 +1,7 @@
 import { strftime } from "../../utils/utilityFuncs";
 
 interface DateStrftimeParams {
-  datetime: Date | string;
+  datetime: Date | string | Number;
   locale: string;
   strftimeDefault: string;
   strftimeStr?: string;
@@ -16,46 +16,42 @@ const dateStrftime = async ({
   strftimeStr,
   timeZoneOffset,
   useUtc,
-}: DateStrftimeParams): Promise<{ result: string | number | object }> => {
-  console.log({ start: { datetime, locale, strftimeDefault, strftimeStr, timeZoneOffset, useUtc } });
+}: DateStrftimeParams): Promise<{ result: string }> => {
   const strFormat = strftimeDefault !== "custom" ? strftimeDefault : strftimeStr;
-  console.log({ strFormat });
   let datetimeObject: Date;
 
   if (!strFormat) {
     throw new Error("Custom strtime is not defined");
   }
 
-  console.log({ typeofDate: typeof datetime });
+  switch (true) {
+    case datetime instanceof Date:
+      datetimeObject = datetime;
+      break;
 
-  console.log({ dateInstance: datetime instanceof Date });
+    case datetime === "now":
+    case datetime === "today":
+    case datetime === "":
+      datetimeObject = new Date();
+      break;
 
-  if (datetime instanceof Date) {
-    datetimeObject = datetime;
-  } else if (
-    !datetime ||
-    (typeof datetime === "string" &&
-      datetime
-        .toLowerCase()
-        .trim()
-        .match(/^(now|today)$/))
-  ) {
-    datetimeObject = new Date();
-  } else if (typeof datetime === "string" && datetime.match(/^\d+$/)) {
-    datetimeObject = new Date(parseInt(datetime) * 1000);
-  } else {
-    datetimeObject = new Date(datetime);
+    case (typeof datetime === "string" && /^\d+$/.test(datetime)) || typeof datetime === "number":
+      datetimeObject = new Date(typeof datetime === "number" ? datetime : parseInt(datetime) * 1000);
+      break;
+
+    case typeof datetime === "string":
+      datetimeObject = new Date(datetime);
+      break;
+
+    default:
+      throw new Error(`Invalid date object type (${typeof datetime}) for: ${datetime}`);
   }
-
-  console.log({ datetimeObject });
 
   if (isNaN(datetimeObject.getTime())) {
     throw new Error("Invalid datetime input, is the notation correct?");
   }
-  const result = strftime(strFormat, locale, datetimeObject, timeZoneOffset, useUtc);
 
-  console.log({ result });
-  return { result };
+  return { result: strftime(strFormat, locale, datetimeObject, timeZoneOffset, useUtc) };
 };
 
 export default dateStrftime;

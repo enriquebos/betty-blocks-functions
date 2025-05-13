@@ -49,8 +49,20 @@
       }
     },
     {
+      "name": "grantType",
+      "label": "Grant type",
+      "meta": {
+        "type": "Select",
+        "default": "Authorization Code",
+        "values": [
+          { "label": "Authorization Code", "value": "authorization_code" },
+          { "label": "Refresh Token", "value": "refresh_token" }
+        ]
+      }
+    },
+    {
       "name": "code",
-      "label": "Authorization code",
+      "label": "Authorization Code / Refresh Token",
       "meta": {
         "type": "Text"
       },

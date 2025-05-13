@@ -5,6 +5,7 @@
   "scripts": {
     "format": "prettier \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" \"./tests\" --write --print-width 120",
     "test": "jest",
+    "test:cov": "jest --collect-coverage",
     "build": "npm run format && tsc -p ./tsconfig.json && rm -rf functions/utils/liquid.min.js && node post-build.mjs",
     "publish": "npm run build && npm run test && bb functions publish",
     "update-packages": "ncu -u -x glob && npm install"

@@ -5,6 +5,7 @@ interface TokenParams {
   clientId: string;
   clientSecret: string;
   redirectUri: string;
+  grantType: string | "authorization_code" | "refresh_token";
   code: string;
 }
 
@@ -29,13 +30,14 @@ const getAccessAndIdToken = async ({
   clientId,
   clientSecret,
   redirectUri,
+  grantType,
   code,
 }: TokenParams): Promise<TokenResult> => {
   const formBody = Object.entries({
     client_id: clientId,
     client_secret: clientSecret,
     redirect_uri: redirectUri,
-    grant_type: "authorization_code",
+    grant_type: grantType,
     code: code,
   }).map(([property, value]) => encodeURIComponent(property) + "=" + encodeURIComponent(value));
 

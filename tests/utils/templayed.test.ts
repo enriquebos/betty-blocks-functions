@@ -150,4 +150,121 @@ describe("templayed.js", () => {
 
     expect(result).toBe("Hello, World!");
   });
+
+  it("should escape HTML entities in variables", () => {
+    const template = `"{{ text }}"`;
+    const vars = [{ key: "text", value: "<div>Hello!</div>" }];
+    const result = new Function(`return ${templayed(template)(variableMap(vars))}`)();
+
+    expect(result).toBe("&lt;div&gt;Hello!&lt;/div&gt;");
+  });
+
+  it("should handle empty arrays", () => {
+    const template = `(function(items) { return items.length ? items.join(" ") : "No items"; })({{{ items }}});`;
+    const vars = [{ key: "items", value: `[]` }];
+    const result = new Function(`return ${templayed(template)(variableMap(vars))}`)();
+
+    expect(result).toBe("No items");
+  });
+
+  it("should handle empty objects", () => {
+    const template = `(function(obj) { return Object.keys(obj).length ? "Has keys" : "No keys"; })({{{ obj }}});`;
+    const vars = [{ key: "obj", value: `{}` }];
+    const result = new Function(`return ${templayed(template)(variableMap(vars))}`)();
+
+    expect(result).toBe("No keys");
+  });
+
+  it("should handle arrays of objects and access properties", () => {
+    const template = `(function(items) { return items.map(item => item.name).join(", "); })({{{ items }}});`;
+    const vars = [{ key: "items", value: `[{"name": "Alice"}, {"name": "Bob"}]` }];
+    const result = new Function(`return ${templayed(template)(variableMap(vars))}`)();
+
+    expect(result).toBe("Alice, Bob");
+  });
+
+  it("should handle nested sections with arrays and objects", () => {
+    const template = `(function(user) {
+      return user.groups.map(group => {
+        return group.members.map(member => member.name).join(", ");
+      }).join(" | ");
+    })({{{ user }}});`;
+    const vars = [
+      {
+        key: "user",
+        value: `{ groups: [{ members: [{ name: "Alice" }, { name: "Bob" }] }, { members: [{ name: "Charlie" }] }] }`,
+      },
+    ];
+    const result = new Function(`return ${templayed(template)(variableMap(vars))}`)();
+
+    expect(result).toBe("Alice, Bob | Charlie");
+  });
+
+  it("should handle nested blocks with truthy conditions", () => {
+    const template = `(function(user) {
+      return user.isActive ? "Active" : "Inactive";
+    })({{{ user }}});`;
+    const vars = [{ key: "user", value: `{ isActive: true }` }];
+    const result = new Function(`return ${templayed(template)(variableMap(vars))}`)();
+
+    expect(result).toBe("Active");
+  });
+
+  it("should handle mixed expressions and blocks", () => {
+    const template = `(function(user) {
+      return user.isActive ? "Active " + user.name : "Inactive";
+    })({{{ user }}});`;
+    const vars = [{ key: "user", value: `{ isActive: true, name: "Jane" }` }];
+    const result = new Function(`return ${templayed(template)(variableMap(vars))}`)();
+
+    expect(result).toBe("Active Jane");
+  });
+
+  it("should correctly handle multiple instances of the same variable", () => {
+    const template = `"{{ name }} and {{ name }}"`;
+    const vars = [{ key: "name", value: "Alice" }];
+    const result = new Function(`return ${templayed(template)(variableMap(vars))}`)();
+
+    expect(result).toBe("Alice and Alice");
+  });
+
+  it("should handle complex nested structures with missing properties", () => {
+    const template = `(function(user) {
+      return user.address ? user.address.city : "No city";
+    })({{{ user }}});`;
+    const vars = [{ key: "user", value: `{ name: "Alice" }` }];
+    const result = new Function(`return ${templayed(template)(variableMap(vars))}`)();
+
+    expect(result).toBe("No city");
+  });
+
+  it("should handle null values inside objects", () => {
+    const template = `(function(user) { return user.profile ? user.profile.name : "No profile"; })({{{ user }}});`;
+    const vars = [{ key: "user", value: `{ profile: null }` }];
+    const result = new Function(`return ${templayed(template)(variableMap(vars))}`)();
+
+    expect(result).toBe("No profile");
+  });
+
+  it("should correctly increment the `inc` variable across multiple tags", () => {
+    const template = `"{{ name }} {{ age }} {{ location }}"`;
+    const vars = [
+      { key: "name", value: "Alice" },
+      { key: "age", value: "30" },
+      { key: "location", value: "Wonderland" },
+    ];
+
+    const result = new Function(`return ${templayed(template)(variableMap(vars))}`)();
+
+    expect(result).toBe("Alice 30 Wonderland");
+  });
+
+  it("should correctly handle multiple uses of the same variable with `inc`", () => {
+    const template = `"{{ name }} {{ name }} {{ name }}"`;
+    const vars = [{ key: "name", value: "Charlie" }];
+
+    const result = new Function(`return ${templayed(template)(variableMap(vars))}`)();
+
+    expect(result).toBe("Charlie Charlie Charlie");
+  });
 });

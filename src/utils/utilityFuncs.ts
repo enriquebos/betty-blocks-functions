@@ -26,22 +26,28 @@ export function formatStringMap(text: string, variables: Array<{ key: string; va
   });
 }
 
-export function strftime(sFormat: string, locale: string, d: Date, offset_in_minutes: number, useUtc: boolean): string {
+export function strftime(
+  sFormat: string,
+  locale: string,
+  date: Date,
+  offset_in_minutes: number,
+  useUtc: boolean
+): string {
   if (typeof sFormat !== "string") {
     return "";
   }
 
   locale = locale.toLowerCase();
-  const nTime = d.getTime();
-  const date = new Date(nTime + offset_in_minutes * 60_000);
+  const nTime = date.getTime();
+  const newDate = new Date(nTime + offset_in_minutes * 60_0000);
 
-  const nDate = useUtc ? date.getUTCDate() : date.getDate();
-  const nYear = useUtc ? date.getUTCFullYear() : date.getFullYear();
-  const nMonth = useUtc ? date.getUTCMonth() : date.getMonth();
-  const nDay = useUtc ? date.getUTCDay() : date.getDay();
-  const nHour = useUtc ? date.getUTCHours() : date.getHours();
-  const nMinutes = useUtc ? date.getUTCMinutes() : date.getMinutes();
-  const nSeconds = useUtc ? date.getUTCSeconds() : date.getSeconds();
+  const nDate = useUtc ? newDate.getUTCDate() : newDate.getDate();
+  const nYear = useUtc ? newDate.getUTCFullYear() : newDate.getFullYear();
+  const nMonth = useUtc ? newDate.getUTCMonth() : newDate.getMonth();
+  const nDay = useUtc ? newDate.getUTCDay() : newDate.getDay();
+  const nHour = useUtc ? newDate.getUTCHours() : newDate.getHours();
+  const nMinutes = useUtc ? newDate.getUTCMinutes() : newDate.getMinutes();
+  const nSeconds = useUtc ? newDate.getUTCSeconds() : newDate.getSeconds();
 
   const aDayCount = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
   const isLeapYear = (): boolean => (nYear % 4 === 0 && nYear % 100 !== 0) || nYear % 400 === 0;
@@ -55,15 +61,27 @@ export function strftime(sFormat: string, locale: string, d: Date, offset_in_min
   return sFormat.replace(/%[a-z]+\b/gi, (sMatch: string): string => {
     return (
       ({
-        "%a": date.toLocaleString(locale, { weekday: "short" }),
-        "%A": date.toLocaleString(locale, { weekday: "long" }),
-        "%b": date.toLocaleString(locale, { month: "short" }),
-        "%B": date.toLocaleString(locale, { month: "long" }),
-        "%c": date.toUTCString().replace(",", ""),
+        "%a": newDate.toLocaleString(locale, {
+          weekday: "short",
+          ...(useUtc ? { timeZone: "UTC" } : {}),
+        }),
+        "%A": newDate.toLocaleString(locale, {
+          weekday: "long",
+          ...(useUtc ? { timeZone: "UTC" } : {}),
+        }),
+        "%b": newDate.toLocaleString(locale, {
+          month: "short",
+          ...(useUtc ? { timeZone: "UTC" } : {}),
+        }),
+        "%B": newDate.toLocaleString(locale, {
+          month: "long",
+          ...(useUtc ? { timeZone: "UTC" } : {}),
+        }),
+        "%c": newDate.toUTCString().replace(",", ""),
         "%C": Math.floor(nYear / 100),
         "%d": zeroPad(nDate, 2),
         "%e": nDate,
-        "%F": new Date(nTime - date.getTimezoneOffset() * 60 * 1000).toISOString().slice(0, 10),
+        "%F": new Date(nTime - newDate.getTimezoneOffset() * 60 * 1000).toISOString().slice(0, 10),
         "%G": getThursday().getFullYear(),
         "%g": (getThursday().getFullYear() + "").slice(2),
         "%H": zeroPad(nHour, 2),
@@ -92,16 +110,16 @@ export function strftime(sFormat: string, locale: string, d: Date, offset_in_min
           return zeroPad(1 + Math.ceil((n1stThu - target.getTime()) / 604800000), 2);
         })(),
         "%w": nDay,
-        "%x": date.toLocaleDateString(locale),
-        "%X": date.toLocaleTimeString(locale),
+        "%x": newDate.toLocaleDateString(locale),
+        "%X": newDate.toLocaleTimeString(locale),
         "%y": (nYear + "").slice(2),
         "%Y": nYear,
-        "%z": date.toTimeString().replace(/.+GMT([+-]\d+).+/, "$1"),
-        "%Z": date.toTimeString().replace(/.+\((.+?)\)$/, "$1"),
+        "%z": newDate.toTimeString().replace(/.+GMT([+-]\d+).+/, "$1"),
+        "%Z": newDate.toTimeString().replace(/.+\((.+?)\)$/, "$1"),
         "%Zs": new Intl.DateTimeFormat(locale, {
           timeZoneName: "short",
         })
-          .formatToParts(date)
+          .formatToParts(newDate)
           .find((oPart) => oPart.type === "timeZoneName")?.value,
       }[sMatch] || "") + "" || sMatch
     );
