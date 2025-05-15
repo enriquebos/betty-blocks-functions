@@ -31,7 +31,7 @@ export function strftime(
   locale: string,
   date: Date,
   offset_in_minutes: number,
-  useUtc: boolean
+  useUtc: boolean,
 ): string {
   if (typeof sFormat !== "string") {
     return "";

@@ -238,10 +238,10 @@ describe("strftime", () => {
         "en",
         new Date("2024-10-06T11:30:45Z"),
         0,
-        true
-      )
+        true,
+      ),
     ).toBe(
-      "Sun,Sunday,Oct,October,Sun 06 Oct 2024 11:30:45 GMT,20,06,6,2024-10-06,2024,24,11,11,280,11,11,10,10,30,AM,am,1728214245,45,7,40,%w,10/6/2024,1:30:45 PM,24,2024,+0200,Central European Summer Time,GMT+2"
+      "Sun,Sunday,Oct,October,Sun 06 Oct 2024 11:30:45 GMT,20,06,6,2024-10-06,2024,24,11,11,280,11,11,10,10,30,AM,am,1728214245,45,7,40,%w,10/6/2024,1:30:45 PM,24,2024,+0200,Central European Summer Time,GMT+2",
     );
   });
 });
