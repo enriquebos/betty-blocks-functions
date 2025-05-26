@@ -5,16 +5,15 @@ function transformData(input: MappingItem[]): Record<string, any> {
       if (keyName) acc[keyName] = value;
       return acc;
     },
-    {} as Record<string, any>,
+    {} as Record<string, any>
   );
 }
 
-function mergeAndUpdate(source: any, target: any): any {
-  return Object.keys(source).reduce((acc, key) => (key in acc ? { ...acc, [key]: source[key] } : acc), { ...target });
-}
-
-function validatesToValidationSets(validate: boolean): string[] {
-  return validate ? ["default"] : ["empty"];
+function mergeAndUpdate(source: any, target: any, flipUpdate: boolean = false): any {
+  return Object.keys(source).reduce(
+    (acc, key) => (key in acc ? { ...acc, [key]: flipUpdate ? target[key] : source[key] } : acc),
+    { ...target }
+  );
 }
 
 type MappingItem = {
@@ -33,6 +32,8 @@ type CreateOrUpdateRecordParams = {
     };
   };
   mapping: MappingItem[];
+  mappingCreate: MappingItem[];
+  mappingUpdate: MappingItem[];
   validates: boolean;
 };
 
@@ -42,10 +43,11 @@ export async function createOrUpdateRecord({
     model: { name: modelName },
   },
   mapping,
+  mappingCreate,
+  mappingUpdate,
   validates = true,
 }: CreateOrUpdateRecordParams): Promise<object> {
   const isUpdate = Boolean(recordObject);
-  const formattedInput = transformData(mapping);
   const mutationName = isUpdate ? `update${modelName}` : `create${modelName}`;
   const mutation = `mutation {
   ${mutationName}(input: $input${isUpdate ? ", id: $id" : ""}) {
@@ -53,13 +55,17 @@ export async function createOrUpdateRecord({
     }
   }`;
 
-  const input = isUpdate ? mergeAndUpdate(recordObject, formattedInput) : formattedInput;
+  const formattedInput = transformData(mapping);
+  const input = mergeAndUpdate(
+    transformData(isUpdate ? mappingUpdate : mappingCreate),
+    isUpdate ? mergeAndUpdate(recordObject, formattedInput, true) : formattedInput
+  );
 
   // @ts-expect-error: gql undefined
   const { data, errors } = await gql(mutation, {
     input,
     ...(isUpdate && { id: recordObject.id }),
-    validationSets: validatesToValidationSets(validates),
+    validationSets: validates ? ["default"] : ["empty"],
   });
 
   if (errors) throw errors;

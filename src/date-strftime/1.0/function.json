@@ -35,6 +35,7 @@
     {
       "name": "useUtc",
       "label": "Use UTC",
+      "info": "Use server related time for any scheduled actions, this will handle summer and winter time.",
       "meta": {
         "type": "Boolean",
         "default": false
