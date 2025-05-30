@@ -9,10 +9,10 @@ export default async function queryOne<T>(
       where?: object;
     };
     _log_request?: boolean;
-  }
+  },
 ): Promise<T | null> {
   const response = (await gqlRequest<T>(
-    generateRequest<T>(modelName, RequestMethod.Query, RequestOperation.One, options, options?._log_request)
+    generateRequest<T>(modelName, RequestMethod.Query, RequestOperation.One, options, options?._log_request),
   )) as Record<string, object>;
 
   if (!response || !response[RequestOperation.One + modelName]) {

@@ -5,18 +5,19 @@
   "scripts": {
     "format": "prettier \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" \"./tests\" --write --print-width 120",
     "test": "jest",
+    "test:only-changed": "jest --onlyChanged",
     "test:cov": "jest --collect-coverage",
     "build": "npm run format && tsc -p ./tsconfig.json && rm -rf functions/utils/liquid.min.js && node post-build.mjs",
-    "publish": "npm run build && npm run test && bb functions publish",
+    "publish": "npm run build && npm run test:only-changed && bb functions publish",
     "publish:no-test": "npm run build && bb functions publish",
     "update-packages": "ncu -u -x glob && npm install"
   },
   "dependencies": {
-    "@betty-blocks/cli": "25.104.0",
+    "@betty-blocks/cli": "25.107.0",
     "@types/jest": "^29.5.14",
     "date-fns": "^4.1.0",
     "prettier": "^3.5.3",
-    "remeda": "^2.21.6",
+    "remeda": "^2.22.4",
     "ts-jest": "^29.3.4",
     "typescript": "^5.8.3"
   },

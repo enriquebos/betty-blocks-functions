@@ -42,7 +42,7 @@ describe("queryOne", () => {
         fields,
         queryArguments: queryArgs,
       },
-      undefined
+      undefined,
     );
 
     expect(gqlRequest).toHaveBeenCalledWith(mockQuery);
@@ -80,7 +80,7 @@ describe("queryOne", () => {
         },
         _log_request: true,
       },
-      true
+      true,
     );
 
     expect(gqlRequest).toHaveBeenCalledWith("mockQueryWithLog");

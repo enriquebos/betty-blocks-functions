@@ -54,7 +54,7 @@ describe("queryAll", () => {
       RequestMethod.Query,
       RequestOperation.All,
       options,
-      options._log_request
+      options._log_request,
     );
 
     expect(gqlRequest).toHaveBeenCalledWith("mockQuery");
@@ -92,7 +92,7 @@ describe("queryAll", () => {
       RequestMethod.Query,
       RequestOperation.All,
       options,
-      undefined
+      undefined,
     );
 
     expect(result).toEqual({

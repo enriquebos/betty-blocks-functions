@@ -74,7 +74,7 @@ export default function generateRequest<T>(
       totalCount?: boolean;
     };
   },
-  _log_request?: boolean
+  _log_request?: boolean,
 ): string {
   const { skip, sort, take, where, input, id, uniqueBy, validate, totalCount } = options?.queryArguments || {};
   let requestArguments: string[] = [];

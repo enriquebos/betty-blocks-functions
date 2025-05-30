@@ -37,7 +37,7 @@ describe("mutationCreateMany", () => {
       RequestMethod.Mutation,
       RequestOperation.CreateMany,
       { queryArguments: { input: inputRecords } },
-      undefined
+      undefined,
     );
     expect(mockGqlRequest).toHaveBeenCalledWith(fakeRequestObject);
     expect(result).toEqual([1, 2]);
@@ -63,7 +63,7 @@ describe("mutationCreateMany", () => {
       RequestMethod.Mutation,
       RequestOperation.CreateMany,
       { queryArguments: { input: [inputRecords[0]] } },
-      true
+      true,
     );
     expect(result).toEqual([10]);
   });

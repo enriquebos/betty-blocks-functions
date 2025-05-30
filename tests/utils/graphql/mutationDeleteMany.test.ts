@@ -34,7 +34,7 @@ describe("mutationDeleteMany", () => {
       RequestMethod.Mutation,
       RequestOperation.DeleteMany,
       { queryArguments: { input: { ids } } },
-      undefined
+      undefined,
     );
     expect(mockGqlRequest).toHaveBeenCalledWith(fakeRequestObject);
     expect(result).toEqual(ids);
@@ -60,7 +60,7 @@ describe("mutationDeleteMany", () => {
       RequestMethod.Mutation,
       RequestOperation.DeleteMany,
       { queryArguments: { input: { ids: [42] } } },
-      true
+      true,
     );
     expect(result).toEqual([42]);
   });

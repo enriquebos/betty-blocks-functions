@@ -12,8 +12,8 @@ export default async function mutationCreate(modelName: string, input: any, _log
           input: input,
         },
       },
-      _log_request
-    )
+      _log_request,
+    ),
   )) as Record<string, { id: number }>;
 
   return response[RequestOperation.Create + modelName].id;

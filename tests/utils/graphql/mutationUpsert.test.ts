@@ -38,7 +38,7 @@ describe("mutationUpsert", () => {
           uniqueBy,
         },
       },
-      undefined
+      undefined,
     );
     expect(mockGqlRequest).toHaveBeenCalledWith(fakeRequestObject);
     expect(result).toBe(id);
@@ -60,7 +60,7 @@ describe("mutationUpsert", () => {
           uniqueBy,
         },
       },
-      true
+      true,
     );
     expect(result).toBe(id);
   });
