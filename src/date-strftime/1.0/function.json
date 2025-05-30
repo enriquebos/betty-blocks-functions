@@ -3,7 +3,7 @@
   "label": "Date/Time Formatter (strftime)",
   "category": "Misc",
   "icon": {
-    "name": "DateDayIcon",
+    "name": "DateTimeIcon",
     "color": "Orange"
   },
   "options": [
@@ -20,6 +20,56 @@
       },
       "configuration": {
         "placeholder": "now"
+      }
+    },
+    {
+      "name": "offsetType",
+      "label": "Offset Type",
+      "meta": {
+        "type": "Select",
+        "validations": {
+          "required": false
+        },
+        "values": [
+          { "label": "Seconds", "value": "ss" },
+          { "label": "Minutes", "value": "mm" },
+          { "label": "Hours", "value": "hh" },
+          { "label": "Days", "value": "DD" },
+          { "label": "Weeks", "value": "WW" },
+          { "label": "Months", "value": "MM" },
+          { "label": "Years", "value": "YYYY" }
+        ]
+      }
+    },
+    {
+      "name": "offset",
+      "label": "Offset",
+      "meta": {
+        "type": "Number"
+      },
+      "configuration": {
+        "placeholder": "0"
+      }
+    },
+    {
+      "name": "useUtc",
+      "label": "Use UTC",
+      "info": "Use UTC time for any scheduled actions. When this is off it will use the servers time instead.",
+      "meta": {
+        "type": "Boolean",
+        "default": true
+      }
+    },
+    {
+      "name": "locale",
+      "label": "Locale",
+      "info": "Locale used for converting month and weekday names to the right language/format",
+      "meta": {
+        "type": "Text",
+        "default": "en"
+      },
+      "configuration": {
+        "placeholder": "en"
       }
     },
     {
@@ -65,6 +115,10 @@
             "value": "%A, %B %d, %Y %I:%M %p"
           },
           {
+            "label": "1726756980000 (Epoch)",
+            "value": "%s"
+          },
+          {
             "label": "Custom strftime",
             "value": "custom"
           }
@@ -76,40 +130,10 @@
       "label": "Custom Strftime format",
       "info": "Quick string format using % formatting check the README.md for detailed info",
       "meta": {
-        "type": "Text",
-        "placeholder": "%d-%m-%Y %H:%M"
+        "type": "Text"
       },
       "configuration": {
         "placeholder": "%A, %B %d, %Y %I:%M %p"
-      }
-    },
-    {
-      "name": "timeZoneOffset",
-      "label": "UTC timezone offset for your zone (i.e. NL3 = UTC+1, USA2 = UTC-6)",
-      "meta": {
-        "type": "Select",
-        "validations": {
-          "required": true
-        },
-        "values": [
-          { "label": "UTC-8", "value": "-480" },
-          { "label": "UTC-7", "value": "-420" },
-          { "label": "UTC-6", "value": "-360" },
-          { "label": "UTC-5", "value": "-300" },
-          { "label": "UTC-4", "value": "-240" },
-          { "label": "UTC-3", "value": "-180" },
-          { "label": "UTC-2", "value": "-120" },
-          { "label": "UTC-1", "value": "-60" },
-          { "label": "UTC", "value": "0" },
-          { "label": "UTC+1", "value": "60" },
-          { "label": "UTC+2", "value": "120" },
-          { "label": "UTC+3", "value": "180" },
-          { "label": "UTC+4", "value": "240" },
-          { "label": "UTC+5", "value": "300" },
-          { "label": "UTC+6", "value": "360" },
-          { "label": "UTC+7", "value": "420" },
-          { "label": "UTC+8", "value": "480" }
-        ]
       }
     },
     {
@@ -122,7 +146,14 @@
           "required": true
         },
         "output": {
-          "type": "Text"
+          "anyOf": [
+            {
+              "type": "Text"
+            },
+            {
+              "type": "Number"
+            }
+          ]
         }
       },
       "configuration": {

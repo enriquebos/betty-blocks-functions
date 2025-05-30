@@ -1,9 +1,4 @@
-import {
-  chunkArray,
-  variableMap,
-  formatStringMap,
-  strftime,
-} from "../../src/utils/utilityFuncs";
+import { chunkArray, variableMap, formatStringMap, strftime } from "../../src/utils/utilityFuncs";
 
 describe("chunkArray", () => {
   it("should chunk an array into smaller arrays of given size", () => {
@@ -125,9 +120,7 @@ describe("formatStringMap", () => {
     const variables = [{ key: "name", value: "Charlie" }];
 
     expect(formatStringMap(text, variables)).toBe("Welcome, {{ user }}!");
-    expect(console.log).toHaveBeenCalledWith(
-      "Unknown map variable 'user' in text field",
-    );
+    expect(console.log).toHaveBeenCalledWith("Unknown map variable 'user' in text field");
   });
 
   test("should handle special character prefixes correctly", () => {
@@ -166,7 +159,7 @@ describe("formatStringMap", () => {
 });
 
 describe("strftime", () => {
-  const mockDate = new Date("2023-10-05T14:30:45Z");
+  const mockDate = new Date("2024-10-05T14:30:45Z");
   const timeZoneReg = /^(GMT|UTC)[+-](1[0-2]|[0-9])$/;
   const timeZoneOffsetReg = /^(\+|-)\d{4}$/;
 
@@ -178,47 +171,77 @@ describe("strftime", () => {
     jest.useRealTimers();
   });
 
+  it("should handle local datetime, %u", () => {
+    expect(strftime("%Y-%m-%d", "en", new Date(), 0, false)).toBe("2024-10-05");
+  });
+
+  it("should handle a leap year", () => {
+    expect(strftime("%Y-%m-%d %j", "en", new Date(), 0, false)).toBe("2024-10-05 279");
+  });
+
+  it("should not handle a leap year", () => {
+    expect(strftime("%Y-%m-%d %j", "en", new Date("2023-10-05T14:30:45Z"), 0, false)).toBe("2023-10-05 278");
+  });
+
+  it("should handle a datetime object", () => {
+    expect(strftime("%Y-%m-%d", "en", new Date(), 0, true)).toBe("2024-10-05");
+  });
+
   it("should format %Y-%m-%d correctly", () => {
-    expect(strftime("%Y-%m-%d")).toBe("2023-10-05");
+    expect(strftime("%Y-%m-%d", "en", new Date(), 0, true)).toBe("2024-10-05");
   });
 
   it("should format %H:%M:%S correctly", () => {
-    expect(strftime("%H:%M:%S")).toBe("14:30:45");
+    expect(strftime("%H:%M:%S", "en", new Date(), 0, true)).toBe("14:30:45");
   });
 
   it("should format %I:%M %p correctly", () => {
-    expect(strftime("%I:%M %p")).toBe("02:30 PM");
+    expect(strftime("%I:%M %p", "en", new Date(), 0, true)).toBe("02:30 PM");
   });
 
   it("should format %A, %B %d, %Y correctly", () => {
-    expect(strftime("%A, %B %d, %Y")).toBe("Thursday, October 05, 2023");
+    expect(strftime("%A, %B %d, %Y", "en", new Date(), 0, true)).toBe("Saturday, October 05, 2024");
   });
 
   it("should format %j (day of the year) correctly", () => {
-    expect(strftime("%j")).toBe("278");
+    expect(strftime("%j", "en", new Date(), 0, true)).toBe("279");
   });
 
   it("should format %V (ISO week number) correctly", () => {
-    expect(strftime("%V")).toBe("40");
+    expect(strftime("%V", "en", new Date(), 0, true)).toBe("40");
   });
 
   it("should format %z (timezone offset) correctly", () => {
-    expect(strftime("%z")).toMatch(timeZoneOffsetReg);
+    expect(strftime("%z", "en", new Date(), 0, true)).toMatch(timeZoneOffsetReg);
   });
 
   it("should format %Zs (short timezone name) correctly", () => {
-    expect(strftime("%Zs")).toMatch(timeZoneReg);
+    expect(strftime("%Zs", "en", new Date(), 0, true)).toMatch(timeZoneReg);
   });
 
   it("should handle unknown format specifiers by returning them as-is", () => {
-    expect(strftime("%Q")).toBe("%Q");
+    expect(strftime("%Q", "en", new Date(), 0, true)).toBe("%Q");
   });
 
   it("should handle empty format string", () => {
-    expect(strftime("")).toBe("");
+    expect(strftime("", "en", new Date(), 0, true)).toBe("");
   });
 
   it("should handle invalid format string (non-string input)", () => {
-    expect(strftime(123 as any)).toBe("");
+    expect(strftime(123 as any, "en", new Date(), 0, true)).toBe("");
+  });
+
+  it("should handle all other formats", () => {
+    expect(
+      strftime(
+        "%a,%A,%b,%B,%c,%C,%d,%e,%F,%G,%g,%H,%I,%j,%k,%l,%m,%n,%M,%p,%P,%s,%S,%u,%V,%w,%x,%X,%y,%Y,%z,%Z,%Zs",
+        "en",
+        new Date("2024-10-06T11:30:45Z"),
+        0,
+        true,
+      ),
+    ).toBe(
+      "Sun,Sunday,Oct,October,Sun 06 Oct 2024 11:30:45 GMT,20,06,6,2024-10-06,2024,24,11,11,280,11,11,10,10,30,AM,am,1728214245,45,7,40,%w,10/6/2024,1:30:45 PM,24,2024,+0200,Central European Summer Time,GMT+2",
+    );
   });
 });

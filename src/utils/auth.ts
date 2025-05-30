@@ -3,13 +3,10 @@ interface JwtDecodeOptions {
 }
 
 function polyfill(input: string): string {
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
   const str = String(input).replace(/=+$/, "");
   if (str.length % 4 == 1) {
-    throw new Error(
-      "failed: The string to be decoded is not correctly encoded.",
-    );
+    throw new Error("failed: The string to be decoded is not correctly encoded.");
   }
 
   let bc = 0;
@@ -65,10 +62,7 @@ function base64_url_decode(str: string): string {
   }
 }
 
-export default function jwtDecode(
-  token: string,
-  options?: JwtDecodeOptions,
-): any {
+export default function jwtDecode(token: string, options?: JwtDecodeOptions): any {
   if (typeof token !== "string") {
     throw new Error("Invalid token specified");
   }

@@ -10,10 +10,7 @@ interface LiquidParams {
   context?: ContextItem[];
 }
 
-const liquid = async ({
-  template,
-  context = [],
-}: LiquidParams): Promise<{ as: string }> => ({
+const liquid = async ({ template, context = [] }: LiquidParams): Promise<{ as: string }> => ({
   as: renderLiquidTemplate(template, context),
 });
 
