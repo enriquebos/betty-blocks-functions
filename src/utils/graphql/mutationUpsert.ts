@@ -1,19 +1,26 @@
-// @ts-nocheck
-import { gqlRequest } from "./utils";
+import { gqlRequest, generateRequest } from "./utils";
+import { RequestMethod, RequestOperation } from "./enums";
 
-export default async function mutationUpsert<T extends string>(
-  modelName: T,
+export default async function mutationUpsert(
+  modelName: string,
   record: object,
   uniqueBy: string[],
+  _log_request?: boolean,
 ): Promise<number> {
-  const response = await gqlRequest<{ [key in `upsert${T}`]: { id: number } }>(
-    `mutation {
-      upsert${modelName}(input: $input, uniqueBy: $uniqueBy) {
-        id
-      }
-    }`,
-    { input: record, uniqueBy: uniqueBy },
-  );
+  const response = (await gqlRequest(
+    generateRequest(
+      modelName,
+      RequestMethod.Mutation,
+      RequestOperation.Upsert,
+      {
+        queryArguments: {
+          input: record,
+          uniqueBy: uniqueBy,
+        },
+      },
+      _log_request,
+    ),
+  )) as Record<string, { id: number }>;
 
-  return response[`upsert${modelName}`].id;
+  return response[RequestOperation.Upsert + modelName].id;
 }

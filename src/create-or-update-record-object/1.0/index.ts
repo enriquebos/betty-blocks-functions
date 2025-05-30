@@ -5,14 +5,14 @@ function transformData(input: MappingItem[]): Record<string, any> {
       if (keyName) acc[keyName] = value;
       return acc;
     },
-    {} as Record<string, any>
+    {} as Record<string, any>,
   );
 }
 
 function mergeAndUpdate(source: any, target: any, flipUpdate: boolean = false): any {
   return Object.keys(source).reduce(
     (acc, key) => (key in acc ? { ...acc, [key]: flipUpdate ? target[key] : source[key] } : acc),
-    { ...target }
+    { ...target },
   );
 }
 
@@ -58,7 +58,7 @@ export async function createOrUpdateRecord({
   const formattedInput = transformData(mapping);
   const input = mergeAndUpdate(
     transformData(isUpdate ? mappingUpdate : mappingCreate),
-    isUpdate ? mergeAndUpdate(recordObject, formattedInput, true) : formattedInput
+    isUpdate ? mergeAndUpdate(recordObject, formattedInput, true) : formattedInput,
   );
 
   // @ts-expect-error: gql undefined

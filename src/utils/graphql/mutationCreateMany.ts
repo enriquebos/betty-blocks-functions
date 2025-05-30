@@ -1,21 +1,28 @@
-// @ts-nocheck
-import { gqlRequest } from "./utils";
+import { gqlRequest, generateRequest } from "./utils";
+import { RequestMethod, RequestOperation } from "./enums";
 
-export default async function mutationCreateMany<T extends string>(modelName: T, records: object[]): Promise<number[]> {
+export default async function mutationCreateMany(
+  modelName: string,
+  records: object[],
+  _log_request?: boolean,
+): Promise<number[]> {
   if (records.length === 0) {
-    return Promise.resolve([]);
+    return [];
   }
 
-  const response = await gqlRequest<{
-    [key in `createMany${T}`]: { id: number }[];
-  }>(
-    `mutation {
-      createMany${modelName}(input: $input) {
-        id
-      }
-    }`,
-    { input: records },
-  );
+  const response = (await gqlRequest(
+    generateRequest(
+      modelName,
+      RequestMethod.Mutation,
+      RequestOperation.CreateMany,
+      {
+        queryArguments: {
+          input: records,
+        },
+      },
+      _log_request,
+    ),
+  )) as Record<string, { id: number }[]>;
 
-  return response[`createMany${modelName}`].map((item) => item.id);
+  return response[RequestOperation.CreateMany + modelName].map((item) => item.id);
 }

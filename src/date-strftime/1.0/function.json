@@ -3,7 +3,7 @@
   "label": "Date/Time Formatter (strftime)",
   "category": "Misc",
   "icon": {
-    "name": "DateDayIcon",
+    "name": "DateTimeIcon",
     "color": "Orange"
   },
   "options": [
@@ -23,8 +23,27 @@
       }
     },
     {
-      "name": "timeZoneOffset",
-      "label": "Time offset in minutes",
+      "name": "offsetType",
+      "label": "Offset Type",
+      "meta": {
+        "type": "Select",
+        "validations": {
+          "required": false
+        },
+        "values": [
+          { "label": "Seconds", "value": "ss" },
+          { "label": "Minutes", "value": "mm" },
+          { "label": "Hours", "value": "hh" },
+          { "label": "Days", "value": "DD" },
+          { "label": "Weeks", "value": "WW" },
+          { "label": "Months", "value": "MM" },
+          { "label": "Years", "value": "YYYY" }
+        ]
+      }
+    },
+    {
+      "name": "offset",
+      "label": "Offset",
       "meta": {
         "type": "Number"
       },
@@ -35,10 +54,10 @@
     {
       "name": "useUtc",
       "label": "Use UTC",
-      "info": "Use server related time for any scheduled actions, this will handle summer and winter time.",
+      "info": "Use UTC time for any scheduled actions. When this is off it will use the servers time instead.",
       "meta": {
         "type": "Boolean",
-        "default": false
+        "default": true
       }
     },
     {
@@ -96,6 +115,10 @@
             "value": "%A, %B %d, %Y %I:%M %p"
           },
           {
+            "label": "1726756980000 (Epoch)",
+            "value": "%s"
+          },
+          {
             "label": "Custom strftime",
             "value": "custom"
           }
@@ -123,7 +146,14 @@
           "required": true
         },
         "output": {
-          "type": "Text"
+          "anyOf": [
+            {
+              "type": "Text"
+            },
+            {
+              "type": "Number"
+            }
+          ]
         }
       },
       "configuration": {

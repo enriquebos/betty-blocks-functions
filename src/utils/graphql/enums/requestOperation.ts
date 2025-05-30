@@ -1,4 +1,4 @@
-export enum requestOperation {
+export enum RequestOperation {
   One = "one",
   All = "all",
   Create = "create",

@@ -1,10 +1,10 @@
 import { gqlRequest, formatResponse, generateRequest } from "./utils";
-import { requestMethod, requestOperation } from "./enums";
+import { RequestMethod, RequestOperation } from "./enums";
 
 export default async function queryAll<T>(
   modelName: string,
-  options?: {
-    fields?: Partial<Record<keyof T, any>>;
+  options: {
+    fields: Partial<Record<keyof T, any>>;
     queryArguments?: {
       skip?: number;
       sort?: Sort;
@@ -12,16 +12,21 @@ export default async function queryAll<T>(
       where?: object;
       totalCount?: boolean;
     };
-  },
+    _log_request?: boolean;
+  }
 ): Promise<{ totalCount: number; data: T[] }> {
   const response = (await gqlRequest(
-    generateRequest<T>(modelName, requestMethod.Query, requestOperation.All, options),
+    generateRequest<T>(modelName, RequestMethod.Query, RequestOperation.All, options, options._log_request)
   )) as {
     [key: string]: { results: T[]; totalCount: number };
   };
 
+  if (!response || !response[`all${modelName}`]) {
+    return { totalCount: 0, data: [] };
+  }
+
   return {
     totalCount: response[`all${modelName}`].totalCount,
-    data: formatResponse(response[`all${modelName}`].results, options?.fields) as T[],
+    data: formatResponse(response[RequestOperation.All + modelName].results, options?.fields) as T[],
   };
 }

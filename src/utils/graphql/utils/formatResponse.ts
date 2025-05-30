@@ -1,10 +1,12 @@
 export default function formatResponse(
   response: object | object[],
-  result: FieldObject,
+  result?: FieldObject
 ): Record<string, any> | Record<string, any>[] {
   if (Array.isArray(response)) {
     return response.map((item) => formatResponse(item, result));
   }
+
+  if (!result) return {};
 
   return Object.keys(result).reduce(
     (formatted, key) => {
@@ -12,7 +14,11 @@ export default function formatResponse(
       const value = (response as Record<string, any>)[key];
 
       if (typeof valueFunc === "function") {
-        formatted[key] = new valueFunc(value);
+        if (valueFunc === Date) {
+          formatted[key] = new Date(value);
+        } else {
+          formatted[key] = valueFunc(value);
+        }
       } else if (typeof valueFunc === "object" && !(valueFunc instanceof Date)) {
         formatted[key] = formatResponse(value, valueFunc);
       } else {
@@ -21,6 +27,6 @@ export default function formatResponse(
 
       return formatted;
     },
-    {} as Record<string, any>,
+    {} as Record<string, any>
   );
 }

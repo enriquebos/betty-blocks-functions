@@ -1,21 +1,28 @@
-// @ts-nocheck
-import { gqlRequest } from "./utils";
+import { gqlRequest, generateRequest } from "./utils";
+import { RequestMethod, RequestOperation } from "./enums";
 
-export default async function mutationUpdateMany<T extends string>(
-  modelName: T,
+export default async function mutationUpdateMany(
+  modelName: string,
   partialRecord: object,
-  where: object = {},
+  options?: {
+    where?: object;
+    _log_request?: boolean;
+  }
 ): Promise<number[]> {
-  const response = await gqlRequest<{
-    [key in `updateMany${T}`]: { id: number }[];
-  }>(
-    `mutation {
-      updateMany${modelName}(where: $where, input: $input) {
-        id
-      }
-    }`,
-    { input: partialRecord, where: where },
-  );
+  const response = (await gqlRequest(
+    generateRequest(
+      modelName,
+      RequestMethod.Mutation,
+      RequestOperation.UpdateMany,
+      {
+        queryArguments: {
+          where: options?.where,
+          input: partialRecord,
+        },
+      },
+      options?._log_request
+    )
+  )) as Record<string, { id: number }[]>;
 
-  return response[`updateMany${modelName}`].map((item) => item.id);
+  return response[RequestOperation.UpdateMany + modelName].map((item) => item.id);
 }

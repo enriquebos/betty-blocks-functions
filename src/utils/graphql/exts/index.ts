@@ -1,2 +1,4 @@
-export { default as modelCount } from "./modelCount";
-export { default as GraphqlModel } from "./helper";
+import modelCount from "./modelCount";
+import GraphqlModel from "./helper";
+
+export { modelCount, GraphqlModel };

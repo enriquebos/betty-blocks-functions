@@ -2,20 +2,22 @@ import { strftime } from "../../utils/utilityFuncs";
 
 interface DateStrftimeParams {
   datetime: Date | string | Number;
+  offsetType: string;
+  offset: number;
+  useUtc: boolean;
   locale: string;
   strftimeDefault: string;
   strftimeStr?: string;
-  timeZoneOffset: number;
-  useUtc: boolean;
 }
 
 const dateStrftime = async ({
   datetime,
+  offsetType,
+  offset,
+  useUtc,
   locale,
   strftimeDefault,
   strftimeStr,
-  timeZoneOffset,
-  useUtc,
 }: DateStrftimeParams): Promise<{ result: string }> => {
   const strFormat = strftimeDefault !== "custom" ? strftimeDefault : strftimeStr;
   let datetimeObject: Date;
@@ -51,7 +53,33 @@ const dateStrftime = async ({
     throw new Error("Invalid datetime input, is the notation correct?");
   }
 
-  return { result: strftime(strFormat, locale, datetimeObject, timeZoneOffset, useUtc) };
+  if (offset && offsetType) {
+    switch (offsetType) {
+      case "ss":
+        offset = offset / 60;
+        break;
+      case "mm":
+        offset = offset;
+        break;
+      case "hh":
+        offset = offset * 60;
+        break;
+      case "DD":
+        offset = offset * 3600;
+        break;
+      case "WW":
+        offset = offset * 21600;
+        break;
+      case "MM":
+        offset = offset * 12_960_000;
+        break;
+      case "YYYY":
+        offset = offset * 777_600_000;
+        break;
+    }
+  }
+
+  return { result: strftime(strFormat, locale, datetimeObject, offset, useUtc) };
 };
 
 export default dateStrftime;

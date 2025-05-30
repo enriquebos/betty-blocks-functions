@@ -1,4 +1,4 @@
-export enum requestMethod {
+export enum RequestMethod {
   Query = "query",
   Mutation = "mutation",
 }

@@ -1,21 +1,28 @@
-// @ts-nocheck
-import { gqlRequest } from "./utils";
+import { gqlRequest, generateRequest } from "./utils";
+import { RequestMethod, RequestOperation } from "./enums";
 
-export default async function mutationDeleteMany<T extends string>(modelName: T, ids: number[]): Promise<number[]> {
+export default async function mutationDeleteMany(
+  modelName: string,
+  ids: number[],
+  _log_request?: boolean,
+): Promise<number[]> {
   if (ids.length === 0) {
-    return Promise.resolve([]);
+    return [];
   }
 
-  const response = await gqlRequest<{
-    [key in `deleteMany${T}`]: { id: number }[];
-  }>(
-    `mutation {
-      deleteMany${modelName}(input: $input) {
-        id
-      }
-    }`,
-    { input: { ids: ids } },
-  );
+  const response = (await gqlRequest(
+    generateRequest(
+      modelName,
+      RequestMethod.Mutation,
+      RequestOperation.DeleteMany,
+      {
+        queryArguments: {
+          input: { ids },
+        },
+      },
+      _log_request,
+    ),
+  )) as Record<string, { id: number }[]>;
 
-  return response[`deleteMany${modelName}`].map((item) => item.id);
+  return response[RequestOperation.DeleteMany + modelName].map((item) => item.id);
 }

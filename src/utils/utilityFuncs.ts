@@ -12,7 +12,11 @@ export function variableMap(variables: Array<{ key: string; value: string }>): R
   return Object.fromEntries(variables.map(({ key, value }) => [key, value]));
 }
 
-export function formatStringMap(text: string, variables: Array<{ key: string; value: string }>): string {
+export function formatStringMap(text: string | undefined, variables: Array<{ key: string; value: string }>): string {
+  if (!text) {
+    return "";
+  }
+
   const regex = /\{\{(!|&|\{)?\s*(.*?)\s*}}+/g;
   const variableMap = new Map(variables.map((v) => [v.key, v.value]));
 
@@ -24,6 +28,20 @@ export function formatStringMap(text: string, variables: Array<{ key: string; va
       return match;
     }
   });
+}
+
+export function getAllValues(obj: any): any {
+  let values: any[] = [];
+
+  for (const key in obj) {
+    if (typeof obj[key] === "object" && obj[key] !== null) {
+      values = values.concat(getAllValues(obj[key]));
+    } else {
+      values.push(obj[key]);
+    }
+  }
+
+  return values;
 }
 
 export function strftime(
@@ -39,7 +57,7 @@ export function strftime(
 
   locale = locale.toLowerCase();
   const nTime = date.getTime();
-  const newDate = new Date(nTime + offset_in_minutes * 60_0000);
+  const newDate = new Date(nTime + offset_in_minutes * 60_000);
 
   const nDate = useUtc ? newDate.getUTCDate() : newDate.getDate();
   const nYear = useUtc ? newDate.getUTCFullYear() : newDate.getFullYear();

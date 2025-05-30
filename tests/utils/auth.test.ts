@@ -18,6 +18,7 @@ describe("jwtDecode", () => {
   });
 
   it("should throw error on non-string token", () => {
+    // @ts-ignore
     expect(() => jwtDecode(null)).toThrow("Invalid token specified");
   });
 

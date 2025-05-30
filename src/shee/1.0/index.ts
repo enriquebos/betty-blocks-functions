@@ -1,17 +1,16 @@
-import mutationCreate from "../../utils/graphql/mutationCreate";
-import mutationDelete from "../../utils/graphql/mutationDelete";
-import mutationUpdate from "../../utils/graphql/mutationUpdate";
-import mutationUpsert from "../../utils/graphql/mutationUpsert";
-import mutationCreateMany from "../../utils/graphql/mutationCreateMany";
-import mutationDeleteMany from "../../utils/graphql/mutationDeleteMany";
-import mutationUpdateMany from "../../utils/graphql/mutationUpdateMany";
-import mutationUpsertMany from "../../utils/graphql/mutationUpsertMany";
-import queryOne from "../../utils/graphql/queryOne";
-import GraphqlModel from "../../utils/graphql/exts/helper";
-
-import { queryAll } from "../../utils/graphql";
-
-import { gqlRequest } from "../../utils/graphql/utils";
+import {
+  mutationCreate,
+  mutationDelete,
+  mutationUpdate,
+  mutationUpsert,
+  mutationCreateMany,
+  mutationDeleteMany,
+  mutationUpdateMany,
+  mutationUpsertMany,
+  queryOne,
+  queryAll,
+} from "../../utils/graphql";
+import { modelCount } from "../../utils/graphql/exts";
 
 interface WebUser {
   id: number;
@@ -42,7 +41,7 @@ const testTing = async () => {
     _and: [
       {
         webuser: {
-          emailAddress: { eq: "a@a.com" },
+          emailAddress: { eq: "a@ade.com" },
         },
       },
     ],
@@ -53,11 +52,35 @@ const testTing = async () => {
     order: "ASC",
   };
 
-  const newPokemonData = { name: "Panda 0", weight: 150 };
-  const newPokemonsData = [
-    { name: "Panda 1", weight: 150 },
-    { name: "Panda 2", weight: 150 },
-  ];
+  // const newPokemonData = { name: "Panda 0", weight: 150 };
+  // const newPokemonsData = [
+  //   { name: "Panda 1", weight: 150 },
+  //   { name: "Panda 2", weight: 150 },
+  // ];
+
+  const data = await queryOne<Pokemon>("Pokemon", { fields: pokeFields, queryArguments: { where: where } });
+  // const newPokemon = await mutationCreate("Pokemon", { input: newPokemonData });
+
+  // const deletePokemon = await mutationDelete("Pokemon", 1054);
+
+  // const updatePokemons = await mutationUpdateMany("Pokemon", { name: "Panda SAME2!!!" }, { whe});
+
+  // const updatePokemon = await mutationUpdate("Pokemon", 1053, {
+  //   name: "Panda!!!",
+  // });
+
+  // const upsertPokemon = await mutationUpsert(
+  //   "Pokemon",
+  //   {
+  //     name: "Panda UP!!!",
+  //     weight: 15021,
+  //   },
+  //   ["name"]
+  // );
+
+  // const modelc = await modelCount("Pokemon");
+
+  throw new Error(JSON.stringify(data));
 
   // Create graphql object
   // Handle mass delete model
@@ -104,22 +127,20 @@ const testTing = async () => {
   // );
 
   // @ts-ignore
-  const response = await gql(
-    `mutation {
-      upsertPokemon(input: $input, uniqueBy: $uniqueBy) {
-        id
-      }
-    }`,
-    {
-      input: {
-        name: "Panda UP!!!",
-        weight: 150,
-      },
-      uniqueBy: ["weight"],
-    },
-  );
-
-  throw new Error(JSON.stringify(response));
+  // const response = await gql(
+  //   `mutation {
+  //     upsertPokemon(input: $input, uniqueBy: $uniqueBy) {
+  //       id
+  //     }
+  //   }`,
+  //   {
+  //     input: {
+  //       name: "Panda UP!!!",
+  //       weight: 150,
+  //     },
+  //     uniqueBy: ["weight"],
+  //   },
+  // );
 
   // const upsertPokemons = await mutationUpsertMany("Pokemon", [
   //   {
