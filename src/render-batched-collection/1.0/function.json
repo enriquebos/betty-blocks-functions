@@ -1,0 +1,35 @@
+{
+  "description": "Resolves a (auto batched) collection to only data",
+  "label": "Resolve Auto Batched Collection",
+  "category": "Data",
+  "icon": {
+    "name": "ArrayIcon",
+    "color": "Orange"
+  },
+  "options": [
+    {
+      "meta": {
+        "type": "Collection",
+        "validations": {
+          "required": true
+        },
+        "allowLazyCollection": true
+      },
+      "name": "collection",
+      "label": "Collection",
+      "info": "(auto batched) collection to resolve"
+    },
+    {
+      "meta": {
+        "type": "Output",
+        "output": {
+          "type": "JSON"
+        }
+      },
+      "name": "resolved",
+      "label": "resolved",
+      "info": "Resolved array"
+    }
+  ],
+  "yields": "NONE"
+}
