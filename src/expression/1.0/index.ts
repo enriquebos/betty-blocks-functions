@@ -1,5 +1,5 @@
-import templayed from "../../utils/templayed";
-import { variableMap } from "../../utils/utilityFuncs";
+import templayed from "../../utils/templating/templayed";
+import { variableMap } from "../../utils";
 
 interface Variable {
   key: string;

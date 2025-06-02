@@ -3,7 +3,7 @@ import path from "path";
 
 async function replaceLiquidJsFile() {
   const __dirname = path.dirname(new URL(import.meta.url).pathname);
-  const srcFile = path.join(__dirname, "src", "utils", "liquid.min.js");
+  const srcFile = path.join(__dirname, "src", "utils", "liquidjs", "liquid.min.js");
   const destFile = path.join(__dirname, "functions", "utils", "liquid.min.js");
 
   try {

@@ -1,4 +1,4 @@
-import { strftime } from "../../utils/utilityFuncs";
+import { strftime } from "../../utils";
 
 interface DateStrftimeParams {
   datetime: Date | string | Number;

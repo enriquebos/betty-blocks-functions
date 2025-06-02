@@ -8,7 +8,7 @@ interface ContextItem {
 }
 
 export default function renderLiquidTemplate(template: string, context: ContextItem[]): string {
-  if (template.length === 0 || context.length === 0) {
+  if (template.length === 0) {
     return template;
   }
 
@@ -25,6 +25,6 @@ export default function renderLiquidTemplate(template: string, context: ContextI
         ctx[key] = value;
       }
       return ctx;
-    }, {}),
+    }, {})
   );
 }

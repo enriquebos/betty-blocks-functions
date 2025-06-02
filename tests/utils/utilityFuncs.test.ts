@@ -1,4 +1,5 @@
-import { chunkArray, variableMap, formatStringMap, strftime } from "../../src/utils/utilityFuncs";
+import { replaceTemplateVariables } from "../../src/utils/templating";
+import { chunkArray, variableMap, strftime } from "../../src/utils";
 
 describe("chunkArray", () => {
   it("should chunk an array into smaller arrays of given size", () => {
@@ -96,12 +97,19 @@ describe("variableMap", () => {
   });
 });
 
-describe("formatStringMap", () => {
+describe("replaceTemplateVariables", () => {
   test("should replace variables correctly", () => {
     const text = "Hello, {{ name }}!";
     const variables = [{ key: "name", value: "Alice" }];
 
-    expect(formatStringMap(text, variables)).toBe("Hello, Alice!");
+    expect(replaceTemplateVariables(text, variables)).toBe("Hello, Alice!");
+  });
+
+  test("should be empty if test is empty", () => {
+    const text: string | undefined = undefined;
+    const variables = [{ key: "name", value: "Alice" }];
+
+    expect(replaceTemplateVariables(text, variables)).toBe("");
   });
 
   test("should replace multiple occurrences of the same variable", () => {
@@ -111,7 +119,7 @@ describe("formatStringMap", () => {
       { key: "name", value: "Bob" },
     ];
 
-    expect(formatStringMap(text, variables)).toBe("Hi, Bob! Hi, again!");
+    expect(replaceTemplateVariables(text, variables)).toBe("Hi, Bob! Hi, again!");
   });
 
   test("should leave unknown variables unchanged and log warning", () => {
@@ -119,7 +127,7 @@ describe("formatStringMap", () => {
     const text = "Welcome, {{ user }}!";
     const variables = [{ key: "name", value: "Charlie" }];
 
-    expect(formatStringMap(text, variables)).toBe("Welcome, {{ user }}!");
+    expect(replaceTemplateVariables(text, variables)).toBe("Welcome, {{ user }}!");
     expect(console.log).toHaveBeenCalledWith("Unknown map variable 'user' in text field");
   });
 
@@ -130,21 +138,21 @@ describe("formatStringMap", () => {
       { key: "value", value: "Doe" },
     ];
 
-    expect(formatStringMap(text, variables)).toBe("Escaped: John and Doe");
+    expect(replaceTemplateVariables(text, variables)).toBe("Escaped: John and Doe");
   });
 
   test("should handle an empty variables array", () => {
     const text = "Hello, {{ name }}!";
     const variables: { key: string; value: string }[] = [];
 
-    expect(formatStringMap(text, variables)).toBe("Hello, {{ name }}!");
+    expect(replaceTemplateVariables(text, variables)).toBe("Hello, {{ name }}!");
   });
 
   test("should return original text when there are no placeholders", () => {
     const text = "No placeholders here.";
     const variables = [{ key: "unused", value: "value" }];
 
-    expect(formatStringMap(text, variables)).toBe("No placeholders here.");
+    expect(replaceTemplateVariables(text, variables)).toBe("No placeholders here.");
   });
 
   test("should handle overlapping variable names correctly", () => {
@@ -154,7 +162,7 @@ describe("formatStringMap", () => {
       { key: "variable", value: "two" },
     ];
 
-    expect(formatStringMap(text, variables)).toBe("one and two");
+    expect(replaceTemplateVariables(text, variables)).toBe("one and two");
   });
 });
 
@@ -238,10 +246,10 @@ describe("strftime", () => {
         "en",
         new Date("2024-10-06T11:30:45Z"),
         0,
-        true,
-      ),
+        true
+      )
     ).toBe(
-      "Sun,Sunday,Oct,October,Sun 06 Oct 2024 11:30:45 GMT,20,06,6,2024-10-06,2024,24,11,11,280,11,11,10,10,30,AM,am,1728214245,45,7,40,%w,10/6/2024,1:30:45 PM,24,2024,+0200,Central European Summer Time,GMT+2",
+      "Sun,Sunday,Oct,October,Sun 06 Oct 2024 11:30:45 GMT,20,06,6,2024-10-06,2024,24,11,11,280,11,11,10,10,30,AM,am,1728214245,45,7,40,%w,10/6/2024,1:30:45 PM,24,2024,+0200,Central European Summer Time,GMT+2"
     );
   });
 });

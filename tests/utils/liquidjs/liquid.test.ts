@@ -1,4 +1,4 @@
-import renderLiquidTemplate from "../../src/utils/liquid";
+import renderLiquidTemplate from "../../../src/utils/liquidjs";
 
 describe("renderLiquidTemplate", () => {
   it("should render a basic template with context", () => {
@@ -7,6 +7,14 @@ describe("renderLiquidTemplate", () => {
 
     const result = renderLiquidTemplate(template, context);
     expect(result).toBe("Hello, World!");
+  });
+
+  it("should not render when template is empty", () => {
+    const template = "";
+    const context = [{ key: "name", value: "World" }];
+
+    const result = renderLiquidTemplate(template, context);
+    expect(result).toBe("");
   });
 
   it("should handle multiple context items", () => {

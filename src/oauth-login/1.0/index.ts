@@ -1,4 +1,4 @@
-import jwtDecode from "../../utils/auth";
+import { jwtDecode } from "../../utils";
 
 interface TokenParams {
   tokenEndpoint: string;

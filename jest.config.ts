@@ -8,6 +8,7 @@ const config: JestConfigWithTsJest = {
   },
   collectCoverage: true,
   collectCoverageFrom: ["<rootDir>/src/**/**/*.{ts,tsx}", "!<rootDir>/src/utils/"],
+  coveragePathIgnorePatterns: ["/node_modules/", "/test-action/1.0/", "/background-action/1.0/"],
   coverageThreshold: {
     global: {
       branches: 80,

@@ -1,6 +1,6 @@
 import { modelCount } from "../../utils/graphql/exts";
 import { whereToObject } from "../../utils/graphql/utils";
-import { formatStringMap } from "../../utils/utilityFuncs";
+import { replaceTemplateVariables } from "../../utils/templating";
 
 interface ModelRecordCountParams {
   model: { name: string };
@@ -13,7 +13,7 @@ const modelRecordCount = async ({
   filter,
   filterVars,
 }: ModelRecordCountParams): Promise<{ result: object | number }> => ({
-  result: await modelCount(name, { where: whereToObject(formatStringMap(filter, filterVars)) }),
+  result: await modelCount(name, { where: whereToObject(replaceTemplateVariables(filter, filterVars)) }),
 });
 
 export default modelRecordCount;

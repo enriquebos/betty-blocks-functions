@@ -1,16 +1,13 @@
+import { getRandomIntInRange } from "../../utils";
+
 const generateRandomNumber = async ({
-  min,
-  max,
+  min = 0,
+  max = 100,
 }: {
   min?: number;
   max?: number;
-}): Promise<{ result: string | number }> => {
-  const minNumber: number = Math.ceil(min ?? 0);
-  const maxNumber: number = Math.floor(max ?? 100);
-
-  return {
-    result: Math.floor(Math.random() * (maxNumber - minNumber + 1)) + minNumber,
-  };
-};
+}): Promise<{ result: number }> => ({
+  result: getRandomIntInRange(min, max),
+});
 
 export default generateRandomNumber;
