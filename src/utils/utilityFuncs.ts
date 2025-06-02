@@ -1,3 +1,5 @@
+import type { MappingItem } from "../types/global";
+
 export function* chunkArray<T>(array: T[], chunkSize: number): Generator<T[], void, void> {
   if (chunkSize <= 0 || !Number.isInteger(chunkSize)) {
     throw new RangeError("chunkSize must be a positive integer");
@@ -10,6 +12,24 @@ export function* chunkArray<T>(array: T[], chunkSize: number): Generator<T[], vo
 
 export function variableMap(variables: Array<{ key: string; value: string }>): Record<string, string> {
   return Object.fromEntries(variables.map(({ key, value }) => [key, value]));
+}
+
+export function mergeAndUpdate(source: any, target: any, flipUpdate: boolean = false): any {
+  return Object.keys(source).reduce(
+    (acc, key) => (key in acc ? { ...acc, [key]: flipUpdate ? target[key] : source[key] } : acc),
+    { ...target },
+  );
+}
+
+export function transformData(input: MappingItem[]): Record<string, any> {
+  return input.reduce(
+    (acc, { key, value }) => {
+      const keyName = key[0]?.name;
+      if (keyName) acc[keyName] = value;
+      return acc;
+    },
+    {} as Record<string, any>,
+  );
 }
 
 export function getAllValues(obj: any): any {
@@ -31,7 +51,7 @@ export function strftime(
   locale: string,
   date: Date,
   offset_in_minutes: number,
-  useUtc: boolean
+  useUtc: boolean,
 ): string {
   if (typeof sFormat !== "string") {
     return "";

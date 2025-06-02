@@ -109,7 +109,7 @@ describe("dateStrftime", () => {
         locale: "en",
         strftimeDefault: "custom",
         strftimeStr: undefined,
-      })
+      }),
     ).rejects.toThrow("Custom strtime is not defined");
   });
 
@@ -122,7 +122,7 @@ describe("dateStrftime", () => {
         useUtc: false,
         locale: "en",
         strftimeDefault: "%x",
-      })
+      }),
     ).rejects.toThrow("Invalid datetime input, is the notation correct?");
   });
 
@@ -135,7 +135,7 @@ describe("dateStrftime", () => {
         useUtc: false,
         locale: "en",
         strftimeDefault: "custom",
-      })
+      }),
     ).rejects.toThrow("Custom strtime is not defined");
   });
 
@@ -149,7 +149,7 @@ describe("dateStrftime", () => {
         useUtc: false,
         locale: "en",
         strftimeDefault: "%Y",
-      })
+      }),
     ).resolves.toEqual({ result: "string-date" });
   });
 
@@ -165,7 +165,7 @@ describe("dateStrftime", () => {
         useUtc: false,
         locale: "en",
         strftimeDefault: "%Y",
-      })
+      }),
     ).resolves.toEqual({ result: "unix-str" });
   });
 
@@ -204,7 +204,7 @@ describe("dateStrftime", () => {
         useUtc: false,
         locale: "en",
         strftimeDefault: "%x",
-      })
+      }),
     ).rejects.toThrow("Invalid date object type (object) for: [object Object]");
   });
 });

@@ -1,13 +1,5 @@
 import { jwtDecode } from "../../utils";
-
-interface TokenParams {
-  tokenEndpoint: string;
-  clientId: string;
-  clientSecret: string;
-  redirectUri: string;
-  grantType: string | "authorization_code" | "refresh_token";
-  code: string;
-}
+import type { TokenParams } from "../../types/functions";
 
 interface AccessTokenResponse {
   access_token: string;

@@ -5,6 +5,7 @@ export default async function gqlRequest<T>(
     id?: number;
     where?: object;
     uniqueBy?: string[];
+    validationSets?: string[];
   } = {},
 ): Promise<T> {
   if (operation.length > 4194304) {

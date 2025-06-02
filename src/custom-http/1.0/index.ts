@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { renderLiquidTemplate } from "../../utils";
+import renderLiquidTemplate from "../../utils/liquidjs";
 import { variableMap } from "../../utils";
 
 interface CustomHttpOptions {
