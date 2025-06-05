@@ -73,8 +73,11 @@ describe("Graphql where", () => {
   });
 
   it("should throw if where is not an object or is null", () => {
+    // @ts-expect-error Testing invalid input
     expect(() => validateWhereObject(null)).toThrow("Where clause must be a non-null object");
+    // @ts-expect-error Testing invalid input
     expect(() => validateWhereObject("string")).toThrow("Where clause must be a non-null object");
+    // @ts-expect-error Testing invalid input
     expect(() => validateWhereObject(123)).toThrow("Where clause must be a non-null object");
   });
 
@@ -112,7 +115,7 @@ describe("Graphql where", () => {
     };
 
     expect(() => validateWhereObject(where)).toThrow(
-      /Error in '_or' array element at index 1: Where clause must be a non-null object/,
+      /Error in '_or' array element at index 1: Where clause must be a non-null object/
     );
   });
 

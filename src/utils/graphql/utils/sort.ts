@@ -2,7 +2,7 @@ import { getAllValues } from "../../utilityFuncs";
 
 export function validateSortObject<T>(sort: T): void {
   const allowedKeys = ["field", "order", "relation"];
-  const sortKeys = Object.keys(sort);
+  const sortKeys = Object.keys(sort as object);
   const invalidKeys = sortKeys.filter((key) => !allowedKeys.includes(key));
   let sortType;
 
@@ -15,7 +15,7 @@ export function validateSortObject<T>(sort: T): void {
       throw new Error("'order' or 'field' cannot be defined when 'relation' key is defined");
     }
 
-    const objectValues = getAllValues(sort);
+    const objectValues = getAllValues(sort as Record<string, unknown>);
     if (objectValues.length !== 1) {
       throw new Error("A sort object relation cannot have more than one sort order defined");
     }
@@ -25,15 +25,15 @@ export function validateSortObject<T>(sort: T): void {
     if (sortKeys.length !== 2) {
       throw new Error("Both field and order have to be defined in a sort object");
     }
-    sortType = (sort as any).order;
+    sortType = (sort as { order: string }).order;
   }
 
-  if (!["ASC", "DESC"].includes(sortType)) {
+  if (!["ASC", "DESC"].includes(sortType as string)) {
     throw new Error(`Sort object order has to be either ASC or DESC not '${sortType}' (case sensitive)`);
   }
 }
 
-export function sortToString<T>(sort: T, validate: boolean = true): string {
+export function sortToString<T>(sort: T, validate = true): string {
   if (validate) {
     validateSortObject(sort);
   }
@@ -48,7 +48,7 @@ export function sortToString<T>(sort: T, validate: boolean = true): string {
   return result.slice(2, result.length - 2);
 }
 
-export function sortToObject<T>(sort: string, validate: boolean = true): T {
+export function sortToObject<T>(sort: string, validate = true): T {
   const parsed = JSON.parse(`{${sort}}`.replace(/(\w+):/g, '"$1":').replace(/:\s*(\w+)/g, ': "$1"'));
 
   if (validate) {

@@ -1,7 +1,7 @@
-export declare type MappingItem = {
-  key: Array<{
+export declare interface MappingItem {
+  key: {
     kind: string;
     name: string;
-  }>;
-  value: any;
-};
+  }[];
+  value: unknown;
+}

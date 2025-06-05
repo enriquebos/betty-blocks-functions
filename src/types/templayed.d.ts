@@ -1,4 +1,4 @@
 declare module "utils/templayed" {
-  const templayed: (template: string) => (vars: any) => string;
+  const templayed: (template: string) => (vars: uknown) => string;
   export default templayed;
 }

@@ -2,9 +2,9 @@ import { gqlRequest } from "../utils";
 
 export default async function createOrUpdateRecord(
   modelName: string,
-  record: Record<string, any>,
-  input: object,
-  validates?: boolean,
+  record: Record<string, unknown>,
+  input: unknown,
+  validates?: boolean
 ): Promise<object> {
   const isUpdate = Boolean(record);
   const mutationName = isUpdate ? `update${modelName}` : `create${modelName}`;
@@ -14,11 +14,11 @@ export default async function createOrUpdateRecord(
     }
   }`;
 
-  const data: { [key: string]: any } = await gqlRequest(mutation, {
+  const data = (await gqlRequest(mutation, {
     input,
-    ...(isUpdate && { id: record.id }),
+    ...(isUpdate && typeof record.id === "number" ? { id: record.id as number } : {}),
     validationSets: validates ? ["default"] : ["empty"],
-  });
+  })) as Record<string, unknown>;
 
-  return { ...data[mutationName], ...input };
+  return { ...(data[mutationName] as object), ...(input as object) };
 }

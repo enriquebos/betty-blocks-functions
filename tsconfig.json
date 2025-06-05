@@ -13,10 +13,11 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "noUnusedLocals": false,
+    "strict": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
   "compileOnSave": true,
-  "include": ["src/**/index.ts", "src/**/function.json", "src"]
+  "include": ["src/**/index.ts", "src/**/function.json", "src"],
 }

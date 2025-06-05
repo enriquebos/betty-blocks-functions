@@ -4,7 +4,7 @@ import { groupBy } from "remeda";
 
 interface ContextItem {
   key: string;
-  value: any;
+  value: unknown;
 }
 
 export default function renderLiquidTemplate(template: string, context: ContextItem[]): string {
@@ -14,17 +14,17 @@ export default function renderLiquidTemplate(template: string, context: ContextI
 
   const engine = new Liquid();
 
-  engine.registerFilter("group", (collection: any[], key: string) => groupBy(collection, (item) => item[key]));
+  engine.registerFilter("group", (collection: never[], key: string) => groupBy(collection, (item) => item[key]));
 
   return engine.parseAndRenderSync(
     template,
-    context.reduce<Record<string, any>>((ctx, { key, value }) => {
+    context.reduce<Record<string, unknown>>((ctx, { key, value }) => {
       try {
-        ctx[key] = JSON.parse(value);
-      } catch (SyntaxError) {
+        ctx[key] = JSON.parse(value as string);
+      } catch {
         ctx[key] = value;
       }
       return ctx;
-    }, {}),
+    }, {})
   );
 }

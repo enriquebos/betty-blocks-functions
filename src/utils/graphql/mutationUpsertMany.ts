@@ -3,8 +3,8 @@ import { RequestMethod, RequestOperation } from "./enums";
 
 export default async function mutationUpsertMany(
   modelName: string,
-  records: object[],
-  _log_request?: boolean,
+  records: Record<string, unknown>[],
+  _log_request?: boolean
 ): Promise<number[]> {
   if (records.length === 0) {
     return [];
@@ -20,8 +20,8 @@ export default async function mutationUpsertMany(
           input: records,
         },
       },
-      _log_request,
-    ),
+      _log_request
+    )
   )) as Record<string, { id: number }[]>;
 
   return response[RequestOperation.UpsertMany + modelName].map((item) => item.id);

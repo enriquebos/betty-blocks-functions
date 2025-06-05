@@ -26,7 +26,8 @@ jest.mock("../../../../src/utils/graphql", () => ({
   queryAll: jest.fn(),
 }));
 
-jest.spyOn(require("../../../../src/utils/graphql/exts"), "modelCount").mockImplementation(jest.fn());
+import * as graphqlExts from "../../../../src/utils/graphql/exts";
+jest.spyOn(graphqlExts, "modelCount").mockImplementation(jest.fn());
 
 describe("GraphqlModel", () => {
   beforeEach(() => {
@@ -177,5 +178,42 @@ describe("GraphqlModel", () => {
 
     expect(mutationUpsertMany).toHaveBeenCalledWith("TestModel", records, true);
     expect(result).toEqual(resultIds);
+  });
+
+  it("mutationUpdateMany uses default where when not provided", async () => {
+    const resultIds = [1];
+    (mutationUpdateMany as jest.Mock).mockResolvedValue(resultIds);
+
+    const model = new GraphqlModel("TestModel", false, true);
+    const partialRecord = { status: "inactive" };
+
+    const result = await model.mutationUpdateMany(partialRecord);
+
+    expect(mutationUpdateMany).toHaveBeenCalledWith("TestModel", partialRecord, {
+      where: {},
+      _log_request: true,
+    });
+    expect(result).toEqual(resultIds);
+  });
+
+  it("queryOne passes _log_request when provided", async () => {
+    const fakeResult = { id: 2 };
+    (queryOne as jest.Mock).mockResolvedValue(fakeResult);
+
+    const model = new GraphqlModel("TestModel");
+    const fields = { id: Boolean };
+
+    const result = await model.queryOne<{ id: number }>({
+      fields,
+      queryArguments: { where: { id: 2 } },
+      _log_request: true,
+    });
+
+    expect(queryOne).toHaveBeenCalledWith("TestModel", {
+      fields,
+      queryArguments: { where: { id: 2 } },
+      _log_request: true,
+    });
+    expect(result).toEqual(fakeResult);
   });
 });

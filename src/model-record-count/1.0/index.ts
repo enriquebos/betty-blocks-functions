@@ -13,7 +13,9 @@ const modelRecordCount = async ({
   filter,
   filterVars,
 }: ModelRecordCountParams): Promise<{ result: object | number }> => ({
-  result: await modelCount(name, { where: whereToObject(replaceTemplateVariables(filter, filterVars)) }),
+  result: await modelCount(name, {
+    where: whereToObject(replaceTemplateVariables(filter, filterVars as { key: string; value: string }[])),
+  }),
 });
 
 export default modelRecordCount;

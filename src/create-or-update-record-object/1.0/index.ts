@@ -11,15 +11,19 @@ export async function createOrUpdateRecordObject({
   mappingCreate,
   mappingUpdate,
   validates = true,
-}: CreateOrUpdateRecordParams): Promise<Record<string, any>> {
+}: CreateOrUpdateRecordParams): Promise<Record<string, unknown>> {
   const isUpdate = Boolean(recordObject);
-  const baseInput = transformData(mapping);
-  const operationSpecificInput = transformData(isUpdate ? mappingUpdate : mappingCreate);
+  const baseInput = transformData(mapping) as Record<string, unknown>;
+  const operationSpecificInput = transformData(isUpdate ? mappingUpdate : mappingCreate) as Record<string, unknown>;
+  const safeRecordObject = (recordObject ?? {}) as Record<string, unknown>;
   const input = isUpdate
-    ? mergeAndUpdate(operationSpecificInput, mergeAndUpdate(recordObject, baseInput, true))
+    ? (mergeAndUpdate(
+        operationSpecificInput,
+        mergeAndUpdate(safeRecordObject, baseInput, true) as Record<string, unknown>
+      ) as Record<string, unknown>)
     : { ...baseInput, ...operationSpecificInput };
 
-  return { as: await createOrUpdateRecord(modelName, recordObject, input, validates) };
+  return { as: await createOrUpdateRecord(modelName, safeRecordObject, input, validates) };
 }
 
 export default createOrUpdateRecordObject;

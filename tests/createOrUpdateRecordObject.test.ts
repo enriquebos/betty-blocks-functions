@@ -53,7 +53,7 @@ describe("createOrUpdateRecordObject", () => {
     const result = await createOrUpdateRecordObject(params);
 
     expect(mockTransformData).toHaveBeenCalledTimes(2);
-    expect(mockCreateOrUpdateRecord).toHaveBeenCalledWith("TestModel", undefined, expectedInput, true);
+    expect(mockCreateOrUpdateRecord).toHaveBeenCalledWith("TestModel", {}, expectedInput, true);
     expect(result).toEqual({ as: mockResult });
   });
 

@@ -1,6 +1,6 @@
 export declare interface CreateOrUpdateRecordParams {
   cuRecord: {
-    data?: Record<string, any>;
+    data?: Record<string, unknown>;
     model: {
       name: string;
     };

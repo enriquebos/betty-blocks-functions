@@ -1,15 +1,15 @@
 import { generateRequest } from "../../../../src/utils/graphql/utils";
 import { RequestOperation, RequestMethod } from "../../../../src/utils/graphql/enums";
 
-declare type Sort = {
+declare interface Sort {
   field?: string;
   order?: "ASC" | "DESC";
   relation?: Record<string, "ASC" | "DESC" | NestedSort>;
-};
+}
 
-declare type NestedSort = {
+declare interface NestedSort {
   [key: string]: "ASC" | "DESC" | NestedSort;
-};
+}
 
 describe("generateRequest", () => {
   const mockFields = {
@@ -72,7 +72,7 @@ describe("generateRequest", () => {
     expect(() =>
       generateRequest("Pokemon", RequestMethod.Query, RequestOperation.All, {
         queryArguments: { skip: -1 },
-      }),
+      })
     ).toThrow("Skip value must be between 0 and 2147483647 (32bit)");
   });
 
@@ -80,7 +80,7 @@ describe("generateRequest", () => {
     expect(() =>
       generateRequest("Pokemon", RequestMethod.Query, RequestOperation.All, {
         queryArguments: { take: 6000 },
-      }),
+      })
     ).toThrow("Take value must be between 1 and 5000");
   });
 
@@ -88,7 +88,7 @@ describe("generateRequest", () => {
     expect(() =>
       generateRequest("Pokemon", RequestMethod.Query, RequestOperation.All, {
         queryArguments: { uniqueBy: ["id"] },
-      }),
+      })
     ).toThrow("Cannot use uniqueBy for non-upserting mutations");
   });
 
@@ -96,7 +96,7 @@ describe("generateRequest", () => {
     expect(() =>
       generateRequest("Pokemon", RequestMethod.Query, RequestOperation.All, {
         queryArguments: { validate: true },
-      }),
+      })
     ).toThrow("Cannot validate request for query");
   });
 
@@ -104,7 +104,7 @@ describe("generateRequest", () => {
     expect(() =>
       generateRequest("Pokemon", RequestMethod.Mutation, RequestOperation.Delete, {
         queryArguments: { validate: true },
-      }),
+      })
     ).toThrow("Cannot input validate for delete since it doesn't validate anything");
   });
 
@@ -165,6 +165,7 @@ describe("generateRequest", () => {
   });
 
   it("logs the request when _log_request is true", () => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
 
     generateRequest("Pokemon", RequestMethod.Query, RequestOperation.All, {}, true);

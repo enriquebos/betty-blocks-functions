@@ -17,14 +17,14 @@ export default class GraphqlModel {
   massMutate: boolean;
   _log_request: boolean;
 
-  constructor(modelName: string, massMutate: boolean = false, _log_request: boolean = false) {
+  constructor(modelName: string, massMutate = false, _log_request = false) {
     this.modelName = modelName;
     this.massMutate = massMutate;
     this._log_request = _log_request;
   }
 
   async queryOne<T>(options: {
-    fields: Partial<Record<keyof T, any>>;
+    fields: Partial<Record<keyof T, unknown>>;
     queryArguments?: {
       where?: object;
     };
@@ -34,7 +34,7 @@ export default class GraphqlModel {
   }
 
   async queryAll<T>(options: {
-    fields: Partial<Record<keyof T, any>>;
+    fields: Partial<Record<keyof T, unknown>>;
     queryArguments?: {
       skip?: number;
       sort?: Sort;
@@ -47,11 +47,11 @@ export default class GraphqlModel {
     return await queryAll<T>(this.modelName, options);
   }
 
-  async modelCount(where: object = {}): Promise<number> {
+  async modelCount(where?: object): Promise<number> {
     return await modelCount(this.modelName, where);
   }
 
-  async mutationCreate(record: object): Promise<number> {
+  async mutationCreate(record: Record<string, unknown>): Promise<number> {
     return await mutationCreate(this.modelName, record);
   }
 
@@ -59,15 +59,15 @@ export default class GraphqlModel {
     return await mutationDelete(this.modelName, id, this._log_request);
   }
 
-  async mutationUpdate(id: number, partialRecord: object): Promise<number> {
+  async mutationUpdate(id: number, partialRecord: Record<string, unknown>): Promise<number> {
     return await mutationUpdate(this.modelName, id, partialRecord, this._log_request);
   }
 
-  async mutationUpsert(record: object, uniqueBy: string[]): Promise<number> {
+  async mutationUpsert(record: Record<string, unknown>, uniqueBy: string[]): Promise<number> {
     return await mutationUpsert(this.modelName, record, uniqueBy, this._log_request);
   }
 
-  async mutationCreateMany(records: object[]): Promise<number[]> {
+  async mutationCreateMany(records: Record<string, unknown>[]): Promise<number[]> {
     return await mutationCreateMany(this.modelName, records, this._log_request);
   }
 
@@ -75,11 +75,11 @@ export default class GraphqlModel {
     return await mutationDeleteMany(this.modelName, ids, this._log_request);
   }
 
-  async mutationUpdateMany(partialRecord: object, where: object = {}): Promise<number[]> {
+  async mutationUpdateMany(partialRecord: Record<string, unknown>, where: object = {}): Promise<number[]> {
     return await mutationUpdateMany(this.modelName, partialRecord, { where: where, _log_request: this._log_request });
   }
 
-  async mutationUpsertMany(records: object[]): Promise<number[]> {
+  async mutationUpsertMany(records: Record<string, unknown>[]): Promise<number[]> {
     return await mutationUpsertMany(this.modelName, records, this._log_request);
   }
 }

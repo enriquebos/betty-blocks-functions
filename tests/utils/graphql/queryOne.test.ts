@@ -42,7 +42,7 @@ describe("queryOne", () => {
         fields,
         queryArguments: queryArgs,
       },
-      undefined,
+      undefined
     );
 
     expect(gqlRequest).toHaveBeenCalledWith(mockQuery);
@@ -52,7 +52,7 @@ describe("queryOne", () => {
 
   it("should handle _log_request inside queryArguments", async () => {
     const fields = { id: true };
-    const gqlResult: Record<string, any> = {
+    const gqlResult: Record<string, unknown> = {
       [RequestOperation.One + modelName]: { id: 1 },
     };
     const formattedResult = { id: 1 };
@@ -80,7 +80,7 @@ describe("queryOne", () => {
         },
         _log_request: true,
       },
-      true,
+      true
     );
 
     expect(gqlRequest).toHaveBeenCalledWith("mockQueryWithLog");
@@ -89,7 +89,7 @@ describe("queryOne", () => {
 
   it("should return undefined if no model data is returned", async () => {
     const fields = { id: true };
-    const gqlResult: Record<string, any> = {
+    const gqlResult: Record<string, unknown> = {
       [RequestOperation.One + modelName]: undefined,
     };
 

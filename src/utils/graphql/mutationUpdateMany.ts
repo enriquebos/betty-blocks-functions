@@ -3,11 +3,11 @@ import { RequestMethod, RequestOperation } from "./enums";
 
 export default async function mutationUpdateMany(
   modelName: string,
-  partialRecord: object,
+  partialRecord: Record<string, unknown>,
   options?: {
     where?: object;
     _log_request?: boolean;
-  },
+  }
 ): Promise<number[]> {
   const response = (await gqlRequest(
     generateRequest(
@@ -20,8 +20,8 @@ export default async function mutationUpdateMany(
           input: partialRecord,
         },
       },
-      options?._log_request,
-    ),
+      options?._log_request
+    )
   )) as Record<string, { id: number }[]>;
 
   return response[RequestOperation.UpdateMany + modelName].map((item) => item.id);

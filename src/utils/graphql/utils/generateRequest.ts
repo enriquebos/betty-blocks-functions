@@ -2,7 +2,7 @@ import { RequestMethod, RequestOperation } from "../enums";
 import { whereToString } from "./where";
 import { sortToString } from "./sort";
 
-function formatResultsField<T>(fields: Partial<Record<keyof T, any>> | undefined, depth: number): string {
+function formatResultsField<T>(fields: Partial<Record<keyof T, unknown>> | undefined, depth: number): string {
   if (fields === undefined || Object.keys(fields).length === 0) {
     return "id";
   }
@@ -36,7 +36,7 @@ function formatRequest(text: string): string {
     .join("\n");
 }
 
-function customStringify(obj: any): string {
+function customStringify(obj: object): string {
   return (
     "{ " +
     Object.entries(obj)
@@ -61,23 +61,23 @@ export default function generateRequest<T>(
   typeReq: RequestMethod,
   operation: RequestOperation,
   options?: {
-    fields?: Partial<Record<keyof T, any>>;
+    fields?: Partial<Record<keyof T, unknown>>;
     queryArguments?: {
       skip?: number;
       sort?: Sort;
       take?: number;
       where?: object;
-      input?: any | any[];
+      input?: Record<string, unknown> | Record<string, unknown>[];
       id?: number;
       uniqueBy?: string[];
       validate?: boolean;
       totalCount?: boolean;
     };
   },
-  _log_request?: boolean,
+  _log_request?: boolean
 ): string {
   const { skip, sort, take, where, input, id, uniqueBy, validate, totalCount } = options?.queryArguments || {};
-  let requestArguments: string[] = [];
+  const requestArguments: string[] = [];
 
   // Check what mutation can use input
   // Check if typeof input is array for many and object for one

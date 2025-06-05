@@ -45,4 +45,21 @@ describe("renderLiquidTemplate", () => {
     const result = renderLiquidTemplate(template, context).trim();
     expect(result).toBe("Apple, Banana, Carrot,");
   });
+
+  it("should apply the custom 'group' filter", () => {
+    const template = `{% assign grouped = items | group: "type" %}{% for type in grouped %}{{ type[0] }}:{% for item in type[1] %} {{ item.name }}{% endfor %}; {% endfor %}`;
+    const context = [
+      {
+        key: "items",
+        value: JSON.stringify([
+          { name: "Apple", type: "fruit" },
+          { name: "Banana", type: "fruit" },
+          { name: "Carrot", type: "vegetable" },
+        ]),
+      },
+    ];
+
+    const result = renderLiquidTemplate(template, context);
+    expect(result.trim()).toBe("fruit: Apple Banana; vegetable: Carrot;");
+  });
 });

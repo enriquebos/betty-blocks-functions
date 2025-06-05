@@ -4,7 +4,7 @@ describe("jwtDecode", () => {
   const header = { alg: "HS256", typ: "JWT" };
   const payload = { sub: "1234567890", name: "John Doe", admin: true };
 
-  const base64url = (obj: any) =>
+  const base64url = (obj: object) =>
     Buffer.from(JSON.stringify(obj)).toString("base64").replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
 
   const token = `${base64url(header)}.${base64url(payload)}.signature`;
@@ -18,7 +18,7 @@ describe("jwtDecode", () => {
   });
 
   it("should throw error on non-string token", () => {
-    // @ts-ignore
+    // @ts-expect-error Testing non-string input
     expect(() => jwtDecode(null)).toThrow("Invalid token specified");
   });
 

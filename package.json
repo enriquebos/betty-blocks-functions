@@ -7,6 +7,7 @@
     "test": "jest",
     "test:only-changed": "jest --onlyChanged",
     "test:cov": "jest --collect-coverage",
+    "lint": "eslint \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" --fix",
     "build": "npm run format && tsc -p ./tsconfig.json && rm -rf functions/utils/liquid.min.js && node post-build.mjs",
     "publish": "npm run build && npm run test:only-changed && bb functions publish",
     "publish:no-test": "npm run build && bb functions publish",
@@ -18,10 +19,13 @@
     "date-fns": "^4.1.0",
     "prettier": "^3.5.3",
     "remeda": "^2.22.5",
-    "ts-jest": "^29.3.4",
-    "typescript": "^5.8.3"
+    "ts-jest": "^29.3.4"
   },
   "devDependencies": {
-    "npm-check-updates": "^18.0.1"
+    "@eslint/js": "^9.28.0",
+    "eslint": "^9.28.0",
+    "npm-check-updates": "^18.0.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.33.1"
   }
 }

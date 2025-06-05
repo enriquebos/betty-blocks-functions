@@ -1,7 +1,7 @@
 import { strftime } from "../../utils";
 
 interface DateStrftimeParams {
-  datetime: Date | string | Number;
+  datetime: Date | string | number;
   offsetType: string;
   offset: number;
   useUtc: boolean;

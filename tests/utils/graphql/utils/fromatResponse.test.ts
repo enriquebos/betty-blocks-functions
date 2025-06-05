@@ -77,11 +77,9 @@ describe("formatResponse", () => {
       createdAt: Date,
     };
 
-    const formatted = formatResponse(response, result);
+    const formatted = formatResponse(response, result) as object & { createdAt: Date };
 
-    // @ts-ignore
     expect(formatted.createdAt).toBeInstanceOf(Date);
-    // @ts-ignore
     expect(formatted.createdAt.toISOString()).toEqual(dateStr);
   });
 
@@ -135,7 +133,7 @@ describe("formatResponse", () => {
     };
 
     const result = {
-      rawData: 123 as any,
+      rawData: 123 as never,
     };
 
     const formatted = formatResponse(response, result);

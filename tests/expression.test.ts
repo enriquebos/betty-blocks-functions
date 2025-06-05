@@ -23,7 +23,7 @@ describe("customExpression", () => {
     ];
 
     mockVariableMap.mockReturnValue({ x: "2", y: "3" });
-    mockTemplayed.mockImplementation(() => (vars: any) => `${vars.x} + ${vars.y}`);
+    mockTemplayed.mockImplementation(() => (vars: object & { x: string; y: string }) => `${vars.x} + ${vars.y}`);
 
     const result = await customExpression({ expression, variables, debugLogging: false });
 
@@ -38,10 +38,11 @@ describe("customExpression", () => {
     mockVariableMap.mockReturnValue({ x: "2" });
     mockTemplayed.mockImplementation(() => () => `2 +`);
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
     await expect(customExpression({ expression, variables, debugLogging: true })).rejects.toThrow(
-      /Error evaluating expression/,
+      /Error evaluating expression/
     );
 
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Error evaluating expression"));
@@ -55,10 +56,11 @@ describe("customExpression", () => {
     mockVariableMap.mockReturnValue({ x: "2" });
     mockTemplayed.mockImplementation(() => () => `2 +`);
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
     await expect(customExpression({ expression, variables, debugLogging: false })).rejects.toThrow(
-      /Error evaluating expression/,
+      /Error evaluating expression/
     );
 
     expect(consoleSpy).not.toHaveBeenCalled();

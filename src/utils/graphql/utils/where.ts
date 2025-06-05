@@ -3,7 +3,7 @@ import { LogicalOperator, ComparisonOperator } from "../enums";
 const logicalOperators = Object.values(LogicalOperator);
 const comparisonOperators = Object.values(ComparisonOperator);
 
-export function validateWhereObject(where: any): void {
+export function validateWhereObject(where: Record<string, unknown>): void {
   if (typeof where !== "object" || where === null) {
     throw new Error("Where clause must be a non-null object");
   }
@@ -19,8 +19,9 @@ export function validateWhereObject(where: any): void {
       value.forEach((item, idx) => {
         try {
           validateWhereObject(item);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
-          throw new Error(`Error in '${key}' array element at index ${idx}: ${err.message}`);
+          throw new Error(`Error in '${key}' array element at index ${idx}: ${err?.message}`);
         }
       });
     } else {
@@ -33,7 +34,7 @@ export function validateWhereObject(where: any): void {
           continue;
         }
 
-        const objectConditional = value[fieldKey];
+        const objectConditional = (value as Record<string, unknown>)[fieldKey] as ComparisonOperator;
 
         if (typeof objectConditional !== "object" || objectConditional === null) {
           throw new Error(`Condition on field '${fieldKey}' must be an object`);
@@ -47,7 +48,7 @@ export function validateWhereObject(where: any): void {
         const conditionalOperator = objectConditionalKeys[0];
         if (!comparisonOperators.includes(conditionalOperator as ComparisonOperator)) {
           throw new Error(
-            `Invalid operator '${conditionalOperator}' on field '${fieldKey}'. Allowed: ${comparisonOperators.join(", ")}`,
+            `Invalid operator '${conditionalOperator}' on field '${fieldKey}'. Allowed: ${comparisonOperators.join(", ")}`
           );
         }
       }
@@ -55,9 +56,9 @@ export function validateWhereObject(where: any): void {
   }
 }
 
-export function whereToString<T>(where: T, validate: boolean = true, _isRoot: boolean = true): string {
+export function whereToString<T>(where: T, validate = true, _isRoot = true): string {
   if (validate && _isRoot) {
-    validateWhereObject(where);
+    validateWhereObject(where as Record<string, unknown>);
   }
 
   if (Array.isArray(where)) {
@@ -74,7 +75,7 @@ export function whereToString<T>(where: T, validate: boolean = true, _isRoot: bo
   return typeof where === "string" ? `"${where}"` : String(where);
 }
 
-export function whereToObject<T>(where: string, validate: boolean = true): T {
+export function whereToObject<T>(where: string, validate = true): T {
   const parsedWhere = JSON.parse(`{${where}}`.replace(/(\w+):/g, '"$1":'));
 
   if (validate) {

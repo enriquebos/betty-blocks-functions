@@ -9,11 +9,11 @@ interface Variable {
 interface ExpressionInput {
   expression: string;
   variables: Variable[];
-  debugLogging: Boolean;
+  debugLogging: boolean;
 }
 
 interface ExpressionResult {
-  result: any;
+  result: unknown;
 }
 
 const customExpression = async ({
@@ -27,8 +27,9 @@ const customExpression = async ({
 
   try {
     functionOutput = new Function(`return ${template}`)();
-  } catch (error) {
-    const errorMessage: string = `Error evaluating expression: "${error.message}" (template: ${template} variables: ${JSON.stringify(parsedVars)})`;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    const errorMessage = `Error evaluating expression: "${error.message}" (template: ${template} variables: ${JSON.stringify(parsedVars)})`;
 
     if (debugLogging) {
       console.error(errorMessage);

@@ -7,9 +7,7 @@ interface AccessTokenResponse {
   id_token: string;
 }
 
-interface DecodedToken {
-  [key: string]: any;
-}
+type DecodedToken = Record<string, unknown>;
 
 interface TokenResult {
   accessToken: string;
@@ -50,7 +48,7 @@ const getAccessAndIdToken = async ({
   return {
     accessToken: accessToken.access_token,
     refreshToken: accessToken.refresh_token,
-    as: jwtDecode(accessToken.id_token),
+    as: jwtDecode(accessToken.id_token) as DecodedToken,
   };
 };
 

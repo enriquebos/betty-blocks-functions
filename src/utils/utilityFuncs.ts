@@ -10,34 +10,38 @@ export function* chunkArray<T>(array: T[], chunkSize: number): Generator<T[], vo
   }
 }
 
-export function variableMap(variables: Array<{ key: string; value: string }>): Record<string, string> {
+export function variableMap(variables: { key: string; value: string }[]): Record<string, string> {
   return Object.fromEntries(variables.map(({ key, value }) => [key, value]));
 }
 
-export function mergeAndUpdate(source: any, target: any, flipUpdate: boolean = false): any {
+export function mergeAndUpdate(
+  source: Record<string, unknown>,
+  target: Record<string, unknown>,
+  flipUpdate = false
+): object {
   return Object.keys(source).reduce(
     (acc, key) => (key in acc ? { ...acc, [key]: flipUpdate ? target[key] : source[key] } : acc),
-    { ...target },
+    { ...target }
   );
 }
 
-export function transformData(input: MappingItem[]): Record<string, any> {
+export function transformData(input: MappingItem[]): Record<string, unknown> {
   return input.reduce(
     (acc, { key, value }) => {
       const keyName = key[0]?.name;
       if (keyName) acc[keyName] = value;
       return acc;
     },
-    {} as Record<string, any>,
+    {} as Record<string, unknown>
   );
 }
 
-export function getAllValues(obj: any): any {
-  let values: any[] = [];
+export function getAllValues(obj: Record<string, unknown>): unknown[] {
+  let values: unknown[] = [];
 
   for (const key in obj) {
     if (typeof obj[key] === "object" && obj[key] !== null) {
-      values = values.concat(getAllValues(obj[key]));
+      values = values.concat(getAllValues(obj[key] as Record<string, unknown>));
     } else {
       values.push(obj[key]);
     }
@@ -51,7 +55,7 @@ export function strftime(
   locale: string,
   date: Date,
   offset_in_minutes: number,
-  useUtc: boolean,
+  useUtc: boolean
 ): string {
   if (typeof sFormat !== "string") {
     return "";

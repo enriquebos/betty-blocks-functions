@@ -48,7 +48,7 @@ describe("dateStrftime", () => {
 
   it("should use current date when datetime is 'now'", async () => {
     const now = new Date();
-    const spy = jest.spyOn(global, "Date").mockImplementation(() => now as any);
+    const spy = jest.spyOn(global, "Date").mockImplementation(() => now as Date);
     mockStrftime.mockReturnValue("now-date");
 
     const result = await dateStrftime({
@@ -109,7 +109,7 @@ describe("dateStrftime", () => {
         locale: "en",
         strftimeDefault: "custom",
         strftimeStr: undefined,
-      }),
+      })
     ).rejects.toThrow("Custom strtime is not defined");
   });
 
@@ -122,7 +122,7 @@ describe("dateStrftime", () => {
         useUtc: false,
         locale: "en",
         strftimeDefault: "%x",
-      }),
+      })
     ).rejects.toThrow("Invalid datetime input, is the notation correct?");
   });
 
@@ -135,7 +135,7 @@ describe("dateStrftime", () => {
         useUtc: false,
         locale: "en",
         strftimeDefault: "custom",
-      }),
+      })
     ).rejects.toThrow("Custom strtime is not defined");
   });
 
@@ -149,13 +149,12 @@ describe("dateStrftime", () => {
         useUtc: false,
         locale: "en",
         strftimeDefault: "%Y",
-      }),
+      })
     ).resolves.toEqual({ result: "string-date" });
   });
 
   it("parses numeric string timestamp", async () => {
     const timestamp = "1716912000";
-    const expectedDate = new Date(parseInt(timestamp) * 1000);
     mockStrftime.mockReturnValue("unix-str");
     await expect(
       dateStrftime({
@@ -165,7 +164,7 @@ describe("dateStrftime", () => {
         useUtc: false,
         locale: "en",
         strftimeDefault: "%Y",
-      }),
+      })
     ).resolves.toEqual({ result: "unix-str" });
   });
 
@@ -198,13 +197,13 @@ describe("dateStrftime", () => {
   it("should throw an error for completely invalid datetime type", async () => {
     await expect(
       dateStrftime({
-        datetime: { unexpected: "object" } as any,
+        datetime: { unexpected: "object" } as never,
         offsetType: "mm",
         offset: 0,
         useUtc: false,
         locale: "en",
         strftimeDefault: "%x",
-      }),
+      })
     ).rejects.toThrow("Invalid date object type (object) for: [object Object]");
   });
 });

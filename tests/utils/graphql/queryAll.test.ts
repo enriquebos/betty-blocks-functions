@@ -26,7 +26,10 @@ describe("queryAll", () => {
       _log_request: false,
     };
 
-    type ItemType = { id: number; name: string };
+    interface ItemType {
+      id: number;
+      name: string;
+    }
 
     const gqlResponse: Record<string, { totalCount: number; results: ItemType[] }> = {
       [`all${modelName}`]: {
@@ -54,7 +57,7 @@ describe("queryAll", () => {
       RequestMethod.Query,
       RequestOperation.All,
       options,
-      options._log_request,
+      options._log_request
     );
 
     expect(gqlRequest).toHaveBeenCalledWith("mockQuery");
@@ -72,7 +75,9 @@ describe("queryAll", () => {
       fields: { id: true },
     };
 
-    type ItemType = { id: number };
+    interface ItemType {
+      id: number;
+    }
 
     const gqlResponse: Record<string, { totalCount: number; results: ItemType[] }> = {
       [`all${modelName}`]: {
@@ -92,7 +97,7 @@ describe("queryAll", () => {
       RequestMethod.Query,
       RequestOperation.All,
       options,
-      undefined,
+      undefined
     );
 
     expect(result).toEqual({

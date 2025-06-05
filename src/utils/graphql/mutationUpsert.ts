@@ -3,9 +3,9 @@ import { RequestMethod, RequestOperation } from "./enums";
 
 export default async function mutationUpsert(
   modelName: string,
-  record: object,
+  record: Record<string, unknown>,
   uniqueBy: string[],
-  _log_request?: boolean,
+  _log_request?: boolean
 ): Promise<number> {
   const response = (await gqlRequest(
     generateRequest(
@@ -18,8 +18,8 @@ export default async function mutationUpsert(
           uniqueBy: uniqueBy,
         },
       },
-      _log_request,
-    ),
+      _log_request
+    )
   )) as Record<string, { id: number }>;
 
   return response[RequestOperation.Upsert + modelName].id;
