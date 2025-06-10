@@ -42,7 +42,7 @@ describe("customExpression", () => {
     const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
     await expect(customExpression({ expression, variables, debugLogging: true })).rejects.toThrow(
-      /Error evaluating expression/
+      /Error evaluating expression/,
     );
 
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Error evaluating expression"));
@@ -60,7 +60,7 @@ describe("customExpression", () => {
     const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
     await expect(customExpression({ expression, variables, debugLogging: false })).rejects.toThrow(
-      /Error evaluating expression/
+      /Error evaluating expression/,
     );
 
     expect(consoleSpy).not.toHaveBeenCalled();

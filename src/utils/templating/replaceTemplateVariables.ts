@@ -1,6 +1,6 @@
 export default function replaceTemplateVariables(
   text: string | undefined,
-  variables: { key: string; value: string }[]
+  variables: { key: string; value: string }[],
 ): string {
   if (!text) {
     return "";

@@ -25,6 +25,6 @@ export default function renderLiquidTemplate(template: string, context: ContextI
         ctx[key] = value;
       }
       return ctx;
-    }, {})
+    }, {}),
   );
 }

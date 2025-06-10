@@ -6,7 +6,7 @@ export default async function modelCount(
   options: {
     where?: object;
     _log_request?: boolean;
-  } = {}
+  } = {},
 ): Promise<number> {
   const response = (await gqlRequest(
     generateRequest(
@@ -20,8 +20,8 @@ export default async function modelCount(
           take: 1,
         },
       },
-      options._log_request
-    )
+      options._log_request,
+    ),
   )) as Record<string, { totalCount: number }>;
 
   return response[RequestOperation.All + modelName].totalCount;

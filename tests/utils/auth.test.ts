@@ -43,4 +43,16 @@ describe("jwtDecode", () => {
     const badToken = "....";
     expect(() => jwtDecode(badToken)).toThrow(/Invalid token specified:/);
   });
+
+  it("should throw error if payload base64 string is of invalid length", () => {
+    const badBase64 = "abcde";
+    const token = `header.${badBase64}.signature`;
+    expect(() => jwtDecode(token)).toThrow("Invalid token specified:");
+  });
+
+  it("should fallback to polyfill if decodeURIComponent fails", () => {
+    const badPayload = Buffer.from("%%%").toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+    const token = `header.${badPayload}.signature`;
+    expect(() => jwtDecode(token)).toThrow("Invalid token specified:");
+  });
 });

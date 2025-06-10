@@ -48,7 +48,7 @@ export function validateWhereObject(where: Record<string, unknown>): void {
         const conditionalOperator = objectConditionalKeys[0];
         if (!comparisonOperators.includes(conditionalOperator as ComparisonOperator)) {
           throw new Error(
-            `Invalid operator '${conditionalOperator}' on field '${fieldKey}'. Allowed: ${comparisonOperators.join(", ")}`
+            `Invalid operator '${conditionalOperator}' on field '${fieldKey}'. Allowed: ${comparisonOperators.join(", ")}`,
           );
         }
       }
@@ -75,7 +75,7 @@ export function whereToString<T>(where: T, validate = true, _isRoot = true): str
   return typeof where === "string" ? `"${where}"` : String(where);
 }
 
-export function whereToObject<T>(where: string, validate = true): T {
+export function whereToObject(where: string, validate = true): object {
   const parsedWhere = JSON.parse(`{${where}}`.replace(/(\w+):/g, '"$1":'));
 
   if (validate) {

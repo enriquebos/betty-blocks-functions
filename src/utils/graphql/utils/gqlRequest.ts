@@ -6,7 +6,7 @@ export default async function gqlRequest<T>(
     where?: object;
     uniqueBy?: string[];
     validationSets?: string[];
-  } = {}
+  } = {},
 ): Promise<T> {
   if (operation.length > 4194304) {
     throw new Error(`GraphQL request length exceeds maximum allowed size (${operation.length} vs 4194304)`);

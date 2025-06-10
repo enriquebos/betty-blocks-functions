@@ -4,7 +4,7 @@ import { RequestMethod, RequestOperation } from "./enums";
 export default async function mutationCreateMany(
   modelName: string,
   records: Record<string, unknown>[],
-  _log_request?: boolean
+  _log_request?: boolean,
 ): Promise<number[]> {
   if (records.length === 0) {
     return [];
@@ -20,8 +20,8 @@ export default async function mutationCreateMany(
           input: records,
         },
       },
-      _log_request
-    )
+      _log_request,
+    ),
   )) as Record<string, { id: number }[]>;
 
   return response[RequestOperation.CreateMany + modelName].map((item) => item.id);

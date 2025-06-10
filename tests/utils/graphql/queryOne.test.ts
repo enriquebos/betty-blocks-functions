@@ -97,8 +97,37 @@ describe("queryOne", () => {
     (gqlRequest as jest.Mock).mockResolvedValue(gqlResult);
     (formatResponse as jest.Mock).mockReturnValue(undefined);
 
-    const result = await queryOne<typeof fields>(modelName, { fields });
+    const result = await queryOne<{ id: number }>(modelName, { fields });
 
     expect(result).toBeNull();
+  });
+
+  it("should use default fields if fields option is not provided", async () => {
+    const gqlResult: Record<string, unknown> = {
+      [RequestOperation.One + modelName]: { id: 123 },
+    };
+    const formattedResult = { id: 123 };
+
+    (generateRequest as jest.Mock).mockReturnValue("mockQueryDefaultFields");
+    (gqlRequest as jest.Mock).mockResolvedValue(gqlResult);
+    (formatResponse as jest.Mock).mockReturnValue(formattedResult);
+
+    const result = await queryOne<{ id: number }>(modelName, {
+      queryArguments: { where: { id: 123 } },
+    });
+
+    expect(generateRequest).toHaveBeenCalledWith(
+      modelName,
+      RequestMethod.Query,
+      RequestOperation.One,
+      {
+        queryArguments: { where: { id: 123 } },
+      },
+      undefined
+    );
+
+    expect(formatResponse).toHaveBeenCalledWith(gqlResult[RequestOperation.One + modelName], { id: Number });
+
+    expect(result).toEqual(formattedResult);
   });
 });

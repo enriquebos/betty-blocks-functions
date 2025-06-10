@@ -24,3 +24,13 @@ export declare interface TokenParams {
   grantType: string | "authorization_code" | "refresh_token";
   code: string;
 }
+
+export declare interface DeleteAllParams {
+  model: {
+    name: string;
+  };
+  amountToDelete: number;
+  batchSize: number;
+  filter: string;
+  filterVars: MappingItem[];
+}

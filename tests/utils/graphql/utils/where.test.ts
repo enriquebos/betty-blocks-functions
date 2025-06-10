@@ -115,7 +115,7 @@ describe("Graphql where", () => {
     };
 
     expect(() => validateWhereObject(where)).toThrow(
-      /Error in '_or' array element at index 1: Where clause must be a non-null object/
+      /Error in '_or' array element at index 1: Where clause must be a non-null object/,
     );
   });
 

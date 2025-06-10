@@ -189,6 +189,49 @@ describe("generateRequest", () => {
       queryArguments: { input },
     });
 
-    expect(result).toContain('input: { 0:{ name: \"Charmander\" }, 1:{ name: \"Squirtle\" } }');
+    expect(result).toContain(`[ { name: \"Charmander\" }, { name: \"Squirtle\" } ]`);
+  });
+
+  it("throws an error if fields contain null values", () => {
+    expect(() =>
+      generateRequest("Pokemon", RequestMethod.Query, RequestOperation.All, {
+        fields: {
+          id: null,
+          name: String,
+        },
+      })
+    ).toThrow("Value of fields cannot be nullable");
+  });
+
+  it("renders flat fields correctly", () => {
+    const result = generateRequest("Pokemon", RequestMethod.Query, RequestOperation.All, {
+      fields: {
+        id: 1,
+        name: "abc",
+      },
+    });
+
+    expect(result).toContain("id,");
+    expect(result).toContain("name");
+  });
+
+  it("throws error for validate flag on delete many mutation", () => {
+    expect(() =>
+      generateRequest("Pokemon", RequestMethod.Mutation, RequestOperation.DeleteMany, {
+        queryArguments: { validate: true },
+      })
+    ).toThrow("Cannot input validate for delete since it doesn't validate anything");
+  });
+
+  it("adds commas between fields but not after the last one", () => {
+    const result = generateRequest("Pokemon", RequestMethod.Query, RequestOperation.All, {
+      fields: {
+        id: Number,
+        name: String,
+      },
+    });
+
+    expect(result).toContain("id,");
+    expect(result).toContain("name");
   });
 });

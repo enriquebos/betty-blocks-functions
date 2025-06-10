@@ -23,7 +23,7 @@ export default class GraphqlModel {
     this._log_request = _log_request;
   }
 
-  async queryOne<T>(options: {
+  async queryOne<T extends { id: number }>(options: {
     fields: Partial<Record<keyof T, unknown>>;
     queryArguments?: {
       where?: object;
@@ -33,7 +33,7 @@ export default class GraphqlModel {
     return (await queryOne<T>(this.modelName, options)) as T;
   }
 
-  async queryAll<T>(options: {
+  async queryAll<T extends { id: number }>(options: {
     fields: Partial<Record<keyof T, unknown>>;
     queryArguments?: {
       skip?: number;
