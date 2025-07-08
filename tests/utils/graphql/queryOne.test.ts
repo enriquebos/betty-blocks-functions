@@ -42,7 +42,7 @@ describe("queryOne", () => {
         fields,
         queryArguments: queryArgs,
       },
-      undefined
+      undefined,
     );
 
     expect(gqlRequest).toHaveBeenCalledWith(mockQuery);
@@ -80,7 +80,7 @@ describe("queryOne", () => {
         },
         _log_request: true,
       },
-      true
+      true,
     );
 
     expect(gqlRequest).toHaveBeenCalledWith("mockQueryWithLog");
@@ -123,7 +123,7 @@ describe("queryOne", () => {
       {
         queryArguments: { where: { id: 123 } },
       },
-      undefined
+      undefined,
     );
 
     expect(formatResponse).toHaveBeenCalledWith(gqlResult[RequestOperation.One + modelName], { id: Number });

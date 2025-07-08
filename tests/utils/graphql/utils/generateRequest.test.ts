@@ -72,7 +72,7 @@ describe("generateRequest", () => {
     expect(() =>
       generateRequest("Pokemon", RequestMethod.Query, RequestOperation.All, {
         queryArguments: { skip: -1 },
-      })
+      }),
     ).toThrow("Skip value must be between 0 and 2147483647 (32bit)");
   });
 
@@ -80,7 +80,7 @@ describe("generateRequest", () => {
     expect(() =>
       generateRequest("Pokemon", RequestMethod.Query, RequestOperation.All, {
         queryArguments: { take: 6000 },
-      })
+      }),
     ).toThrow("Take value must be between 1 and 5000");
   });
 
@@ -88,7 +88,7 @@ describe("generateRequest", () => {
     expect(() =>
       generateRequest("Pokemon", RequestMethod.Query, RequestOperation.All, {
         queryArguments: { uniqueBy: ["id"] },
-      })
+      }),
     ).toThrow("Cannot use uniqueBy for non-upserting mutations");
   });
 
@@ -96,7 +96,7 @@ describe("generateRequest", () => {
     expect(() =>
       generateRequest("Pokemon", RequestMethod.Query, RequestOperation.All, {
         queryArguments: { validate: true },
-      })
+      }),
     ).toThrow("Cannot validate request for query");
   });
 
@@ -104,7 +104,7 @@ describe("generateRequest", () => {
     expect(() =>
       generateRequest("Pokemon", RequestMethod.Mutation, RequestOperation.Delete, {
         queryArguments: { validate: true },
-      })
+      }),
     ).toThrow("Cannot input validate for delete since it doesn't validate anything");
   });
 
@@ -199,7 +199,7 @@ describe("generateRequest", () => {
           id: null,
           name: String,
         },
-      })
+      }),
     ).toThrow("Value of fields cannot be nullable");
   });
 
@@ -219,7 +219,7 @@ describe("generateRequest", () => {
     expect(() =>
       generateRequest("Pokemon", RequestMethod.Mutation, RequestOperation.DeleteMany, {
         queryArguments: { validate: true },
-      })
+      }),
     ).toThrow("Cannot input validate for delete since it doesn't validate anything");
   });
 

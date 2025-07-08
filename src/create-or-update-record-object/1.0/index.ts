@@ -19,7 +19,7 @@ export async function createOrUpdateRecordObject({
   const input = isUpdate
     ? (mergeAndUpdate(
         operationSpecificInput,
-        mergeAndUpdate(safeRecordObject, baseInput, true) as Record<string, unknown>
+        mergeAndUpdate(safeRecordObject, baseInput, true) as Record<string, unknown>,
       ) as Record<string, unknown>)
     : { ...baseInput, ...operationSpecificInput };
 
