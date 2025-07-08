@@ -40,7 +40,7 @@ describe("mutationUpdateMany", () => {
           input: partialRecord,
         },
       },
-      options._log_request
+      options._log_request,
     );
     expect(mockGqlRequest).toHaveBeenCalledWith(fakeRequestObject);
     expect(result).toEqual([1, 2, 3]);
@@ -65,7 +65,7 @@ describe("mutationUpdateMany", () => {
           input: partialRecord,
         },
       },
-      undefined
+      undefined,
     );
     expect(result).toEqual([10]);
   });

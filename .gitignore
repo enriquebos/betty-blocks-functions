@@ -3,6 +3,7 @@ blocks/
 coverage/
 node_modules/
 src/background-action/
+src/test-action/
 .tmp/
 .DS_Store
 config.json

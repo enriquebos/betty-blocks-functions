@@ -1,7 +1,7 @@
 import modelRecordCount from "../src/model-record-count/1.0";
 import { modelCount } from "../src/utils/graphql/exts";
 import { whereToObject } from "../src/utils/graphql/utils";
-import { formatStringMap } from "../src/utils/utilityFuncs";
+import { replaceTemplateVariables } from "../src/utils/templating";
 
 jest.mock("../src/utils/graphql/exts", () => ({
   modelCount: jest.fn(),
@@ -9,8 +9,8 @@ jest.mock("../src/utils/graphql/exts", () => ({
 jest.mock("../src/utils/graphql/utils", () => ({
   whereToObject: jest.fn(),
 }));
-jest.mock("../src/utils/utilityFuncs", () => ({
-  formatStringMap: jest.fn(),
+jest.mock("../src/utils/templating", () => ({
+  replaceTemplateVariables: jest.fn(),
 }));
 
 describe("modelRecordCount", () => {
@@ -22,7 +22,7 @@ describe("modelRecordCount", () => {
     const whereObject = { field: "123" };
     const mockCountResult = 42;
 
-    (formatStringMap as jest.Mock).mockReturnValue(formattedFilter);
+    (replaceTemplateVariables as jest.Mock).mockReturnValue(formattedFilter);
     (whereToObject as jest.Mock).mockReturnValue(whereObject);
     (modelCount as jest.Mock).mockResolvedValue(mockCountResult);
 
@@ -32,7 +32,7 @@ describe("modelRecordCount", () => {
       filterVars: mockFilterVars,
     });
 
-    expect(formatStringMap).toHaveBeenCalledWith(mockFilter, mockFilterVars);
+    expect(replaceTemplateVariables).toHaveBeenCalledWith(mockFilter, mockFilterVars);
     expect(whereToObject).toHaveBeenCalledWith(formattedFilter);
     expect(modelCount).toHaveBeenCalledWith("TestModel", { where: whereObject });
     expect(result).toEqual({ result: mockCountResult });
@@ -40,14 +40,14 @@ describe("modelRecordCount", () => {
 
   it("should handle missing filter and filterVars gracefully", async () => {
     (modelCount as jest.Mock).mockResolvedValue(0);
-    (formatStringMap as jest.Mock).mockReturnValue(undefined);
+    (replaceTemplateVariables as jest.Mock).mockReturnValue(undefined);
     (whereToObject as jest.Mock).mockReturnValue({});
 
     const result = await modelRecordCount({
       model: { name: "EmptyModel" },
     });
 
-    expect(formatStringMap).toHaveBeenCalledWith(undefined, undefined);
+    expect(replaceTemplateVariables).toHaveBeenCalledWith(undefined, undefined);
     expect(whereToObject).toHaveBeenCalledWith(undefined);
     expect(modelCount).toHaveBeenCalledWith("EmptyModel", { where: {} });
     expect(result).toEqual({ result: 0 });

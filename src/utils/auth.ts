@@ -10,7 +10,7 @@ function polyfill(input: string): string {
   }
 
   let bc = 0;
-  let bs: number = 0;
+  let bs = 0;
   let buffer: string;
   let idx = 0;
   let output = "";
@@ -57,12 +57,12 @@ function base64_url_decode(str: string): string {
 
   try {
     return b64DecodeUnicode(output);
-  } catch (err) {
+  } catch {
     return polyfill(output);
   }
 }
 
-export default function jwtDecode(token: string, options?: JwtDecodeOptions): any {
+export default function jwtDecode(token: string, options?: JwtDecodeOptions): object | void {
   if (typeof token !== "string") {
     throw new Error("Invalid token specified");
   }

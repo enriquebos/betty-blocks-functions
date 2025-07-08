@@ -34,7 +34,7 @@ describe("mutationUpsertMany", () => {
       RequestMethod.Mutation,
       RequestOperation.UpsertMany,
       { queryArguments: { input: records } },
-      undefined
+      undefined,
     );
     expect(mockGqlRequest).toHaveBeenCalledWith(fakeRequestObject);
     expect(result).toEqual([1, 2]);
@@ -60,7 +60,7 @@ describe("mutationUpsertMany", () => {
       RequestMethod.Mutation,
       RequestOperation.UpsertMany,
       { queryArguments: { input: [{ email: "c@example.com" }] } },
-      true
+      true,
     );
     expect(result).toEqual([42]);
   });

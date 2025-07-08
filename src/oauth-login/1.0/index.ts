@@ -1,13 +1,5 @@
-import jwtDecode from "../../utils/auth";
-
-interface TokenParams {
-  tokenEndpoint: string;
-  clientId: string;
-  clientSecret: string;
-  redirectUri: string;
-  grantType: string | "authorization_code" | "refresh_token";
-  code: string;
-}
+import { jwtDecode } from "../../utils";
+import type { TokenParams } from "../../types/functions";
 
 interface AccessTokenResponse {
   access_token: string;
@@ -15,9 +7,7 @@ interface AccessTokenResponse {
   id_token: string;
 }
 
-interface DecodedToken {
-  [key: string]: any;
-}
+type DecodedToken = Record<string, unknown>;
 
 interface TokenResult {
   accessToken: string;
@@ -58,7 +48,7 @@ const getAccessAndIdToken = async ({
   return {
     accessToken: accessToken.access_token,
     refreshToken: accessToken.refresh_token,
-    as: jwtDecode(accessToken.id_token),
+    as: jwtDecode(accessToken.id_token) as DecodedToken,
   };
 };
 

@@ -5,13 +5,14 @@ export default async function gqlRequest<T>(
     id?: number;
     where?: object;
     uniqueBy?: string[];
+    validationSets?: string[];
   } = {},
 ): Promise<T> {
   if (operation.length > 4194304) {
     throw new Error(`GraphQL request length exceeds maximum allowed size (${operation.length} vs 4194304)`);
   }
 
-  // @ts-ignore | @ts-expect-error: Cannot find name 'gql'
+  // @ts-expect-error | @ts-expect-error: Cannot find name 'gql'
   const { data, errors } = await gql(operation, input);
 
   if (errors) {

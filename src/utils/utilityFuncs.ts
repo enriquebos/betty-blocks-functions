@@ -1,3 +1,5 @@
+import type { MappingItem } from "../types/global";
+
 export function* chunkArray<T>(array: T[], chunkSize: number): Generator<T[], void, void> {
   if (chunkSize <= 0 || !Number.isInteger(chunkSize)) {
     throw new RangeError("chunkSize must be a positive integer");
@@ -8,34 +10,38 @@ export function* chunkArray<T>(array: T[], chunkSize: number): Generator<T[], vo
   }
 }
 
-export function variableMap(variables: Array<{ key: string; value: string }>): Record<string, string> {
+export function variableMap(variables: { key: string; value: string }[]): Record<string, string> {
   return Object.fromEntries(variables.map(({ key, value }) => [key, value]));
 }
 
-export function formatStringMap(text: string | undefined, variables: Array<{ key: string; value: string }>): string {
-  if (!text) {
-    return "";
-  }
-
-  const regex = /\{\{(!|&|\{)?\s*(.*?)\s*}}+/g;
-  const variableMap = new Map(variables.map((v) => [v.key, v.value]));
-
-  return text.replace(regex, (match, _prefix, key) => {
-    if (variableMap.has(key)) {
-      return variableMap.get(key);
-    } else {
-      console.log(`Unknown map variable '${key}' in text field`);
-      return match;
-    }
-  });
+export function mergeAndUpdate(
+  source: Record<string, unknown>,
+  target: Record<string, unknown>,
+  flipUpdate = false,
+): object {
+  return Object.keys(source).reduce(
+    (acc, key) => (key in acc ? { ...acc, [key]: flipUpdate ? target[key] : source[key] } : acc),
+    { ...target },
+  );
 }
 
-export function getAllValues(obj: any): any {
-  let values: any[] = [];
+export function transformData(input: MappingItem[]): Record<string, unknown> {
+  return input.reduce(
+    (acc, { key, value }) => {
+      const keyName = key[0]?.name;
+      if (keyName) acc[keyName] = value;
+      return acc;
+    },
+    {} as Record<string, unknown>,
+  );
+}
+
+export function getAllValues(obj: Record<string, unknown>): unknown[] {
+  let values: unknown[] = [];
 
   for (const key in obj) {
     if (typeof obj[key] === "object" && obj[key] !== null) {
-      values = values.concat(getAllValues(obj[key]));
+      values = values.concat(getAllValues(obj[key] as Record<string, unknown>));
     } else {
       values.push(obj[key]);
     }

@@ -32,7 +32,7 @@ describe("mutationUpdate", () => {
       RequestMethod.Mutation,
       RequestOperation.Update,
       { queryArguments: { id, input: partialRecord } },
-      undefined
+      undefined,
     );
     expect(mockGqlRequest).toHaveBeenCalledWith(fakeRequestObject);
     expect(result).toBe(id);
@@ -49,7 +49,7 @@ describe("mutationUpdate", () => {
       RequestMethod.Mutation,
       RequestOperation.Update,
       { queryArguments: { id, input: partialRecord } },
-      true
+      true,
     );
     expect(result).toBe(id);
   });

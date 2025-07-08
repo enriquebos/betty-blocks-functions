@@ -1,43 +1,8 @@
-function transformData(input: MappingItem[]): Record<string, any> {
-  return input.reduce(
-    (acc, { key, value }) => {
-      const keyName = key[0]?.name;
-      if (keyName) acc[keyName] = value;
-      return acc;
-    },
-    {} as Record<string, any>,
-  );
-}
+import { transformData, mergeAndUpdate } from "../../utils";
+import { createOrUpdateRecord } from "../../utils/graphql/exts";
+import type { CreateOrUpdateRecordParams } from "../../types/functions";
 
-function mergeAndUpdate(source: any, target: any, flipUpdate: boolean = false): any {
-  return Object.keys(source).reduce(
-    (acc, key) => (key in acc ? { ...acc, [key]: flipUpdate ? target[key] : source[key] } : acc),
-    { ...target },
-  );
-}
-
-type MappingItem = {
-  key: Array<{
-    kind: string;
-    name: string;
-  }>;
-  value: any;
-};
-
-type CreateOrUpdateRecordParams = {
-  cuRecord: {
-    data?: Record<string, any>;
-    model: {
-      name: string;
-    };
-  };
-  mapping: MappingItem[];
-  mappingCreate: MappingItem[];
-  mappingUpdate: MappingItem[];
-  validates: boolean;
-};
-
-export async function createOrUpdateRecord({
+export async function createOrUpdateRecordObject({
   cuRecord: {
     data: recordObject,
     model: { name: modelName },
@@ -46,33 +11,19 @@ export async function createOrUpdateRecord({
   mappingCreate,
   mappingUpdate,
   validates = true,
-}: CreateOrUpdateRecordParams): Promise<object> {
+}: CreateOrUpdateRecordParams): Promise<Record<string, unknown>> {
   const isUpdate = Boolean(recordObject);
-  const mutationName = isUpdate ? `update${modelName}` : `create${modelName}`;
-  const mutation = `mutation {
-  ${mutationName}(input: $input${isUpdate ? ", id: $id" : ""}) {
-      id
-    }
-  }`;
+  const baseInput = transformData(mapping) as Record<string, unknown>;
+  const operationSpecificInput = transformData(isUpdate ? mappingUpdate : mappingCreate) as Record<string, unknown>;
+  const safeRecordObject = (recordObject ?? {}) as Record<string, unknown>;
+  const input = isUpdate
+    ? (mergeAndUpdate(
+        operationSpecificInput,
+        mergeAndUpdate(safeRecordObject, baseInput, true) as Record<string, unknown>,
+      ) as Record<string, unknown>)
+    : { ...baseInput, ...operationSpecificInput };
 
-  const formattedInput = transformData(mapping);
-  const input = mergeAndUpdate(
-    transformData(isUpdate ? mappingUpdate : mappingCreate),
-    isUpdate ? mergeAndUpdate(recordObject, formattedInput, true) : formattedInput,
-  );
-
-  // @ts-expect-error: gql undefined
-  const { data, errors } = await gql(mutation, {
-    input,
-    ...(isUpdate && { id: recordObject.id }),
-    validationSets: validates ? ["default"] : ["empty"],
-  });
-
-  if (errors) throw errors;
-
-  return {
-    as: { ...data[mutationName], ...input },
-  };
+  return { as: await createOrUpdateRecord(modelName, safeRecordObject, input, validates) };
 }
 
-export default createOrUpdateRecord;
+export default createOrUpdateRecordObject;

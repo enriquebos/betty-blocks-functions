@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 export default function formatResponse(
   response: object | object[],
-  result?: FieldObject
+  result?: FieldObject,
 ): Record<string, any> | Record<string, any>[] {
   if (Array.isArray(response)) {
     return response.map((item) => formatResponse(item, result));
@@ -11,22 +13,22 @@ export default function formatResponse(
   return Object.keys(result).reduce(
     (formatted, key) => {
       const valueFunc = result[key];
-      const value = (response as Record<string, any>)[key];
+      const value = (response as Record<string, unknown>)[key];
 
       if (typeof valueFunc === "function") {
         if (valueFunc === Date) {
-          formatted[key] = new Date(value);
+          formatted[key] = new Date(value as Date);
         } else {
           formatted[key] = valueFunc(value);
         }
       } else if (typeof valueFunc === "object" && !(valueFunc instanceof Date)) {
-        formatted[key] = formatResponse(value, valueFunc);
+        formatted[key] = formatResponse(value as object, valueFunc);
       } else {
         formatted[key] = value;
       }
 
       return formatted;
     },
-    {} as Record<string, any>
+    {} as Record<string, any>,
   );
 }

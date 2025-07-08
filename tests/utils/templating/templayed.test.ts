@@ -1,5 +1,5 @@
-import templayed from "../../src/utils/templayed";
-import { variableMap } from "../../src/utils/utilityFuncs";
+import { templayed } from "../../../src/utils/templating";
+import { variableMap } from "../../../src/utils";
 
 describe("templayed.js", () => {
   it("should append exclamation marks to each name in the array", () => {

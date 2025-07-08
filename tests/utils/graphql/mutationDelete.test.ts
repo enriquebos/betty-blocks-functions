@@ -32,7 +32,7 @@ describe("mutationDelete", () => {
       RequestMethod.Mutation,
       RequestOperation.Delete,
       { queryArguments: { id } },
-      undefined
+      undefined,
     );
     expect(mockGqlRequest).toHaveBeenCalledWith(fakeRequestObject);
     expect(result).toBe(id);
@@ -49,7 +49,7 @@ describe("mutationDelete", () => {
       RequestMethod.Mutation,
       RequestOperation.Delete,
       { queryArguments: { id } },
-      true
+      true,
     );
     expect(result).toBe(id);
   });

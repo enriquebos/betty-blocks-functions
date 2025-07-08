@@ -3,7 +3,7 @@ import { RequestMethod, RequestOperation } from "./enums";
 
 export default async function mutationUpsert(
   modelName: string,
-  record: object,
+  record: Record<string, unknown>,
   uniqueBy: string[],
   _log_request?: boolean,
 ): Promise<number> {

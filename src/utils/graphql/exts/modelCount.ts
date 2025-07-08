@@ -22,9 +22,7 @@ export default async function modelCount(
       },
       options._log_request,
     ),
-  )) as {
-    [key: string]: { totalCount: number };
-  };
+  )) as Record<string, { totalCount: number }>;
 
   return response[RequestOperation.All + modelName].totalCount;
 }

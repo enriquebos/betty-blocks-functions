@@ -2,7 +2,7 @@ import { RequestMethod, RequestOperation } from "../enums";
 import { whereToString } from "./where";
 import { sortToString } from "./sort";
 
-function formatResultsField<T>(fields: Partial<Record<keyof T, any>> | undefined, depth: number): string {
+function formatResultsField<T>(fields: Partial<Record<keyof T, unknown>> | undefined, depth: number): string {
   if (fields === undefined || Object.keys(fields).length === 0) {
     return "id";
   }
@@ -12,6 +12,10 @@ function formatResultsField<T>(fields: Partial<Record<keyof T, any>> | undefined
   const lastKey = keys[keys.length - 1];
 
   for (const [key, value] of Object.entries(fields)) {
+    if (value === null || value === undefined) {
+      throw new Error("Value of fields cannot be nullable");
+    }
+
     if (typeof value === "object") {
       if (value !== null) {
         query += `\n${"  ".repeat(depth)}${key} { ${formatResultsField(value, depth + 1)}\n${"  ".repeat(depth)}}`;
@@ -36,24 +40,36 @@ function formatRequest(text: string): string {
     .join("\n");
 }
 
-function customStringify(obj: any): string {
-  return (
-    "{ " +
-    Object.entries(obj)
-      .map(([key, value]) => {
-        let valStr;
-        if (typeof value === "string") {
-          valStr = ` "${value}"`;
-        } else if (typeof value === "object" && value !== null) {
-          valStr = customStringify(value);
-        } else {
-          valStr = " " + String(value);
-        }
-        return `${key}:${valStr}`;
-      })
-      .join(", ") +
-    " }"
-  );
+function customStringify(obj: unknown): string {
+  if (Array.isArray(obj)) {
+    const items = obj.map((value) => {
+      if (typeof value === "string") {
+        return `"${value}"`;
+      } else if (typeof value === "object" && value !== null) {
+        return customStringify(value);
+      } else {
+        return String(value);
+      }
+    });
+    return `[ ${items.join(", ")} ]`;
+  } else if (typeof obj === "object" && obj !== null) {
+    const entries = Object.entries(obj).map(([key, value]) => {
+      let valStr;
+      if (typeof value === "string") {
+        valStr = `"${value}"`;
+      } else if (typeof value === "object" && value !== null) {
+        valStr = customStringify(value);
+      } else {
+        valStr = String(value);
+      }
+      return `${key}: ${valStr}`;
+    });
+    return `{ ${entries.join(", ")} }`;
+  } else if (typeof obj === "string") {
+    return `"${obj}"`;
+  } else {
+    return String(obj);
+  }
 }
 
 export default function generateRequest<T>(
@@ -61,27 +77,23 @@ export default function generateRequest<T>(
   typeReq: RequestMethod,
   operation: RequestOperation,
   options?: {
-    fields?: Partial<Record<keyof T, any>>;
+    fields?: Partial<Record<keyof T, unknown>>;
     queryArguments?: {
       skip?: number;
       sort?: Sort;
       take?: number;
       where?: object;
-      input?: any | any[];
+      input?: Record<string, unknown> | Record<string, unknown>[];
       id?: number;
       uniqueBy?: string[];
       validate?: boolean;
       totalCount?: boolean;
     };
   },
-  _log_request?: boolean
+  _log_request?: boolean,
 ): string {
   const { skip, sort, take, where, input, id, uniqueBy, validate, totalCount } = options?.queryArguments || {};
-  let requestArguments: string[] = [];
-
-  // Check what mutation can use input
-  // Check if typeof input is array for many and object for one
-  // id only on mutationdelete and mutationupdate
+  const requestArguments: string[] = [];
 
   if (skip !== undefined) {
     if (skip < 0 || skip > 2147483647) {

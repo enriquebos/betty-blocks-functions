@@ -1,7 +1,11 @@
 import { gqlRequest, generateRequest } from "./utils";
 import { RequestMethod, RequestOperation } from "./enums";
 
-export default async function mutationCreate(modelName: string, input: any, _log_request?: boolean): Promise<number> {
+export default async function mutationCreate(
+  modelName: string,
+  input: Record<string, unknown>,
+  _log_request?: boolean,
+): Promise<number> {
   const response = (await gqlRequest(
     generateRequest(
       modelName,
@@ -12,8 +16,8 @@ export default async function mutationCreate(modelName: string, input: any, _log
           input: input,
         },
       },
-      _log_request
-    )
+      _log_request,
+    ),
   )) as Record<string, { id: number }>;
 
   return response[RequestOperation.Create + modelName].id;

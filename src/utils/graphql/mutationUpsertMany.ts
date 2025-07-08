@@ -3,7 +3,7 @@ import { RequestMethod, RequestOperation } from "./enums";
 
 export default async function mutationUpsertMany(
   modelName: string,
-  records: object[],
+  records: Record<string, unknown>[],
   _log_request?: boolean,
 ): Promise<number[]> {
   if (records.length === 0) {

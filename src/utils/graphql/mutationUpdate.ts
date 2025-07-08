@@ -4,7 +4,7 @@ import { RequestMethod, RequestOperation } from "./enums";
 export default async function mutationUpdate(
   modelName: string,
   id: number,
-  partialRecord: object,
+  partialRecord: Record<string, unknown>,
   _log_request?: boolean,
 ): Promise<number> {
   const response = (await gqlRequest(
