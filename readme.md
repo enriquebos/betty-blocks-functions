@@ -11,12 +11,20 @@ Recommended installation:
 - nvm zsh hook (Add to `~/.zshrc`)
 ```bash
 autoload -U add-zsh-hook
+
 load-nvmrc() {
   local node_version="$(nvm version)"
   local nvmrc_path="$(nvm_find_nvmrc)"
 
   if [ -n "$nvmrc_path" ]; then
-    local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+    local nvmrc_cat="$(cat "${nvmrc_path}")"
+
+    # If regex match current version with .nvmrc then return
+    if [[ $node_version =~ $nvmrc_cat ]]; then
+        return 1
+    fi
+
+    local nvmrc_node_version=$(nvm version $nvmrc_cat)
 
     if [ "$nvmrc_node_version" = "N/A" ]; then
       nvm install
@@ -24,10 +32,11 @@ load-nvmrc() {
       nvm use
     fi
   elif [ "$node_version" != "$(nvm version default)" ]; then
-    echo "Reverting to nvm default version"
+    echo "Reverting to NVM default version"
     nvm use default
   fi
 }
+
 add-zsh-hook chpwd load-nvmrc
 load-nvmrc
 ```
