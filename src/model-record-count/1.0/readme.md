@@ -1,5 +1,5 @@
 ### Summary
-Easily get the record count inside a model. Select a model define result for the enitre model. If a filter is needed it can be provided using the GraphQL format.
+Easily get the record count inside a model. Select a model define result for the entire model. If a filter is needed it can be provided using the GraphQL format.
 
 ### Inputs
 #### Filter

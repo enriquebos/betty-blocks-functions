@@ -1,0 +1,5 @@
+{
+  "dependencies": [],
+  "functions": ["dateStrftime 1.0"],
+  "includes": ["./functions/utils"]
+}

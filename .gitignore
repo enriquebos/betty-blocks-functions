@@ -1,5 +1,4 @@
 functions/
-blocks/
 coverage/
 node_modules/
 src/background-action/

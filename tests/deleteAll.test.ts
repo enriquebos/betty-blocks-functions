@@ -40,7 +40,7 @@ describe("deleteAll", () => {
         batchSize: 10,
         filter: mockFilter,
         filterVars: mockFilterVars,
-      })
+      }),
     ).rejects.toThrow("Delete amount cannot be lower than or equal to 0");
   });
 
@@ -52,7 +52,7 @@ describe("deleteAll", () => {
         batchSize: 0,
         filter: mockFilter,
         filterVars: mockFilterVars,
-      })
+      }),
     ).rejects.toThrow("Batch size cannot be lower than or equal to 0");
   });
 
