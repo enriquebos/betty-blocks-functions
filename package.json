@@ -16,15 +16,15 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
-    "remeda": "^2.24.0"
+    "remeda": "^2.26.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.30.1",
-    "eslint": "^9.30.1",
+    "@eslint/js": "^9.31.0",
+    "eslint": "^9.31.0",
     "npm-check-updates": "^18.0.1",
     "prettier": "^3.6.2",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.36.0",
+    "typescript-eslint": "^8.37.0",
     "@betty-blocks/cli": "25.107.0",
     "@types/jest": "^30.0.0",
     "ts-jest": "^29.4.0"
