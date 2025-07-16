@@ -11,4 +11,4 @@ This will create or update an object based on if it exists or not. If the fetche
 | Value Mapping Update | Special mapping that will ONLY happen on update, **this will override the main mapping**.
 
 ### Prefab (function.json)
-![function_prefab](./Screenshot%202025-07-16%20at%2014.04.12.png)
+![function_prefab](https://github.com/user-attachments/assets/1649c156-0837-4fea-9e31-e7ba5c5cd45e)
