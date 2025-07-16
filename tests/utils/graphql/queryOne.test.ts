@@ -46,7 +46,10 @@ describe("queryOne", () => {
     );
 
     expect(gqlRequest).toHaveBeenCalledWith(mockQuery);
-    expect(formatResponse).toHaveBeenCalledWith(gqlResult[RequestOperation.One + modelName], fields);
+    expect(formatResponse).toHaveBeenCalledWith(
+      gqlResult[RequestOperation.One + modelName],
+      fields,
+    );
     expect(result).toEqual(formattedResult);
   });
 
@@ -126,7 +129,9 @@ describe("queryOne", () => {
       undefined,
     );
 
-    expect(formatResponse).toHaveBeenCalledWith(gqlResult[RequestOperation.One + modelName], { id: Number });
+    expect(formatResponse).toHaveBeenCalledWith(gqlResult[RequestOperation.One + modelName], {
+      id: Number,
+    });
 
     expect(result).toEqual(formattedResult);
   });

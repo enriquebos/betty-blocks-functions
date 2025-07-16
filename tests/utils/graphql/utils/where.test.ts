@@ -1,4 +1,8 @@
-import { whereToString, whereToObject, validateWhereObject } from "../../../../src/utils/graphql/utils";
+import {
+  whereToString,
+  whereToObject,
+  validateWhereObject,
+} from "../../../../src/utils/graphql/utils";
 import { LogicalOperator, ComparisonOperator } from "../../../../src/utils/graphql/enums";
 
 describe("Graphql where", () => {
@@ -28,12 +32,16 @@ describe("Graphql where", () => {
       },
     ],
   };
-  const complexWhereString = "_or: [{ webuser: { age: { gt: 30 } } }, { webuser: { isActive: { eq: true } } }]";
+  const complexWhereString =
+    "_or: [{ webuser: { age: { gt: 30 } } }, { webuser: { isActive: { eq: true } } }]";
 
   const nestedLogicalWhereObject = {
     _and: [
       {
-        _or: [{ webuser: { firstName: { eq: "Alice" } } }, { webuser: { lastName: { eq: "Smith" } } }],
+        _or: [
+          { webuser: { firstName: { eq: "Alice" } } },
+          { webuser: { lastName: { eq: "Smith" } } },
+        ],
       },
       {
         webuser: {
@@ -134,7 +142,9 @@ describe("Graphql where", () => {
       },
     };
 
-    expect(() => validateWhereObject(where)).toThrow(/Condition on field 'firstName' must be an object/);
+    expect(() => validateWhereObject(where)).toThrow(
+      /Condition on field 'firstName' must be an object/,
+    );
   });
 
   it("should throw if condition contains more than one operator", () => {
@@ -159,7 +169,9 @@ describe("Graphql where", () => {
       },
     };
 
-    expect(() => validateWhereObject(where)).toThrow(/Invalid operator 'invalidOp' on field 'firstName'/);
+    expect(() => validateWhereObject(where)).toThrow(
+      /Invalid operator 'invalidOp' on field 'firstName'/,
+    );
   });
 
   it("should pass validation for a simple valid where object", () => {
@@ -176,7 +188,10 @@ describe("Graphql where", () => {
     const where = {
       _and: [
         {
-          _or: [{ webuser: { firstName: { eq: "Alice" } } }, { webuser: { lastName: { eq: "Smith" } } }],
+          _or: [
+            { webuser: { firstName: { eq: "Alice" } } },
+            { webuser: { lastName: { eq: "Smith" } } },
+          ],
         },
         {
           webuser: { status: { neq: "inactive" } },

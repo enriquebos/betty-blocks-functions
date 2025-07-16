@@ -38,7 +38,9 @@ const dateStrftime = async ({
       break;
 
     case (typeof datetime === "string" && /^\d+$/.test(datetime)) || typeof datetime === "number":
-      datetimeObject = new Date(typeof datetime === "number" ? datetime : parseInt(datetime) * 1000);
+      datetimeObject = new Date(
+        typeof datetime === "number" ? datetime : parseInt(datetime) * 1000,
+      );
       break;
 
     case typeof datetime === "string":

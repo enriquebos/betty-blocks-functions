@@ -20,7 +20,13 @@ export default async function queryAll<T extends { id: number }>(
   }
 
   const response = (await gqlRequest(
-    generateRequest<T>(modelName, RequestMethod.Query, RequestOperation.All, options, options._log_request),
+    generateRequest<T>(
+      modelName,
+      RequestMethod.Query,
+      RequestOperation.All,
+      options,
+      options._log_request,
+    ),
   )) as Record<string, { results: T[]; totalCount: number }>;
 
   if (!response || !response[`all${modelName}`]) {

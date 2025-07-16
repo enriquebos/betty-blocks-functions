@@ -14,7 +14,10 @@ export async function createOrUpdateRecordObject({
 }: CreateOrUpdateRecordParams): Promise<Record<string, unknown>> {
   const isUpdate = Boolean(recordObject);
   const baseInput = transformData(mapping) as Record<string, unknown>;
-  const operationSpecificInput = transformData(isUpdate ? mappingUpdate : mappingCreate) as Record<string, unknown>;
+  const operationSpecificInput = transformData(isUpdate ? mappingUpdate : mappingCreate) as Record<
+    string,
+    unknown
+  >;
   const safeRecordObject = (recordObject ?? {}) as Record<string, unknown>;
   const input = isUpdate
     ? (mergeAndUpdate(

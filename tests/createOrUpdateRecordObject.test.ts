@@ -84,7 +84,12 @@ describe("createOrUpdateRecordObject", () => {
 
     expect(mockTransformData).toHaveBeenCalledTimes(2);
     expect(mockMergeAndUpdate).toHaveBeenCalledTimes(2);
-    expect(mockCreateOrUpdateRecord).toHaveBeenCalledWith("TestModel", recordObject, finalMerged, true);
+    expect(mockCreateOrUpdateRecord).toHaveBeenCalledWith(
+      "TestModel",
+      recordObject,
+      finalMerged,
+      true,
+    );
     expect(result).toEqual({ as: mockResult });
   });
 });

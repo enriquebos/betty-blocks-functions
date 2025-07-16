@@ -23,7 +23,9 @@ describe("customExpression", () => {
     ];
 
     mockVariableMap.mockReturnValue({ x: "2", y: "3" });
-    mockTemplayed.mockImplementation(() => (vars: object & { x: string; y: string }) => `${vars.x} + ${vars.y}`);
+    mockTemplayed.mockImplementation(
+      () => (vars: object & { x: string; y: string }) => `${vars.x} + ${vars.y}`,
+    );
 
     const result = await customExpression({ expression, variables, debugLogging: false });
 

@@ -1,4 +1,8 @@
-import { sortToString, sortToObject, validateSortObject } from "../../../../src/utils/graphql/utils";
+import {
+  sortToString,
+  sortToObject,
+  validateSortObject,
+} from "../../../../src/utils/graphql/utils";
 
 describe("Graphql sort", () => {
   const simpleSortObject = {
@@ -77,7 +81,9 @@ describe("Graphql sort", () => {
       order: "ASC",
       testKey: "oops",
     };
-    expect(() => validateSortObject(invalidKeys)).toThrow(/Invalid key\(s\) passed in sort object: testKey/);
+    expect(() => validateSortObject(invalidKeys)).toThrow(
+      /Invalid key\(s\) passed in sort object: testKey/,
+    );
   });
 
   it("should throw if 'field' and 'relation' keys are both present", () => {
@@ -122,7 +128,11 @@ describe("Graphql sort", () => {
     const onlyOrder = {
       order: "ASC",
     };
-    expect(() => validateSortObject(onlyField)).toThrow(/Both field and order have to be defined in a sort object/);
-    expect(() => validateSortObject(onlyOrder)).toThrow(/Both field and order have to be defined in a sort object/);
+    expect(() => validateSortObject(onlyField)).toThrow(
+      /Both field and order have to be defined in a sort object/,
+    );
+    expect(() => validateSortObject(onlyOrder)).toThrow(
+      /Both field and order have to be defined in a sort object/,
+    );
   });
 });

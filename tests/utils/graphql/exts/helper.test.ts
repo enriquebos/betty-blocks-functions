@@ -41,7 +41,10 @@ describe("GraphqlModel", () => {
     const model = new GraphqlModel("TestModel");
     const fields = { id: Boolean, name: String };
 
-    const result = await model.queryOne<typeof fakeResult>({ fields, queryArguments: { where: { id: 1 } } });
+    const result = await model.queryOne<typeof fakeResult>({
+      fields,
+      queryArguments: { where: { id: 1 } },
+    });
 
     expect(queryOne).toHaveBeenCalledWith("TestModel", {
       fields,

@@ -2,7 +2,10 @@ import { RequestMethod, RequestOperation } from "../enums";
 import { whereToString } from "./where";
 import { sortToString } from "./sort";
 
-function formatResultsField<T>(fields: Partial<Record<keyof T, unknown>> | undefined, depth: number): string {
+function formatResultsField<T>(
+  fields: Partial<Record<keyof T, unknown>> | undefined,
+  depth: number,
+): string {
   if (fields === undefined || Object.keys(fields).length === 0) {
     return "id";
   }
@@ -92,7 +95,8 @@ export default function generateRequest<T>(
   },
   _log_request?: boolean,
 ): string {
-  const { skip, sort, take, where, input, id, uniqueBy, validate, totalCount } = options?.queryArguments || {};
+  const { skip, sort, take, where, input, id, uniqueBy, validate, totalCount } =
+    options?.queryArguments || {};
   const requestArguments: string[] = [];
 
   if (skip !== undefined) {

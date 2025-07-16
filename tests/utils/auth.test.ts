@@ -5,7 +5,11 @@ describe("jwtDecode", () => {
   const payload = { sub: "1234567890", name: "John Doe", admin: true };
 
   const base64url = (obj: object) =>
-    Buffer.from(JSON.stringify(obj)).toString("base64").replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
+    Buffer.from(JSON.stringify(obj))
+      .toString("base64")
+      .replace(/=/g, "")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_");
 
   const token = `${base64url(header)}.${base64url(payload)}.signature`;
 
@@ -28,7 +32,9 @@ describe("jwtDecode", () => {
   });
 
   it("should throw error when token has less than 2 parts", () => {
-    expect(() => jwtDecode("onlyonepart")).toThrow("Invalid token specified: Cannot read properties of undefined");
+    expect(() => jwtDecode("onlyonepart")).toThrow(
+      "Invalid token specified: Cannot read properties of undefined",
+    );
   });
 
   it("should throw when payload is invalid JSON", () => {
@@ -51,7 +57,11 @@ describe("jwtDecode", () => {
   });
 
   it("should fallback to polyfill if decodeURIComponent fails", () => {
-    const badPayload = Buffer.from("%%%").toString("base64").replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+    const badPayload = Buffer.from("%%%")
+      .toString("base64")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=/g, "");
     const token = `header.${badPayload}.signature`;
     expect(() => jwtDecode(token)).toThrow("Invalid token specified:");
   });

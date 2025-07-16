@@ -62,7 +62,10 @@ describe("queryAll", () => {
 
     expect(gqlRequest).toHaveBeenCalledWith("mockQuery");
 
-    expect(formatResponse).toHaveBeenCalledWith(gqlResponse[`all${modelName}`].results, options.fields);
+    expect(formatResponse).toHaveBeenCalledWith(
+      gqlResponse[`all${modelName}`].results,
+      options.fields,
+    );
 
     expect(result).toEqual({
       totalCount: 100,

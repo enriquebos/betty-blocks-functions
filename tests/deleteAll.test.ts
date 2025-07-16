@@ -78,7 +78,13 @@ describe("deleteAll", () => {
     expect(whereToObject).toHaveBeenCalledWith("processedFilter");
 
     expect(queryAll).toHaveBeenCalledTimes(2);
-    expect(mutationDeleteMany).toHaveBeenCalledWith("TestModel", ["id-0", "id-1", "id-2", "id-3", "id-4"]);
+    expect(mutationDeleteMany).toHaveBeenCalledWith("TestModel", [
+      "id-0",
+      "id-1",
+      "id-2",
+      "id-3",
+      "id-4",
+    ]);
 
     expect(result).toEqual({
       result: "5 records from TestModel have been deleted",

@@ -34,7 +34,9 @@ export function validateWhereObject(where: Record<string, unknown>): void {
           continue;
         }
 
-        const objectConditional = (value as Record<string, unknown>)[fieldKey] as ComparisonOperator;
+        const objectConditional = (value as Record<string, unknown>)[
+          fieldKey
+        ] as ComparisonOperator;
 
         if (typeof objectConditional !== "object" || objectConditional === null) {
           throw new Error(`Condition on field '${fieldKey}' must be an object`);

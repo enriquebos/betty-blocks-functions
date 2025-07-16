@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": "true",
   "scripts": {
-    "format": "prettier \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" \"./tests\" --write --print-width 120",
+    "format": "prettier \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" \"./tests\" --write --print-width 100",
     "test": "jest",
     "test:only-changed": "jest --onlyChanged",
     "test:cov": "jest --collect-coverage",

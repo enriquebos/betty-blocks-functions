@@ -188,7 +188,9 @@ describe("strftime", () => {
   });
 
   it("should not handle a leap year", () => {
-    expect(strftime("%Y-%m-%d %j", "en", new Date("2023-10-05T14:30:45Z"), 0, false)).toBe("2023-10-05 278");
+    expect(strftime("%Y-%m-%d %j", "en", new Date("2023-10-05T14:30:45Z"), 0, false)).toBe(
+      "2023-10-05 278",
+    );
   });
 
   it("should handle a datetime object", () => {

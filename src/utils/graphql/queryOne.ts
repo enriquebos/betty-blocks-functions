@@ -12,7 +12,13 @@ export default async function queryOne<T extends { id: number }>(
   },
 ): Promise<T | null> {
   const rawResponse = await gqlRequest<T>(
-    generateRequest<T>(modelName, RequestMethod.Query, RequestOperation.One, options, options?._log_request),
+    generateRequest<T>(
+      modelName,
+      RequestMethod.Query,
+      RequestOperation.One,
+      options,
+      options?._log_request,
+    ),
   );
   const response = rawResponse as unknown as Record<string, object>;
 
