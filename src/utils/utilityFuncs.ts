@@ -18,7 +18,7 @@ export function mergeAndUpdate(
   source: Record<string, unknown>,
   target: Record<string, unknown>,
   flipUpdate = false,
-): object {
+): Record<string, unknown> {
   return Object.keys(source).reduce(
     (acc, key) => (key in acc ? { ...acc, [key]: flipUpdate ? target[key] : source[key] } : acc),
     { ...target },

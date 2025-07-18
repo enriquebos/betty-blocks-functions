@@ -87,7 +87,7 @@ describe("deleteAll", () => {
     ]);
 
     expect(result).toEqual({
-      result: "5 records from TestModel have been deleted",
+      as: "5 records from TestModel have been deleted",
     });
   });
 
@@ -107,7 +107,7 @@ describe("deleteAll", () => {
     expect(queryAll).toHaveBeenCalledTimes(1);
     expect(mutationDeleteMany).toHaveBeenCalledWith("TestModel", ["id-1", "id-2"]);
     expect(result).toEqual({
-      result: "2 records from TestModel have been deleted",
+      as: "2 records from TestModel have been deleted",
     });
   });
 });

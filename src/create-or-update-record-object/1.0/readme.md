@@ -5,7 +5,7 @@ This will create or update an object based on if it exists or not. If the fetche
 #### Create or Update Record Object input
 | Argument | Info |
 |----------|------|
-| Record   | The object you want to create/update model will be based on the object |
+| Record | The object you want to create/update model will be based on the object |
 | Value Mapping | Main mapping that will be filled in for both create AND update
 | Value Mapping Create | Special mapping that will ONLY happen on create, **this will override the main mapping**.
 | Value Mapping Update | Special mapping that will ONLY happen on update, **this will override the main mapping**.

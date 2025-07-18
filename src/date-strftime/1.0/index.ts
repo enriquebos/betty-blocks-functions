@@ -18,7 +18,7 @@ const dateStrftime = async ({
   locale,
   strftimeDefault,
   strftimeStr,
-}: DateStrftimeParams): Promise<{ result: string }> => {
+}: DateStrftimeParams): Promise<{ as: string }> => {
   const strFormat = strftimeDefault !== "custom" ? strftimeDefault : strftimeStr;
   let datetimeObject: Date;
 
@@ -81,7 +81,7 @@ const dateStrftime = async ({
     }
   }
 
-  return { result: strftime(strFormat, locale, datetimeObject, offset, useUtc) };
+  return { as: strftime(strFormat, locale, datetimeObject, offset, useUtc) };
 };
 
 export default dateStrftime;

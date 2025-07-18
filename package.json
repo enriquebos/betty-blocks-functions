@@ -19,14 +19,15 @@
     "remeda": "^2.26.0"
   },
   "devDependencies": {
+    "@betty-blocks/cli": "25.107.0",
     "@eslint/js": "^9.31.0",
+    "@types/jest": "^30.0.0",
     "eslint": "^9.31.0",
+    "globals": "^16.3.0",
     "npm-check-updates": "^18.0.1",
     "prettier": "^3.6.2",
+    "ts-jest": "^29.4.0",
     "typescript": "^5.8.3",
-    "typescript-eslint": "^8.37.0",
-    "@betty-blocks/cli": "25.107.0",
-    "@types/jest": "^30.0.0",
-    "ts-jest": "^29.4.0"
+    "typescript-eslint": "^8.37.0"
   }
 }

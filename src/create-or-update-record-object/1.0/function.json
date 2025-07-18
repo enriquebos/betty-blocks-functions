@@ -1,6 +1,6 @@
 {
-  "description": "Create or update a record for a given model",
   "label": "Create or Update Record Object",
+  "description": "Create or update a record",
   "category": "CRUD",
   "icon": {
     "name": "DataJumpUpIcon",
@@ -84,6 +84,9 @@
         "validations": {
           "required": true
         }
+      },
+      "configuration": {
+        "placeholder": "my_object"
       }
     },
     {

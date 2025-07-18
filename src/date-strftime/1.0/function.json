@@ -1,6 +1,6 @@
 {
-  "description": "Format dates using strftime method",
   "label": "Date/Time Formatter (strftime)",
+  "description": "Format dates using strftime method",
   "category": "Misc",
   "icon": {
     "name": "DateTimeIcon",
@@ -25,6 +25,7 @@
     {
       "name": "offsetType",
       "label": "Offset Type",
+      "info": "Offset amount dependant on type (Use arrow down to get negative values)",
       "meta": {
         "type": "Select",
         "validations": {
@@ -137,23 +138,16 @@
       }
     },
     {
-      "name": "result",
-      "label": "Result",
+      "name": "as",
+      "label": "As",
       "info": "Result as text",
       "meta": {
         "type": "Output",
+        "output": {
+          "type": "Text"
+        },
         "validations": {
           "required": true
-        },
-        "output": {
-          "anyOf": [
-            {
-              "type": "Text"
-            },
-            {
-              "type": "Number"
-            }
-          ]
         }
       },
       "configuration": {

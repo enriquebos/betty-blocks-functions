@@ -12,24 +12,19 @@ interface ExpressionInput {
   debugLogging: boolean;
 }
 
-interface ExpressionResult {
-  result: unknown;
-}
-
 const customExpression = async ({
   expression,
   variables,
   debugLogging,
-}: ExpressionInput): Promise<ExpressionResult> => {
+}: ExpressionInput): Promise<unknown> => {
   const parsedVars = variableMap(variables);
-  const template: string = templayed(expression)(parsedVars);
+  const template = templayed(expression)(parsedVars);
   let functionOutput: string;
 
   try {
     functionOutput = new Function(`return ${template}`)();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    const errorMessage = `Error evaluating expression: "${error.message}" (template: ${template} variables: ${JSON.stringify(parsedVars)})`;
+  } catch (error: unknown) {
+    const errorMessage = `Error evaluating expression: "${(error as Error).message}" (template: ${template} variables: ${JSON.stringify(parsedVars)})`;
 
     if (debugLogging) {
       console.error(errorMessage);
@@ -39,7 +34,7 @@ const customExpression = async ({
   }
 
   return {
-    result: functionOutput,
+    as: functionOutput,
   };
 };
 

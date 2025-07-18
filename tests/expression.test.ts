@@ -24,12 +24,12 @@ describe("customExpression", () => {
 
     mockVariableMap.mockReturnValue({ x: "2", y: "3" });
     mockTemplayed.mockImplementation(
-      () => (vars: object & { x: string; y: string }) => `${vars.x} + ${vars.y}`,
+      () => (vars: object & { x: string; y: string }) => `${vars.x} + ${vars.y}`
     );
 
     const result = await customExpression({ expression, variables, debugLogging: false });
 
-    expect(result).toEqual({ result: 5 });
+    expect(result).toEqual({ as: 5 });
     expect(mockVariableMap).toHaveBeenCalledWith(variables);
   });
 
@@ -44,7 +44,7 @@ describe("customExpression", () => {
     const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
     await expect(customExpression({ expression, variables, debugLogging: true })).rejects.toThrow(
-      /Error evaluating expression/,
+      /Error evaluating expression/
     );
 
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Error evaluating expression"));
@@ -62,7 +62,7 @@ describe("customExpression", () => {
     const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {});
 
     await expect(customExpression({ expression, variables, debugLogging: false })).rejects.toThrow(
-      /Error evaluating expression/,
+      /Error evaluating expression/
     );
 
     expect(consoleSpy).not.toHaveBeenCalled();

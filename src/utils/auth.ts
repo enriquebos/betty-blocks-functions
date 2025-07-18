@@ -5,6 +5,7 @@ interface JwtDecodeOptions {
 function polyfill(input: string): string {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
   const str = String(input).replace(/=+$/, "");
+
   if (str.length % 4 == 1) {
     throw new Error("failed: The string to be decoded is not correctly encoded.");
   }
@@ -36,7 +37,7 @@ function b64DecodeUnicode(str: string): string {
         code = "0" + code;
       }
       return "%" + code;
-    }),
+    })
   );
 }
 
