@@ -15,7 +15,7 @@ interface TokenResult {
   as: DecodedToken;
 }
 
-const getAccessAndIdToken = async ({
+const oauthLogin = async ({
   tokenEndpoint,
   clientId,
   clientSecret,
@@ -52,4 +52,4 @@ const getAccessAndIdToken = async ({
   };
 };
 
-export default getAccessAndIdToken;
+export default oauthLogin;

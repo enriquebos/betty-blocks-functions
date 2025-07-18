@@ -3,7 +3,9 @@ import renderLiquidTemplate from "../src/utils/liquidjs";
 
 jest.mock("../src/utils/liquidjs");
 
-const mockedRenderLiquidTemplate = renderLiquidTemplate as jest.MockedFunction<typeof renderLiquidTemplate>;
+const mockedRenderLiquidTemplate = renderLiquidTemplate as jest.MockedFunction<
+  typeof renderLiquidTemplate
+>;
 
 describe("liquid function", () => {
   beforeEach(() => {

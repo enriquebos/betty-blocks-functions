@@ -1,4 +1,9 @@
-import { sortToString, sortToObject, validateSortObject } from "../../../../src/utils/graphql/utils";
+import {
+  sortToString,
+  sortToObject,
+  validateSortObject,
+} from "../../../../src/utils/graphql/utils";
+import { SortOrder } from "../../../../src/utils/graphql/enums";
 
 describe("Graphql sort", () => {
   const simpleSortObject = {
@@ -24,6 +29,11 @@ describe("Graphql sort", () => {
     },
   };
   const deeplyNestedSortString = "relation: { webuser: { profile: { createdAt: DESC } } }";
+
+  it("Sortorder should return capital items", () => {
+    expect(SortOrder.ASC).toEqual("ASC");
+    expect(SortOrder.DESC).toEqual("DESC");
+  });
 
   it("should convert a simple sort object to a string", () => {
     expect(sortToString(simpleSortObject)).toEqual(simpleSortString);
@@ -77,7 +87,9 @@ describe("Graphql sort", () => {
       order: "ASC",
       testKey: "oops",
     };
-    expect(() => validateSortObject(invalidKeys)).toThrow(/Invalid key\(s\) passed in sort object: testKey/);
+    expect(() => validateSortObject(invalidKeys)).toThrow(
+      /Invalid key\(s\) passed in sort object: testKey/
+    );
   });
 
   it("should throw if 'field' and 'relation' keys are both present", () => {
@@ -89,7 +101,7 @@ describe("Graphql sort", () => {
       },
     };
     expect(() => validateSortObject(invalidSort)).toThrow(
-      /'order' or 'field' cannot be defined when 'relation' key is defined/,
+      /'order' or 'field' cannot be defined when 'relation' key is defined/
     );
   });
 
@@ -101,7 +113,7 @@ describe("Graphql sort", () => {
       },
     };
     expect(() => validateSortObject(invalidRelation)).toThrow(
-      /A sort object relation cannot have more than one sort order defined/,
+      /A sort object relation cannot have more than one sort order defined/
     );
   });
 
@@ -111,7 +123,7 @@ describe("Graphql sort", () => {
       order: "INVALID",
     };
     expect(() => validateSortObject(invalidOrder)).toThrow(
-      /Sort object order has to be either ASC or DESC not 'INVALID'/,
+      /Sort object order has to be either ASC or DESC not 'INVALID'/
     );
   });
 
@@ -122,7 +134,11 @@ describe("Graphql sort", () => {
     const onlyOrder = {
       order: "ASC",
     };
-    expect(() => validateSortObject(onlyField)).toThrow(/Both field and order have to be defined in a sort object/);
-    expect(() => validateSortObject(onlyOrder)).toThrow(/Both field and order have to be defined in a sort object/);
+    expect(() => validateSortObject(onlyField)).toThrow(
+      /Both field and order have to be defined in a sort object/
+    );
+    expect(() => validateSortObject(onlyOrder)).toThrow(
+      /Both field and order have to be defined in a sort object/
+    );
   });
 });

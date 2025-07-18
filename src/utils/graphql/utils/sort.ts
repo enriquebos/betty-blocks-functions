@@ -29,7 +29,9 @@ export function validateSortObject<T>(sort: T): void {
   }
 
   if (!["ASC", "DESC"].includes(sortType as string)) {
-    throw new Error(`Sort object order has to be either ASC or DESC not '${sortType}' (case sensitive)`);
+    throw new Error(
+      `Sort object order has to be either ASC or DESC not '${sortType}' (case sensitive)`,
+    );
   }
 }
 
@@ -49,7 +51,9 @@ export function sortToString<T>(sort: T, validate = true): string {
 }
 
 export function sortToObject<T>(sort: string, validate = true): T {
-  const parsed = JSON.parse(`{${sort}}`.replace(/(\w+):/g, '"$1":').replace(/:\s*(\w+)/g, ': "$1"'));
+  const parsed = JSON.parse(
+    `{${sort}}`.replace(/(\w+):/g, '"$1":').replace(/:\s*(\w+)/g, ': "$1"'),
+  );
 
   if (validate) {
     validateSortObject(parsed);

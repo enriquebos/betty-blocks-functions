@@ -43,7 +43,7 @@ const deleteAll = async ({
   await mutationDeleteMany(modelName, combinedIds);
 
   return {
-    result: `${combinedIds.length} records from ${modelName} have been deleted`,
+    as: `${combinedIds.length} records from ${modelName} have been deleted`,
   };
 };
 

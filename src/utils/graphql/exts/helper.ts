@@ -75,8 +75,14 @@ export default class GraphqlModel {
     return await mutationDeleteMany(this.modelName, ids, this._log_request);
   }
 
-  async mutationUpdateMany(partialRecord: Record<string, unknown>, where: object = {}): Promise<number[]> {
-    return await mutationUpdateMany(this.modelName, partialRecord, { where: where, _log_request: this._log_request });
+  async mutationUpdateMany(
+    partialRecord: Record<string, unknown>,
+    where: object = {},
+  ): Promise<number[]> {
+    return await mutationUpdateMany(this.modelName, partialRecord, {
+      where: where,
+      _log_request: this._log_request,
+    });
   }
 
   async mutationUpsertMany(records: Record<string, unknown>[]): Promise<number[]> {

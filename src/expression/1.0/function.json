@@ -35,17 +35,8 @@
       }
     },
     {
-      "name": "debugLogging",
-      "label": "Debug logging",
-      "info": "Enable logging to logs",
-      "advanced": true,
-      "meta": {
-        "type": "Boolean"
-      }
-    },
-    {
-      "name": "result",
-      "label": "Result",
+      "name": "as",
+      "label": "As",
       "info": "The result of the expression.",
       "meta": {
         "type": "Output",
@@ -76,6 +67,15 @@
       },
       "configuration": {
         "placeholder": "result"
+      }
+    },
+    {
+      "name": "debugLogging",
+      "label": "Debug logging",
+      "info": "Enable logging to logs",
+      "advanced": true,
+      "meta": {
+        "type": "Boolean"
       }
     }
   ],

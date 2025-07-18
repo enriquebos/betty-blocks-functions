@@ -20,8 +20,8 @@
     },
     {
       "name": "amountToDelete",
-      "info": "When deleting huge ammount of records at once, we will limit the total ammount of records to be deleted to this number. Keep in mind this is from the parent record, this amount does not consider child relations if enabled",
       "label": "Limit the number of records to delete",
+      "info": "When deleting huge ammount of records at once, we will limit the total ammount of records to be deleted to this number. Keep in mind this is from the parent record, this amount does not consider child relations if enabled",
       "meta": {
         "type": "Number",
         "default": 40000,
@@ -36,8 +36,8 @@
     },
     {
       "name": "batchSize",
-      "info": "Deleting records in larger batches will increase performance, however if the batch size is too big it could decrease the amount deleted because it will first initiate a list to delete first.",
       "label": "Batch size",
+      "info": "Deleting records in larger batches will increase performance, however if the batch size is too big it could decrease the amount deleted because it will first initiate a list to delete first.",
       "meta": {
         "type": "Number",
         "default": 5000,
@@ -71,8 +71,8 @@
       }
     },
     {
-      "name": "result",
-      "label": "Result",
+      "name": "as",
+      "label": "As",
       "meta": {
         "type": "Output",
         "output": {

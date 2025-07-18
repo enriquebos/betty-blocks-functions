@@ -14,7 +14,9 @@ export default function renderLiquidTemplate(template: string, context: ContextI
 
   const engine = new Liquid();
 
-  engine.registerFilter("group", (collection: never[], key: string) => groupBy(collection, (item) => item[key]));
+  engine.registerFilter("group", (collection: never[], key: string) =>
+    groupBy(collection, (item) => item[key]),
+  );
 
   return engine.parseAndRenderSync(
     template,

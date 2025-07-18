@@ -25,7 +25,7 @@ describe("dateStrftime", () => {
       strftimeDefault: "%Y-%m-%d",
     });
 
-    expect(result).toEqual({ result: "formatted-date" });
+    expect(result).toEqual({ as: "formatted-date" });
     expect(mockStrftime).toHaveBeenCalledWith("%Y-%m-%d", "en", date, 0, false);
   });
 
@@ -42,7 +42,7 @@ describe("dateStrftime", () => {
       strftimeStr: "%d/%m/%Y",
     });
 
-    expect(result).toEqual({ result: "custom-format" });
+    expect(result).toEqual({ as: "custom-format" });
     expect(mockStrftime).toHaveBeenCalled();
   });
 
@@ -60,7 +60,7 @@ describe("dateStrftime", () => {
       strftimeDefault: "%x",
     });
 
-    expect(result).toEqual({ result: "now-date" });
+    expect(result).toEqual({ as: "now-date" });
     spy.mockRestore();
   });
 
@@ -78,7 +78,7 @@ describe("dateStrftime", () => {
       strftimeDefault: "%x",
     });
 
-    expect(result).toEqual({ result: "timestamp-date" });
+    expect(result).toEqual({ as: "timestamp-date" });
     expect(mockStrftime).toHaveBeenCalledWith("%x", "en", expectedDate, 0, false);
   });
 
@@ -95,7 +95,7 @@ describe("dateStrftime", () => {
       strftimeDefault: "%x",
     });
 
-    expect(result).toEqual({ result: "offset-date" });
+    expect(result).toEqual({ as: "offset-date" });
     expect(mockStrftime).toHaveBeenCalledWith("%x", "en", baseDate, 120, false);
   });
 
@@ -150,7 +150,7 @@ describe("dateStrftime", () => {
         locale: "en",
         strftimeDefault: "%Y",
       }),
-    ).resolves.toEqual({ result: "string-date" });
+    ).resolves.toEqual({ as: "string-date" });
   });
 
   it("parses numeric string timestamp", async () => {
@@ -165,7 +165,7 @@ describe("dateStrftime", () => {
         locale: "en",
         strftimeDefault: "%Y",
       }),
-    ).resolves.toEqual({ result: "unix-str" });
+    ).resolves.toEqual({ as: "unix-str" });
   });
 
   const baseDate = new Date("2024-06-01T00:00:00Z");
@@ -190,7 +190,7 @@ describe("dateStrftime", () => {
       strftimeDefault: "%x",
     });
 
-    expect(result).toEqual({ result: "offset-test" });
+    expect(result).toEqual({ as: "offset-test" });
     expect(mockStrftime).toHaveBeenCalledWith("%x", "en", baseDate, expectedOffset, false);
   });
 

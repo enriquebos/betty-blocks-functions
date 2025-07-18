@@ -40,7 +40,7 @@ describe("deleteAll", () => {
         batchSize: 10,
         filter: mockFilter,
         filterVars: mockFilterVars,
-      })
+      }),
     ).rejects.toThrow("Delete amount cannot be lower than or equal to 0");
   });
 
@@ -52,7 +52,7 @@ describe("deleteAll", () => {
         batchSize: 0,
         filter: mockFilter,
         filterVars: mockFilterVars,
-      })
+      }),
     ).rejects.toThrow("Batch size cannot be lower than or equal to 0");
   });
 
@@ -78,10 +78,16 @@ describe("deleteAll", () => {
     expect(whereToObject).toHaveBeenCalledWith("processedFilter");
 
     expect(queryAll).toHaveBeenCalledTimes(2);
-    expect(mutationDeleteMany).toHaveBeenCalledWith("TestModel", ["id-0", "id-1", "id-2", "id-3", "id-4"]);
+    expect(mutationDeleteMany).toHaveBeenCalledWith("TestModel", [
+      "id-0",
+      "id-1",
+      "id-2",
+      "id-3",
+      "id-4",
+    ]);
 
     expect(result).toEqual({
-      result: "5 records from TestModel have been deleted",
+      as: "5 records from TestModel have been deleted",
     });
   });
 
@@ -101,7 +107,7 @@ describe("deleteAll", () => {
     expect(queryAll).toHaveBeenCalledTimes(1);
     expect(mutationDeleteMany).toHaveBeenCalledWith("TestModel", ["id-1", "id-2"]);
     expect(result).toEqual({
-      result: "2 records from TestModel have been deleted",
+      as: "2 records from TestModel have been deleted",
     });
   });
 });

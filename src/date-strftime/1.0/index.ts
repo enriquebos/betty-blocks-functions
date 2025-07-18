@@ -18,7 +18,7 @@ const dateStrftime = async ({
   locale,
   strftimeDefault,
   strftimeStr,
-}: DateStrftimeParams): Promise<{ result: string }> => {
+}: DateStrftimeParams): Promise<{ as: string }> => {
   const strFormat = strftimeDefault !== "custom" ? strftimeDefault : strftimeStr;
   let datetimeObject: Date;
 
@@ -38,7 +38,9 @@ const dateStrftime = async ({
       break;
 
     case (typeof datetime === "string" && /^\d+$/.test(datetime)) || typeof datetime === "number":
-      datetimeObject = new Date(typeof datetime === "number" ? datetime : parseInt(datetime) * 1000);
+      datetimeObject = new Date(
+        typeof datetime === "number" ? datetime : parseInt(datetime) * 1000,
+      );
       break;
 
     case typeof datetime === "string":
@@ -79,7 +81,7 @@ const dateStrftime = async ({
     }
   }
 
-  return { result: strftime(strFormat, locale, datetimeObject, offset, useUtc) };
+  return { as: strftime(strFormat, locale, datetimeObject, offset, useUtc) };
 };
 
 export default dateStrftime;

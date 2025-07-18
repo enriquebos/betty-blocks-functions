@@ -1,4 +1,4 @@
-import getAccessAndIdToken from "../src/oauth-login/1.0";
+import oauthLogin from "../src/oauth-login/1.0";
 import { jwtDecode } from "../src/utils";
 
 global.fetch = jest.fn();
@@ -7,7 +7,7 @@ jest.mock("../src/utils", () => ({
   jwtDecode: jest.fn(),
 }));
 
-describe("getAccessAndIdToken", () => {
+describe("oauthLogin", () => {
   const mockTokenResponse = {
     access_token: "mockAccessToken",
     refresh_token: "mockRefreshToken",
@@ -45,7 +45,7 @@ describe("getAccessAndIdToken", () => {
     // Mock jwtDecode response
     (jwtDecode as jest.Mock).mockReturnValue(mockDecodedToken);
 
-    const result = await getAccessAndIdToken(tokenParams);
+    const result = await oauthLogin(tokenParams);
 
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(jwtDecode).toHaveBeenCalledWith("mockIdToken");
@@ -63,6 +63,6 @@ describe("getAccessAndIdToken", () => {
       text: async () => "Unauthorized",
     });
 
-    await expect(getAccessAndIdToken(tokenParams)).rejects.toThrow("Unauthorized");
+    await expect(oauthLogin(tokenParams)).rejects.toThrow("Unauthorized");
   });
 });

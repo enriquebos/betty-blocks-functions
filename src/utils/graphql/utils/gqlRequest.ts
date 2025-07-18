@@ -9,7 +9,9 @@ export default async function gqlRequest<T>(
   } = {},
 ): Promise<T> {
   if (operation.length > 4194304) {
-    throw new Error(`GraphQL request length exceeds maximum allowed size (${operation.length} vs 4194304)`);
+    throw new Error(
+      `GraphQL request length exceeds maximum allowed size (${operation.length} vs 4194304)`,
+    );
   }
 
   // @ts-expect-error | @ts-expect-error: Cannot find name 'gql'

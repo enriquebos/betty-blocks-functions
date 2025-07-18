@@ -35,6 +35,8 @@ describe("gqlRequest", () => {
   it("should throw if operation length exceeds limit", async () => {
     const longOperation = "a".repeat(4194305);
 
-    await expect(gqlRequest(longOperation)).rejects.toThrow(/GraphQL request length exceeds maximum allowed size/);
+    await expect(gqlRequest(longOperation)).rejects.toThrow(
+      /GraphQL request length exceeds maximum allowed size/,
+    );
   });
 });
