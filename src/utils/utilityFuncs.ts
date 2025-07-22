@@ -17,11 +17,11 @@ export function variableMap(variables: { key: string; value: string }[]): Record
 export function mergeAndUpdate(
   source: Record<string, unknown>,
   target: Record<string, unknown>,
-  flipUpdate = false,
+  flipUpdate = false
 ): Record<string, unknown> {
   return Object.keys(source).reduce(
     (acc, key) => (key in acc ? { ...acc, [key]: flipUpdate ? target[key] : source[key] } : acc),
-    { ...target },
+    { ...target }
   );
 }
 
@@ -32,7 +32,7 @@ export function transformData(input: MappingItem[]): Record<string, unknown> {
       if (keyName) acc[keyName] = value;
       return acc;
     },
-    {} as Record<string, unknown>,
+    {} as Record<string, unknown>
   );
 }
 
@@ -55,7 +55,7 @@ export function strftime(
   locale: string,
   date: Date,
   offset_in_minutes: number,
-  useUtc: boolean,
+  useUtc: boolean
 ): string {
   if (typeof sFormat !== "string") {
     return "";

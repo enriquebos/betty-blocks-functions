@@ -1,11 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 export default function formatResponse(
   response: object | object[],
-  result?: FieldObject,
-): Record<string, any> | Record<string, any>[] {
+  result?: FieldObject
+): Record<string, unknown> | Record<string, unknown>[] {
   if (Array.isArray(response)) {
-    return response.map((item) => formatResponse(item, result));
+    return response.map((item) => {
+      const formatted = formatResponse(item, result);
+
+      if (Array.isArray(formatted)) {
+        throw new Error("Nested arrays are not supported");
+      }
+      return formatted;
+    });
   }
 
   if (!result) return {};
@@ -29,6 +34,6 @@ export default function formatResponse(
 
       return formatted;
     },
-    {} as Record<string, any>,
+    {} as Record<string, unknown>
   );
 }

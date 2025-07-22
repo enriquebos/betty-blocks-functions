@@ -127,6 +127,24 @@ describe("formatResponse", () => {
     expect(formatted).toEqual({});
   });
 
+  it("should not allow for nested arrays", () => {
+    const response = [
+      { id: "1", name: "One" },
+      { id: "2", name: "Two" },
+      [
+        { id: "3", name: "One" },
+        { id: "4", name: "Two" },
+      ],
+    ];
+
+    const result = {
+      id: Number,
+      name: String,
+    };
+
+    expect(() => formatResponse(response, result)).toThrow("Nested arrays are not supported");
+  });
+
   it("should assign value as-is when result key is not a function or object", () => {
     const response = {
       rawData: "unchanged",

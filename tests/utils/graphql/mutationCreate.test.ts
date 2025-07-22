@@ -31,7 +31,7 @@ describe("mutationCreate", () => {
       RequestMethod.Mutation,
       RequestOperation.Create,
       { queryArguments: { input } },
-      undefined,
+      undefined
     );
 
     expect(mockGqlRequest).toHaveBeenCalledWith(fakeRequestObject);
@@ -48,7 +48,7 @@ describe("mutationCreate", () => {
       RequestMethod.Mutation,
       RequestOperation.Create,
       { queryArguments: { input } },
-      true,
+      true
     );
 
     expect(result).toBe(456);

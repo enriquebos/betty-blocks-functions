@@ -70,6 +70,7 @@ export default function jwtDecode(token: string, options?: JwtDecodeOptions): ob
 
   options = options || {};
   const pos = options.header === true ? 0 : 1;
+
   try {
     return JSON.parse(base64_url_decode(token.split(".")[pos]));
   } catch (e) {
