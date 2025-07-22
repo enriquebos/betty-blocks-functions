@@ -33,7 +33,7 @@ describe("jwtDecode", () => {
 
   it("should throw error when token has less than 2 parts", () => {
     expect(() => jwtDecode("onlyonepart")).toThrow(
-      "Invalid token specified: Cannot read properties of undefined"
+      "Invalid token specified: Cannot read properties of undefined",
     );
   });
 

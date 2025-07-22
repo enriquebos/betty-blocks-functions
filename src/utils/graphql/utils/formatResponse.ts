@@ -1,6 +1,6 @@
 export default function formatResponse(
   response: object | object[],
-  result?: FieldObject
+  result?: FieldObject,
 ): Record<string, unknown> | Record<string, unknown>[] {
   if (Array.isArray(response)) {
     return response.map((item) => {
@@ -34,6 +34,6 @@ export default function formatResponse(
 
       return formatted;
     },
-    {} as Record<string, unknown>
+    {} as Record<string, unknown>,
   );
 }

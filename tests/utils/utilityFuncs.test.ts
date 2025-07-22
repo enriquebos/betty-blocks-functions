@@ -1,5 +1,6 @@
 import { replaceTemplateVariables } from "../../src/utils/templating";
-import { chunkArray, variableMap, strftime } from "../../src/utils";
+import { chunkArray, variableMap, strftime, mergeAndUpdate, transformData } from "../../src/utils";
+import type { MappingItem } from "../../src/types/global";
 
 describe("chunkArray", () => {
   it("should chunk an array into smaller arrays of given size", () => {
@@ -163,6 +164,153 @@ describe("replaceTemplateVariables", () => {
     ];
 
     expect(replaceTemplateVariables(text, variables)).toBe("one and two");
+  });
+});
+
+describe("mergeAndUpdate", () => {
+  it("updates overlapping keys with source values by default", () => {
+    const source = { a: 1, b: 2 };
+    const target = { a: 10, b: 20, c: 30 };
+
+    const result = mergeAndUpdate(source, target);
+
+    expect(result).toEqual({ a: 1, b: 2, c: 30 });
+  });
+
+  it("updates overlapping keys with target values if flipUpdate is true", () => {
+    const source = { a: 1, b: 2 };
+    const target = { a: 10, b: 20, c: 30 };
+
+    const result = mergeAndUpdate(source, target, true);
+
+    expect(result).toEqual({ a: 10, b: 20, c: 30 });
+  });
+
+  it("does not add non-overlapping keys from source", () => {
+    const source = { d: 4 };
+    const target = { a: 1, b: 2 };
+
+    const result = mergeAndUpdate(source, target);
+
+    expect(result).toEqual({ a: 1, b: 2 });
+  });
+
+  it("works when source is empty", () => {
+    const source = {};
+    const target = { a: 1, b: 2 };
+
+    const result = mergeAndUpdate(source, target);
+
+    expect(result).toEqual({ a: 1, b: 2 });
+  });
+
+  it("works when target is empty", () => {
+    const source = { a: 1, b: 2 };
+    const target = {};
+
+    const result = mergeAndUpdate(source, target);
+
+    expect(result).toEqual({});
+  });
+
+  it("preserves non-conflicting keys from target", () => {
+    const source = { a: 5 };
+    const target = { a: 1, b: 2, c: 3 };
+
+    const result = mergeAndUpdate(source, target);
+
+    expect(result).toEqual({ a: 5, b: 2, c: 3 });
+  });
+
+  it("handles undefined values correctly", () => {
+    const source = { a: undefined };
+    const target = { a: 1, b: 2 };
+
+    const result = mergeAndUpdate(source, target);
+
+    expect(result).toEqual({ a: undefined, b: 2 });
+  });
+
+  it("flipUpdate preserves original target values on overlap", () => {
+    const source = { a: "source" };
+    const target = { a: "target" };
+
+    const result = mergeAndUpdate(source, target, true);
+
+    expect(result).toEqual({ a: "target" });
+  });
+});
+
+describe("transformData", () => {
+  it("transforms valid input with named keys", () => {
+    const input: MappingItem[] = [
+      { key: [{ kind: "type1", name: "foo" }], value: 123 },
+      { key: [{ kind: "type2", name: "bar" }], value: "hello" },
+    ];
+
+    const result = transformData(input);
+
+    expect(result).toEqual({ foo: 123, bar: "hello" });
+  });
+
+  it("ignores items with an empty key array", () => {
+    const input: MappingItem[] = [
+      { key: [], value: "shouldIgnore" },
+      { key: [{ kind: "x", name: "valid" }], value: true },
+    ];
+
+    const result = transformData(input);
+
+    expect(result).toEqual({ valid: true });
+  });
+
+  it("ignores items where key[0] has no name", () => {
+    const input: MappingItem[] = [
+      { key: [{ kind: "x", name: "" }], value: "shouldIgnore" },
+      { key: [{ kind: "y", name: "included" }], value: 42 },
+    ];
+
+    const result = transformData(input);
+
+    expect(result).toEqual({ included: 42 });
+  });
+
+  it("overwrites duplicate key names with latest value", () => {
+    const input: MappingItem[] = [
+      { key: [{ kind: "a", name: "dup" }], value: 1 },
+      { key: [{ kind: "b", name: "dup" }], value: 2 },
+    ];
+
+    const result = transformData(input);
+
+    expect(result).toEqual({ dup: 2 });
+  });
+
+  it("returns an empty object for empty input", () => {
+    const result = transformData([]);
+    expect(result).toEqual({});
+  });
+
+  it("handles various value types", () => {
+    const input: MappingItem[] = [
+      { key: [{ kind: "num", name: "number" }], value: 100 },
+      { key: [{ kind: "str", name: "string" }], value: "text" },
+      { key: [{ kind: "bool", name: "boolean" }], value: false },
+      { key: [{ kind: "null", name: "nullVal" }], value: null },
+      { key: [{ kind: "arr", name: "array" }], value: [1, 2, 3] },
+      { key: [{ kind: "obj", name: "object" }], value: { x: 1 } },
+    ];
+
+    const result = transformData(input);
+
+    expect(result).toEqual({
+      number: 100,
+      string: "text",
+      boolean: false,
+      nullVal: null,
+      array: [1, 2, 3],
+      object: { x: 1 },
+    });
   });
 });
 

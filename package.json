@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "private": "true",
   "scripts": {
-    "format": "prettier \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" \"./tests\" --write --print-width 100",
+    "format": "prettier \"./src/**/*.{ts,json}\" \"./tests/**/*.{ts,json}\" --write",
     "test": "jest",
     "test:only-changed": "jest --onlyChanged",
     "test:cov": "jest --collect-coverage",
@@ -29,5 +29,8 @@
     "ts-jest": "^29.4.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0"
+  },
+  "prettier": {
+    "printWidth": 100
   }
 }

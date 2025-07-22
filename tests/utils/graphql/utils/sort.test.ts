@@ -88,7 +88,7 @@ describe("Graphql sort", () => {
       testKey: "oops",
     };
     expect(() => validateSortObject(invalidKeys)).toThrow(
-      /Invalid key\(s\) passed in sort object: testKey/
+      /Invalid key\(s\) passed in sort object: testKey/,
     );
   });
 
@@ -101,7 +101,7 @@ describe("Graphql sort", () => {
       },
     };
     expect(() => validateSortObject(invalidSort)).toThrow(
-      /'order' or 'field' cannot be defined when 'relation' key is defined/
+      /'order' or 'field' cannot be defined when 'relation' key is defined/,
     );
   });
 
@@ -113,7 +113,7 @@ describe("Graphql sort", () => {
       },
     };
     expect(() => validateSortObject(invalidRelation)).toThrow(
-      /A sort object relation cannot have more than one sort order defined/
+      /A sort object relation cannot have more than one sort order defined/,
     );
   });
 
@@ -123,7 +123,7 @@ describe("Graphql sort", () => {
       order: "INVALID",
     };
     expect(() => validateSortObject(invalidOrder)).toThrow(
-      /Sort object order has to be either ASC or DESC not 'INVALID'/
+      /Sort object order has to be either ASC or DESC not 'INVALID'/,
     );
   });
 
@@ -135,10 +135,10 @@ describe("Graphql sort", () => {
       order: "ASC",
     };
     expect(() => validateSortObject(onlyField)).toThrow(
-      /Both field and order have to be defined in a sort object/
+      /Both field and order have to be defined in a sort object/,
     );
     expect(() => validateSortObject(onlyOrder)).toThrow(
-      /Both field and order have to be defined in a sort object/
+      /Both field and order have to be defined in a sort object/,
     );
   });
 });
