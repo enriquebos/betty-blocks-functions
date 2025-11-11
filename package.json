@@ -12,7 +12,7 @@
     "build": "npm run format && tsc -p ./tsconfig.json && rm -rf functions/utils/liquid.min.js && node post-build.mjs",
     "publish": "npm run build && npm run test && bb functions publish",
     "publish:no-test": "npm run build && bb functions publish",
-    "update-packages": "ncu -u -x glob -x npm-check-updates && npm install"
+    "update-packages": "ncu -u -x glob -x npm-check-updates -x @betty-blocks/cli && npm install"
   },
   "dependencies": {
     "date-fns": "^4.1.0",
