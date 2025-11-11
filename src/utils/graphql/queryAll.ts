@@ -15,7 +15,9 @@ export default async function queryAll<T extends { id: number }>(
     _log_request?: boolean;
   },
 ): Promise<{ totalCount: number; data: T[] }> {
-  if (options?.queryArguments?.take === 0) {
+  const requestedTake = options?.queryArguments?.take;
+
+  if (requestedTake !== undefined && Number(requestedTake) <= 0) {
     return { totalCount: 0, data: [] };
   }
 

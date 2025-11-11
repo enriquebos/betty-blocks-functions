@@ -155,6 +155,26 @@ describe("queryAll", () => {
     expect(formatResponse).not.toHaveBeenCalled();
   });
 
+  it("should return empty result when take is provided as string zero", async () => {
+    const options = {
+      fields: { id: true },
+      queryArguments: {
+        take: "0" as unknown as number,
+      },
+    };
+
+    interface ItemType {
+      id: number;
+    }
+
+    const result = await queryAll<ItemType>("Item", options);
+
+    expect(result).toEqual({ totalCount: 0, data: [] });
+    expect(generateRequest).not.toHaveBeenCalled();
+    expect(gqlRequest).not.toHaveBeenCalled();
+    expect(formatResponse).not.toHaveBeenCalled();
+  });
+
   it("should use default fields if options.fields is not provided", async () => {
     const options = {
       queryArguments: {
