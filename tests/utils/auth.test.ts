@@ -11,6 +11,13 @@ describe("jwtDecode", () => {
       .replace(/\+/g, "-")
       .replace(/\//g, "_");
 
+  const base64urlFromString = (value: string) =>
+    Buffer.from(value)
+      .toString("base64")
+      .replace(/=/g, "")
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_");
+
   const token = `${base64url(header)}.${base64url(payload)}.signature`;
 
   it("should decode payload by default", () => {
@@ -64,5 +71,42 @@ describe("jwtDecode", () => {
       .replace(/=/g, "");
     const token = `header.${badPayload}.signature`;
     expect(() => jwtDecode(token)).toThrow("Invalid token specified:");
+  });
+
+  it("decodes payloads that require single-character padding", () => {
+    const paddingSensitivePayload = { data: "xxx" }; // len 3 ensures base64 len % 4 === 3.
+    const payloadSegment = base64url(paddingSensitivePayload);
+    expect(payloadSegment.length % 4).toBe(3);
+
+    const paddedToken = `${base64url(header)}.${payloadSegment}.signature`;
+
+    expect(jwtDecode(paddedToken)).toEqual(paddingSensitivePayload);
+  });
+
+  it("decodes payloads containing low ASCII characters", () => {
+    const controlPayload = { ctrl: "\u0005" };
+    const controlToken = `${base64url(header)}.${base64url(controlPayload)}.signature`;
+
+    expect(jwtDecode(controlToken)).toEqual(controlPayload);
+  });
+
+  it("throws when payload base64 padding is invalid", () => {
+    const headerSegment = base64url(header);
+    const invalidPayloadSegment = "abcde==="; // multiple-of-4 length with 3 trailing '='.
+    const malformedToken = `${headerSegment}.${invalidPayloadSegment}.signature`;
+
+    expect(() => jwtDecode(malformedToken)).toThrow(
+      "Invalid token specified: failed: The string to be decoded is not correctly encoded.",
+    );
+  });
+
+  it("throws when payload contains raw control characters", () => {
+    const headerSegment = base64url(header);
+    const controlChar = "\u0005";
+    const controlCharPayload = `{"ctrl":"${controlChar}"}`;
+    const controlSegment = base64urlFromString(controlCharPayload);
+    const malformedToken = `${headerSegment}.${controlSegment}.signature`;
+
+    expect(() => jwtDecode(malformedToken)).toThrow("Invalid token specified:");
   });
 });

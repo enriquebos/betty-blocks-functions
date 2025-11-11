@@ -183,6 +183,23 @@ describe("generateRequest", () => {
     expect(result).toContain('input: { name: "Bulbasaur", level: 5, shiny: false }');
   });
 
+  it("stringifies nested objects and arrays inside input", () => {
+    const input = {
+      metadata: {
+        region: "Kanto",
+        badges: ["Boulder", 8],
+      },
+    };
+
+    const result = generateRequest("Pokemon", RequestMethod.Mutation, RequestOperation.Create, {
+      queryArguments: { input },
+    });
+
+    expect(result).toContain(
+      'input: { metadata: { region: "Kanto", badges: [ "Boulder", 8 ] } }',
+    );
+  });
+
   it("stringifies input array recursively", () => {
     const input = [{ name: "Charmander" }, { name: "Squirtle" }];
     const result = generateRequest("Pokemon", RequestMethod.Mutation, RequestOperation.Create, {
@@ -233,5 +250,18 @@ describe("generateRequest", () => {
 
     expect(result).toContain("id,");
     expect(result).toContain("name");
+  });
+
+  it("stringifies primitive values passed directly as input", () => {
+    const stringResult = generateRequest("Pokemon", RequestMethod.Mutation, RequestOperation.Create, {
+      // Cast to hit the primitive branch inside customStringify.
+      queryArguments: { input: "rawInput" as unknown as Record<string, unknown> },
+    });
+    const numberResult = generateRequest("Pokemon", RequestMethod.Mutation, RequestOperation.Create, {
+      queryArguments: { input: 42 as unknown as Record<string, unknown> },
+    });
+
+    expect(stringResult).toContain('input: "rawInput"');
+    expect(numberResult).toContain("input: 42");
   });
 });
