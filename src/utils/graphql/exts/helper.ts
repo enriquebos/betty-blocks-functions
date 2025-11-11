@@ -10,7 +10,8 @@ import {
   queryOne,
   queryAll,
 } from "../";
-import { modelCount } from "../exts";
+import modelCount from "./modelCount";
+import deleteWhere from "./deleteWhere";
 
 export default class GraphqlModel {
   modelName: string;
@@ -87,5 +88,17 @@ export default class GraphqlModel {
 
   async mutationUpsertMany(records: Record<string, unknown>[]): Promise<number[]> {
     return await mutationUpsertMany(this.modelName, records, this._log_request);
+  }
+
+  async deleteWhere(options: {
+    amountToDelete: number;
+    batchSize: number;
+    where?: object;
+    maxTake?: number;
+  }): Promise<number[]> {
+    return await deleteWhere(this.modelName, {
+      ...options,
+      _log_request: this._log_request,
+    });
   }
 }

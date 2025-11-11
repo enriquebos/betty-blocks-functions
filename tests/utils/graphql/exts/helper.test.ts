@@ -1,3 +1,13 @@
+jest.mock("../../../../src/utils/graphql/exts/modelCount", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
+jest.mock("../../../../src/utils/graphql/exts/deleteWhere", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
 import {
   mutationCreate,
   mutationDelete,
@@ -12,6 +22,7 @@ import {
 } from "../../../../src/utils/graphql";
 
 import { modelCount, GraphqlModel } from "../../../../src/utils/graphql/exts";
+import deleteWhere from "../../../../src/utils/graphql/exts/deleteWhere";
 
 jest.mock("../../../../src/utils/graphql", () => ({
   mutationCreate: jest.fn(),
@@ -25,9 +36,6 @@ jest.mock("../../../../src/utils/graphql", () => ({
   queryOne: jest.fn(),
   queryAll: jest.fn(),
 }));
-
-import * as graphqlExts from "../../../../src/utils/graphql/exts";
-jest.spyOn(graphqlExts, "modelCount").mockImplementation(jest.fn());
 
 describe("GraphqlModel", () => {
   beforeEach(() => {
@@ -197,6 +205,21 @@ describe("GraphqlModel", () => {
       _log_request: true,
     });
     expect(result).toEqual(resultIds);
+  });
+
+  it("deleteWhere delegates to the ext helper with model context", async () => {
+    (deleteWhere as jest.Mock).mockResolvedValue([1, 2, 3]);
+
+    const model = new GraphqlModel("TestModel", false, true);
+    const options = { amountToDelete: 10, batchSize: 5, where: { active: true }, maxTake: 100 };
+
+    const result = await model.deleteWhere(options);
+
+    expect(deleteWhere).toHaveBeenCalledWith("TestModel", {
+      ...options,
+      _log_request: true,
+    });
+    expect(result).toEqual([1, 2, 3]);
   });
 
   it("queryOne passes _log_request when provided", async () => {
