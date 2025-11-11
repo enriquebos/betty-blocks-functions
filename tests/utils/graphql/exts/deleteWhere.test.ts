@@ -57,17 +57,6 @@ describe("deleteWhere ext", () => {
     });
   });
 
-  it("returns empty array when inputs are invalid", async () => {
-    const ids = await deleteWhere(modelName, {
-      amountToDelete: 0,
-      batchSize: -1,
-    });
-
-    expect(ids).toEqual([]);
-    expect(queryAll).not.toHaveBeenCalled();
-    expect(mutationDeleteMany).not.toHaveBeenCalled();
-  });
-
   it("allows overriding maxTake", async () => {
     (queryAll as jest.Mock).mockResolvedValueOnce({
       data: [{ id: 1 }],
@@ -84,6 +73,30 @@ describe("deleteWhere ext", () => {
       queryArguments: { skip: 0, take: 10, where: {} },
       _log_request: undefined,
     });
+  });
+
+  it("throws when delete amount is zero or negative", async () => {
+    await expect(
+      deleteWhere(modelName, {
+        amountToDelete: 0,
+        batchSize: 5,
+      }),
+    ).rejects.toThrow("Delete amount cannot be lower than or equal to 0");
+
+    expect(queryAll).not.toHaveBeenCalled();
+    expect(mutationDeleteMany).not.toHaveBeenCalled();
+  });
+
+  it("throws when batch size is zero or negative", async () => {
+    await expect(
+      deleteWhere(modelName, {
+        amountToDelete: 10,
+        batchSize: 0,
+      }),
+    ).rejects.toThrow("Batch size cannot be lower than or equal to 0");
+
+    expect(queryAll).not.toHaveBeenCalled();
+    expect(mutationDeleteMany).not.toHaveBeenCalled();
   });
 
   it("stops iterating once remaining drops to zero before querying again", async () => {

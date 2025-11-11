@@ -32,6 +32,10 @@ describe("deleteAll", () => {
   });
 
   it("throws if amountToDelete is 0 or negative", async () => {
+    (deleteWhere as jest.Mock).mockRejectedValueOnce(
+      new Error("Delete amount cannot be lower than or equal to 0"),
+    );
+
     await expect(
       deleteAll({
         model: mockModel,
@@ -41,9 +45,19 @@ describe("deleteAll", () => {
         filterVars: mockFilterVars,
       }),
     ).rejects.toThrow("Delete amount cannot be lower than or equal to 0");
+
+    expect(deleteWhere).toHaveBeenCalledWith("TestModel", {
+      amountToDelete: 0,
+      batchSize: 10,
+      where: { some: "condition" },
+    });
   });
 
   it("throws if batchSize is 0 or negative", async () => {
+    (deleteWhere as jest.Mock).mockRejectedValueOnce(
+      new Error("Batch size cannot be lower than or equal to 0"),
+    );
+
     await expect(
       deleteAll({
         model: mockModel,
@@ -53,6 +67,12 @@ describe("deleteAll", () => {
         filterVars: mockFilterVars,
       }),
     ).rejects.toThrow("Batch size cannot be lower than or equal to 0");
+
+    expect(deleteWhere).toHaveBeenCalledWith("TestModel", {
+      amountToDelete: 10,
+      batchSize: 0,
+      where: { some: "condition" },
+    });
   });
 
   it("queries and deletes records in batches", async () => {

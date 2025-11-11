@@ -14,8 +14,12 @@ export default async function deleteWhere(
 ): Promise<number[]> {
   const deletedIds: number[] = [];
 
-  if (amountToDelete <= 0 || batchSize <= 0) {
-    return deletedIds;
+  if (amountToDelete != null && amountToDelete <= 0) {
+    throw new Error("Delete amount cannot be lower than or equal to 0");
+  }
+
+  if (batchSize <= 0) {
+    throw new Error("Batch size cannot be lower than or equal to 0");
   }
 
   const batchCount = Math.ceil(amountToDelete / batchSize) + 1;
