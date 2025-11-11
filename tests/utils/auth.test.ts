@@ -12,11 +12,7 @@ describe("jwtDecode", () => {
       .replace(/\//g, "_");
 
   const base64urlFromString = (value: string) =>
-    Buffer.from(value)
-      .toString("base64")
-      .replace(/=/g, "")
-      .replace(/\+/g, "-")
-      .replace(/\//g, "_");
+    Buffer.from(value).toString("base64").replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
 
   const token = `${base64url(header)}.${base64url(payload)}.signature`;
 

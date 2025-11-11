@@ -195,9 +195,7 @@ describe("generateRequest", () => {
       queryArguments: { input },
     });
 
-    expect(result).toContain(
-      'input: { metadata: { region: "Kanto", badges: [ "Boulder", 8 ] } }',
-    );
+    expect(result).toContain('input: { metadata: { region: "Kanto", badges: [ "Boulder", 8 ] } }');
   });
 
   it("stringifies input array recursively", () => {
@@ -253,13 +251,23 @@ describe("generateRequest", () => {
   });
 
   it("stringifies primitive values passed directly as input", () => {
-    const stringResult = generateRequest("Pokemon", RequestMethod.Mutation, RequestOperation.Create, {
-      // Cast to hit the primitive branch inside customStringify.
-      queryArguments: { input: "rawInput" as unknown as Record<string, unknown> },
-    });
-    const numberResult = generateRequest("Pokemon", RequestMethod.Mutation, RequestOperation.Create, {
-      queryArguments: { input: 42 as unknown as Record<string, unknown> },
-    });
+    const stringResult = generateRequest(
+      "Pokemon",
+      RequestMethod.Mutation,
+      RequestOperation.Create,
+      {
+        // Cast to hit the primitive branch inside customStringify.
+        queryArguments: { input: "rawInput" as unknown as Record<string, unknown> },
+      },
+    );
+    const numberResult = generateRequest(
+      "Pokemon",
+      RequestMethod.Mutation,
+      RequestOperation.Create,
+      {
+        queryArguments: { input: 42 as unknown as Record<string, unknown> },
+      },
+    );
 
     expect(stringResult).toContain('input: "rawInput"');
     expect(numberResult).toContain("input: 42");
