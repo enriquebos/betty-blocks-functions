@@ -128,4 +128,21 @@ describe("createOrUpdateRecord", () => {
       id: 123,
     });
   });
+
+  it("should strip id from input during update to avoid nested id errors", async () => {
+    mockedGqlRequest.mockResolvedValueOnce({
+      updateUser: { id: 42 },
+    });
+
+    const record = { id: 42 };
+    const input = { id: 999, name: "Keeps name only" };
+
+    await createOrUpdateRecord("User", record, input, true);
+
+    expect(mockedGqlRequest).toHaveBeenCalledWith(expect.any(String), {
+      input: { name: "Keeps name only" },
+      id: 42,
+      validationSets: ["default"],
+    });
+  });
 });

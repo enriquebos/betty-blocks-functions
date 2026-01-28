@@ -1,5 +1,5 @@
 import createOrUpdateRecordObject from "../src/create-or-update-record-object/1.0/index";
-import { transformData, mergeAndUpdate } from "../src/utils";
+import { transformData } from "../src/utils";
 import { createOrUpdateRecord } from "../src/utils/graphql/exts";
 
 import type { CreateOrUpdateRecordParams } from "../src/types/functions";
@@ -7,7 +7,6 @@ import type { MappingItem } from "../src/types/global";
 
 jest.mock("../src/utils", () => ({
   transformData: jest.fn(),
-  mergeAndUpdate: jest.fn(),
 }));
 
 jest.mock("../src/utils/graphql/exts", () => ({
@@ -16,7 +15,6 @@ jest.mock("../src/utils/graphql/exts", () => ({
 
 describe("createOrUpdateRecordObject", () => {
   const mockTransformData = transformData as jest.Mock;
-  const mockMergeAndUpdate = mergeAndUpdate as jest.Mock;
   const mockCreateOrUpdateRecord = createOrUpdateRecord as jest.Mock;
 
   beforeEach(() => {
@@ -53,7 +51,13 @@ describe("createOrUpdateRecordObject", () => {
     const result = await createOrUpdateRecordObject(params);
 
     expect(mockTransformData).toHaveBeenCalledTimes(2);
-    expect(mockCreateOrUpdateRecord).toHaveBeenCalledWith("TestModel", {}, expectedInput, true);
+    expect(mockCreateOrUpdateRecord).toHaveBeenCalledWith(
+      "TestModel",
+      {},
+      expectedInput,
+      false,
+      true,
+    );
     expect(result).toEqual({ as: mockResult });
   });
 
@@ -61,11 +65,10 @@ describe("createOrUpdateRecordObject", () => {
     const recordObject = { id: 123 };
     const baseInput = { base: "data" };
     const updateInput = { update: "data" };
-    const intermediateMerged = { merged: "intermediate" };
-    const finalMerged = { final: "merged" };
+    const mergedInput = { ...baseInput, ...updateInput };
+    const expectedInput = { ...recordObject, ...mergedInput };
 
     mockTransformData.mockReturnValueOnce(baseInput).mockReturnValueOnce(updateInput);
-    mockMergeAndUpdate.mockReturnValueOnce(intermediateMerged).mockReturnValueOnce(finalMerged);
 
     const mockResult = { id: 123, status: "updated" };
     mockCreateOrUpdateRecord.mockResolvedValueOnce(mockResult);
@@ -83,11 +86,11 @@ describe("createOrUpdateRecordObject", () => {
     const result = await createOrUpdateRecordObject(params);
 
     expect(mockTransformData).toHaveBeenCalledTimes(2);
-    expect(mockMergeAndUpdate).toHaveBeenCalledTimes(2);
     expect(mockCreateOrUpdateRecord).toHaveBeenCalledWith(
       "TestModel",
       recordObject,
-      finalMerged,
+      expectedInput,
+      true,
       true,
     );
     expect(result).toEqual({ as: mockResult });

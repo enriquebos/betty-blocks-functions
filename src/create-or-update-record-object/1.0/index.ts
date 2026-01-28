@@ -1,4 +1,4 @@
-import { transformData, mergeAndUpdate } from "../../utils";
+import { transformData } from "../../utils";
 import { createOrUpdateRecord } from "../../utils/graphql/exts";
 import type { CreateOrUpdateRecordParams } from "../../types/functions";
 
@@ -16,11 +16,12 @@ export async function createOrUpdateRecordObject({
   const baseInput = transformData(mapping);
   const operationSpecificInput = transformData(isUpdate ? mappingUpdate : mappingCreate);
   const safeRecordObject = recordObject ?? {};
-  const input = isUpdate
-    ? mergeAndUpdate(operationSpecificInput, mergeAndUpdate(safeRecordObject, baseInput, true))
-    : { ...baseInput, ...operationSpecificInput };
+  const mergedInput = { ...baseInput, ...operationSpecificInput };
+  const input = isUpdate ? { ...safeRecordObject, ...mergedInput } : mergedInput;
 
-  return { as: await createOrUpdateRecord(modelName, safeRecordObject, input, validates) };
+  return {
+    as: await createOrUpdateRecord(modelName, safeRecordObject, input, validates),
+  };
 }
 
 export default createOrUpdateRecordObject;

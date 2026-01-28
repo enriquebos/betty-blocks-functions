@@ -20,5 +20,5 @@
     "isolatedModules": true
   },
   "compileOnSave": true,
-  "include": ["src/**/index.ts", "src/**/function.json", "src"],
+  "include": ["src/**/index.ts", "src/**/function.json", "src", "src/types"],
 }

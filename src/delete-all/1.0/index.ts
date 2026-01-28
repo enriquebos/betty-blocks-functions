@@ -10,10 +10,18 @@ const deleteAll = async ({
   filter,
   filterVars,
 }: DeleteAllParams) => {
+  const templateVars =
+    filterVars
+      ?.map(({ key, value }) => ({
+        key: key[0]?.name ?? "",
+        value: value != null ? String(value) : "",
+      }))
+      .filter(({ key }) => Boolean(key)) || [];
+
   const deletedIds = await deleteWhere(modelName, {
     amountToDelete,
     batchSize,
-    where: whereToObject(replaceTemplateVariables(filter, filterVars)),
+    where: whereToObject(replaceTemplateVariables(filter, templateVars)),
   });
 
   return {

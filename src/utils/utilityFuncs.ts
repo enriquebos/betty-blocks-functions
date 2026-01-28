@@ -1,5 +1,3 @@
-import type { MappingItem } from "../types/global";
-
 export function* chunkArray<T>(array: T[], chunkSize: number): Generator<T[], void, void> {
   if (chunkSize <= 0 || !Number.isInteger(chunkSize)) {
     throw new RangeError("chunkSize must be a positive integer");
@@ -29,7 +27,13 @@ export function transformData(input: MappingItem[]): Record<string, unknown> {
   return input.reduce(
     (acc, { key, value }) => {
       const keyName = key[0]?.name;
-      if (keyName) acc[keyName] = value;
+      if (!keyName) return acc;
+
+      acc[keyName] =
+        value !== null && typeof value === "object" && "id" in value
+          ? (value as { id: unknown }).id
+          : value;
+
       return acc;
     },
     {} as Record<string, unknown>,
