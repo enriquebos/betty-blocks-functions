@@ -86,7 +86,9 @@ describe("deleteAll", () => {
       filterVars: mockFilterVars,
     });
 
-    expect(replaceTemplateVariables).toHaveBeenCalledWith(mockFilter, mockFilterVars);
+    expect(replaceTemplateVariables).toHaveBeenCalledWith(mockFilter, [
+      { key: "var1", value: "value1" },
+    ]);
     expect(whereToObject).toHaveBeenCalledWith("processedFilter");
 
     expect(deleteWhere).toHaveBeenCalledWith("TestModel", {

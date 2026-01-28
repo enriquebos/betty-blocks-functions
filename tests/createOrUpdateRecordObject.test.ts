@@ -55,7 +55,6 @@ describe("createOrUpdateRecordObject", () => {
       "TestModel",
       {},
       expectedInput,
-      false,
       true,
     );
     expect(result).toEqual({ as: mockResult });
@@ -90,7 +89,6 @@ describe("createOrUpdateRecordObject", () => {
       "TestModel",
       recordObject,
       expectedInput,
-      true,
       true,
     );
     expect(result).toEqual({ as: mockResult });
