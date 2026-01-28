@@ -1,5 +1,5 @@
 import { replaceTemplateVariables } from "../../src/utils/templating";
-import { chunkArray, variableMap, strftime, mergeAndUpdate, transformData } from "../../src/utils";
+import { chunkArray, variableMap, strftime, transformData } from "../../src/utils";
 import type { MappingItem } from "../../src/types/global";
 
 describe("chunkArray", () => {
@@ -164,80 +164,6 @@ describe("replaceTemplateVariables", () => {
     ];
 
     expect(replaceTemplateVariables(text, variables)).toBe("one and two");
-  });
-});
-
-describe("mergeAndUpdate", () => {
-  it("updates overlapping keys with source values by default", () => {
-    const source = { a: 1, b: 2 };
-    const target = { a: 10, b: 20, c: 30 };
-
-    const result = mergeAndUpdate(source, target);
-
-    expect(result).toEqual({ a: 1, b: 2, c: 30 });
-  });
-
-  it("updates overlapping keys with target values if flipUpdate is true", () => {
-    const source = { a: 1, b: 2 };
-    const target = { a: 10, b: 20, c: 30 };
-
-    const result = mergeAndUpdate(source, target, true);
-
-    expect(result).toEqual({ a: 10, b: 20, c: 30 });
-  });
-
-  it("does not add non-overlapping keys from source", () => {
-    const source = { d: 4 };
-    const target = { a: 1, b: 2 };
-
-    const result = mergeAndUpdate(source, target);
-
-    expect(result).toEqual({ a: 1, b: 2 });
-  });
-
-  it("works when source is empty", () => {
-    const source = {};
-    const target = { a: 1, b: 2 };
-
-    const result = mergeAndUpdate(source, target);
-
-    expect(result).toEqual({ a: 1, b: 2 });
-  });
-
-  it("works when target is empty", () => {
-    const source = { a: 1, b: 2 };
-    const target = {};
-
-    const result = mergeAndUpdate(source, target);
-
-    expect(result).toEqual({});
-  });
-
-  it("preserves non-conflicting keys from target", () => {
-    const source = { a: 5 };
-    const target = { a: 1, b: 2, c: 3 };
-
-    const result = mergeAndUpdate(source, target);
-
-    expect(result).toEqual({ a: 5, b: 2, c: 3 });
-  });
-
-  it("handles undefined values correctly", () => {
-    const source = { a: undefined };
-    const target = { a: 1, b: 2 };
-
-    const result = mergeAndUpdate(source, target);
-
-    expect(result).toEqual({ a: undefined, b: 2 });
-  });
-
-  it("flipUpdate preserves original target values on overlap", () => {
-    const source = { a: "source" };
-    const target = { a: "target" };
-
-    const result = mergeAndUpdate(source, target, true);
-
-    expect(result).toEqual({ a: "target" });
   });
 });
 

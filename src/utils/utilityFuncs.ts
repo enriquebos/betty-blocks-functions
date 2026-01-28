@@ -12,17 +12,6 @@ export function variableMap(variables: { key: string; value: string }[]): Record
   return Object.fromEntries(variables.map(({ key, value }) => [key, value]));
 }
 
-export function mergeAndUpdate(
-  source: Record<string, unknown>,
-  target: Record<string, unknown>,
-  flipUpdate = false,
-): Record<string, unknown> {
-  return Object.keys(source).reduce(
-    (acc, key) => (key in acc ? { ...acc, [key]: flipUpdate ? target[key] : source[key] } : acc),
-    { ...target },
-  );
-}
-
 export function transformData(input: MappingItem[]): Record<string, unknown> {
   return input.reduce(
     (acc, { key, value }) => {

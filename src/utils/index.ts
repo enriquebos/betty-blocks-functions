@@ -1,12 +1,5 @@
 import jwtDecode from "./auth";
-import {
-  chunkArray,
-  variableMap,
-  getAllValues,
-  strftime,
-  mergeAndUpdate,
-  transformData,
-} from "./utilityFuncs";
+import { chunkArray, variableMap, getAllValues, strftime, transformData } from "./utilityFuncs";
 import { getRandomIntInRange } from "./random";
 
 export {
@@ -16,6 +9,5 @@ export {
   getAllValues,
   strftime,
   getRandomIntInRange,
-  mergeAndUpdate,
   transformData,
 };

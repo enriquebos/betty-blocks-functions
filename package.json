@@ -16,21 +16,21 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
-    "remeda": "^2.32.0",
+    "remeda": "^2.33.4",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@betty-blocks/cli": "25.108.0",
-    "@eslint/js": "^9.39.1",
+    "@eslint/js": "^9.39.2",
     "@types/jest": "^30.0.0",
-    "@types/xlsx": "^0.0.35",
-    "eslint": "^9.39.1",
-    "globals": "^16.5.0",
+    "@types/xlsx": "^0.0.36",
+    "eslint": "^9.39.2",
+    "globals": "^17.2.0",
     "npm-check-updates": "^18.0.1",
-    "prettier": "^3.6.2",
-    "ts-jest": "^29.4.5",
+    "prettier": "^3.8.1",
+    "ts-jest": "^29.4.6",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.46.4"
+    "typescript-eslint": "^8.54.0"
   },
   "prettier": {
     "printWidth": 100
