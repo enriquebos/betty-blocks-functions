@@ -34,3 +34,17 @@ export declare interface DeleteAllParams {
   filter: string;
   filterVars: MappingItem[];
 }
+
+export declare interface Oath1RequestOptions {
+  url: string;
+  method?: string;
+  consumerKey: string;
+  consumerSecret: string;
+  token?: string;
+  tokenSecret?: string;
+  queryParams?: { key: string; value: unknown }[];
+  bodyParams?: { key: string; value: unknown }[];
+  rawBody?: string;
+  sendAsForm?: boolean;
+  headers?: { key: string; value: unknown }[];
+}

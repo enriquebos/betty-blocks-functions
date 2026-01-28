@@ -1,0 +1,145 @@
+{
+  "description": "Perform an OAuth 1.0 signed HTTP(S) request (HMAC-SHA1)",
+  "label": "Oath1 Request",
+  "category": "Integration",
+  "icon": {
+    "name": "CloudIcon",
+    "color": "Blue"
+  },
+  "options": [
+    {
+      "name": "url",
+      "label": "URL",
+      "info": "Full endpoint URL, may already contain query parameters.",
+      "meta": {
+        "type": "Text",
+        "validations": { "required": true }
+      }
+    },
+    {
+      "name": "method",
+      "label": "HTTP method",
+      "meta": {
+        "type": "Select",
+        "default": "GET",
+        "values": [
+          { "label": "GET", "value": "GET" },
+          { "label": "POST", "value": "POST" }
+        ]
+      }
+    },
+    {
+      "name": "consumerKey",
+      "label": "Consumer key",
+      "meta": {
+        "type": "Text",
+        "validations": { "required": true }
+      }
+    },
+    {
+      "name": "consumerSecret",
+      "label": "Consumer secret",
+      "meta": {
+        "type": "Text",
+        "validations": { "required": true }
+      }
+    },
+    {
+      "name": "token",
+      "label": "Token",
+      "meta": {
+        "type": "Text"
+      },
+      "advanced": true
+    },
+    {
+      "name": "tokenSecret",
+      "label": "Token secret",
+      "meta": {
+        "type": "Text"
+      },
+      "advanced": true
+    },
+    {
+      "name": "queryParams",
+      "label": "Query params",
+      "info": "Key/value pairs appended to the URL and signed.",
+      "meta": {
+        "type": "Map"
+      },
+      "advanced": true
+    },
+    {
+      "name": "bodyParams",
+      "label": "Body params",
+      "info": "Key/value pairs included in the signature. Sent as JSON unless 'Send as form' is enabled.",
+      "meta": {
+        "type": "Map"
+      },
+      "advanced": true
+    },
+    {
+      "name": "rawBody",
+      "label": "Raw body (advanced)",
+      "info": "Literal body string. If set, bodyParams is ignored; Content-Type defaults to application/json.",
+      "meta": {
+        "type": "MultilineText"
+      },
+      "advanced": true
+    },
+    {
+      "name": "sendAsForm",
+      "label": "Send body as form-urlencoded",
+      "meta": {
+        "type": "Boolean",
+        "default": false
+      },
+      "advanced": true
+    },
+    {
+      "name": "headers",
+      "label": "Additional headers",
+      "meta": {
+        "type": "Map"
+      },
+      "advanced": true
+    },
+    {
+      "name": "schema",
+      "label": "Schema",
+      "meta": {
+        "type": "SchemaModel"
+      }
+    },
+    {
+      "name": "status",
+      "label": "Status as",
+      "meta": {
+        "type": "Output",
+        "output": { "type": "Number" }
+      },
+      "configuration": { "placeholder": "status" }
+    },
+    {
+      "name": "response",
+      "label": "Response as",
+      "meta": {
+        "type": "Output",
+        "output": { "type": "Object", "schemaModel": "schema" },
+        "validations": { "required": true }
+      },
+      "configuration": { "placeholder": "response" }
+    },
+    {
+      "name": "headersOut",
+      "label": "Headers as",
+      "meta": {
+        "type": "Output",
+        "output": { "type": "Object" }
+      },
+      "configuration": { "placeholder": "headers" },
+      "advanced": true
+    }
+  ],
+  "yields": "NONE"
+}
