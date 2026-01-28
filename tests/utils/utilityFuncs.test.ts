@@ -1,6 +1,6 @@
 import { replaceTemplateVariables } from "../../src/utils/templating";
 import { chunkArray, variableMap, strftime, transformData } from "../../src/utils";
-import type { MappingItem } from "../../src/types/global";
+import type { MappingItem } from "../../src/types/mapping";
 
 describe("chunkArray", () => {
   it("should chunk an array into smaller arrays of given size", () => {

@@ -3,7 +3,7 @@ import { transformData } from "../src/utils";
 import { createOrUpdateRecord } from "../src/utils/graphql/exts";
 
 import type { CreateOrUpdateRecordParams } from "../src/types/functions";
-import type { MappingItem } from "../src/types/global";
+import type { MappingItem } from "../src/types/mapping";
 
 jest.mock("../src/utils", () => ({
   transformData: jest.fn(),
@@ -51,12 +51,7 @@ describe("createOrUpdateRecordObject", () => {
     const result = await createOrUpdateRecordObject(params);
 
     expect(mockTransformData).toHaveBeenCalledTimes(2);
-    expect(mockCreateOrUpdateRecord).toHaveBeenCalledWith(
-      "TestModel",
-      {},
-      expectedInput,
-      true,
-    );
+    expect(mockCreateOrUpdateRecord).toHaveBeenCalledWith("TestModel", {}, expectedInput, true);
     expect(result).toEqual({ as: mockResult });
   });
 
