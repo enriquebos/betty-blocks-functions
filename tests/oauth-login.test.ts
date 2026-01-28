@@ -1,4 +1,4 @@
-import oauthLogin from "../src/oauth-login/1.0";
+import oauthLogin from "../src/oauth2-login/1.0";
 import { jwtDecode } from "../src/utils";
 
 global.fetch = jest.fn();

@@ -9,7 +9,7 @@
     "test:only-changed": "jest --onlyChanged",
     "test:cov": "jest --collect-coverage",
     "lint": "eslint \"./src/**/**/*.{ts,json}\" \"./src/**/*.{ts,json}\" --fix",
-    "build": "npm run format && tsc -p ./tsconfig.json && rm -rf functions/utils/liquid.min.js && node post-build.mjs",
+    "build": "rm -rf .tmp functions && npm run format && tsc -p ./tsconfig.json && rm -rf functions/utils/liquid.min.js && node post-build.mjs",
     "publish": "npm run build && npm run test && bb functions publish",
     "publish:no-test": "npm run build && bb functions publish",
     "update-packages": "ncu -u -x glob -x npm-check-updates -x @betty-blocks/cli && npm install"
