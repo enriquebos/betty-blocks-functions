@@ -1,0 +1,5 @@
+{
+  "dependencies": [],
+  "functions": ["otpVerify 1.0"],
+  "includes": ["./functions/utils"]
+}

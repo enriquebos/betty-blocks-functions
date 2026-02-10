@@ -142,3 +142,47 @@ export function strftime(
     );
   });
 }
+
+const BASE32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+
+const normalizeBase32Secret = (secret: string): string =>
+  secret.replace(/[\s-]/g, "").toUpperCase();
+
+export function decodeBase32(secret: string): Uint8Array {
+  const normalized = normalizeBase32Secret(secret).replace(/=+$/g, "");
+
+  if (!normalized) {
+    throw new Error("OTP secret cannot be empty");
+  }
+
+  let bits = "";
+
+  for (const char of normalized) {
+    const value = BASE32_ALPHABET.indexOf(char);
+
+    if (value === -1) {
+      throw new Error(`Invalid Base32 secret character: ${char}`);
+    }
+
+    bits += value.toString(2).padStart(5, "0");
+  }
+
+  const bytes: number[] = [];
+
+  for (let i = 0; i + 8 <= bits.length; i += 8) {
+    bytes.push(parseInt(bits.slice(i, i + 8), 2));
+  }
+
+  return new Uint8Array(bytes);
+}
+
+export function toHex(bytes: Uint8Array): string {
+  return Array.from(bytes)
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+export function counterToHex(counter: number): string {
+  const hex = Math.floor(counter).toString(16).padStart(16, "0");
+  return hex.slice(-16);
+}

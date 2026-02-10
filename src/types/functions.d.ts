@@ -48,3 +48,12 @@ export declare interface Oath1RequestOptions {
   sendAsForm?: boolean;
   headers?: { key: string; value: unknown }[];
 }
+
+export declare interface OtpVerifyOptions {
+  secret: string;
+  otp: string;
+  digits?: number;
+  period?: number;
+  window?: number;
+  timestamp?: number;
+}

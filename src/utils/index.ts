@@ -1,5 +1,14 @@
 import jwtDecode from "./auth";
-import { chunkArray, variableMap, getAllValues, strftime, transformData } from "./utilityFuncs";
+import {
+  chunkArray,
+  variableMap,
+  getAllValues,
+  strftime,
+  transformData,
+  decodeBase32,
+  toHex,
+  counterToHex,
+} from "./utilityFuncs";
 import { getRandomIntInRange } from "./random";
 
 export {
@@ -10,4 +19,7 @@ export {
   strftime,
   getRandomIntInRange,
   transformData,
+  decodeBase32,
+  toHex,
+  counterToHex,
 };

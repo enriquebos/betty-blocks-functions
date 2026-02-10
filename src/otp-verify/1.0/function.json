@@ -1,0 +1,88 @@
+{
+  "description": "Verify a one-time password (TOTP) using HMAC-SHA1",
+  "label": "OTP Verify",
+  "category": "Authentication",
+  "icon": {
+    "name": "UserKeyIcon",
+    "color": "Green"
+  },
+  "options": [
+    {
+      "name": "secret",
+      "label": "Secret (Base32)",
+      "info": "Shared OTP secret in Base32 format.",
+      "meta": {
+        "type": "Text",
+        "validations": { "required": true }
+      }
+    },
+    {
+      "name": "otp",
+      "label": "OTP code",
+      "info": "The code to verify.",
+      "meta": {
+        "type": "Text",
+        "validations": { "required": true }
+      }
+    },
+    {
+      "name": "digits",
+      "label": "Digits",
+      "meta": {
+        "type": "Number",
+        "default": 6
+      },
+      "configuration": {
+        "placeholder": "6"
+      },
+      "advanced": true
+    },
+    {
+      "name": "period",
+      "label": "Period (seconds)",
+      "meta": {
+        "type": "Number",
+        "default": 30
+      },
+      "configuration": {
+        "placeholder": "30"
+      },
+      "advanced": true
+    },
+    {
+      "name": "window",
+      "label": "Time window",
+      "info": "Allowed past/future time steps around the current one.",
+      "meta": {
+        "type": "Number",
+        "default": 1
+      },
+      "configuration": {
+        "placeholder": "1"
+      },
+      "advanced": true
+    },
+    {
+      "name": "timestamp",
+      "label": "Unix timestamp (seconds)",
+      "info": "Optional explicit time for verification. Defaults to now.",
+      "meta": {
+        "type": "Number"
+      },
+      "advanced": true
+    },
+    {
+      "name": "isValid",
+      "label": "Is valid as",
+      "meta": {
+        "type": "Output",
+        "validations": { "required": true },
+        "output": { "type": "Boolean" }
+      },
+      "configuration": {
+        "placeholder": "is_valid"
+      }
+    }
+  ],
+  "yields": "NONE"
+}
