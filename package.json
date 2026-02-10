@@ -16,14 +16,12 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
-    "remeda": "^2.33.4",
-    "xlsx": "^0.18.5"
+    "remeda": "^2.33.4"
   },
   "devDependencies": {
     "@betty-blocks/cli": "25.108.0",
     "@eslint/js": "^9.39.2",
     "@types/jest": "^30.0.0",
-    "@types/xlsx": "^0.0.36",
     "eslint": "^9.39.2",
     "globals": "^17.2.0",
     "npm-check-updates": "^18.0.1",
