@@ -16,19 +16,19 @@
   },
   "dependencies": {
     "date-fns": "^4.1.0",
-    "remeda": "^2.33.4"
+    "remeda": "^2.33.6"
   },
   "devDependencies": {
     "@betty-blocks/cli": "25.108.0",
     "@eslint/js": "^9.39.2",
     "@types/jest": "^30.0.0",
     "eslint": "^9.39.2",
-    "globals": "^17.2.0",
+    "globals": "^17.3.0",
     "npm-check-updates": "^18.0.1",
     "prettier": "^3.8.1",
     "ts-jest": "^29.4.6",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.54.0"
+    "typescript-eslint": "^8.55.0"
   },
   "prettier": {
     "printWidth": 100
