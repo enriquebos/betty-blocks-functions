@@ -122,4 +122,35 @@ describe("deleteAll", () => {
       as: "2 records from TestModel have been deleted",
     });
   });
+
+  it("maps filter vars defensively when key names or values are missing", async () => {
+    (deleteWhere as jest.Mock).mockResolvedValue(["id-1"]);
+
+    await deleteAll({
+      model: mockModel,
+      amountToDelete: 1,
+      batchSize: 1,
+      filter: mockFilter,
+      filterVars: [
+        { key: [], value: "ignored" } as unknown as (typeof mockFilterVars)[number],
+        { key: [{ kind: "Variable", name: "active" }], value: null },
+      ],
+    });
+
+    expect(replaceTemplateVariables).toHaveBeenCalledWith(mockFilter, [{ key: "active", value: "" }]);
+  });
+
+  it("uses empty template vars when filterVars is undefined", async () => {
+    (deleteWhere as jest.Mock).mockResolvedValue([]);
+
+    await deleteAll({
+      model: mockModel,
+      amountToDelete: 1,
+      batchSize: 1,
+      filter: mockFilter,
+      filterVars: undefined,
+    });
+
+    expect(replaceTemplateVariables).toHaveBeenCalledWith(mockFilter, []);
+  });
 });

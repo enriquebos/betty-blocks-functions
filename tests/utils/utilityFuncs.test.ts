@@ -1,5 +1,13 @@
 import { replaceTemplateVariables } from "../../src/utils/templating";
-import { chunkArray, variableMap, strftime, transformData } from "../../src/utils";
+import {
+  chunkArray,
+  variableMap,
+  strftime,
+  transformData,
+  decodeBase32,
+  toHex,
+  counterToHex,
+} from "../../src/utils";
 import type { MappingItem } from "../../src/types/mapping";
 
 describe("chunkArray", () => {
@@ -237,6 +245,39 @@ describe("transformData", () => {
       array: [1, 2, 3],
       object: { x: 1 },
     });
+  });
+
+  it("maps object values with an id field to their id", () => {
+    const input: MappingItem[] = [
+      { key: [{ kind: "rel", name: "relation" }], value: { id: 77, name: "Entity" } },
+    ];
+
+    const result = transformData(input);
+    expect(result).toEqual({ relation: 77 });
+  });
+});
+
+describe("otp helper utils", () => {
+  it("decodes base32 secrets (ignores spacing, dashes and casing)", () => {
+    const bytes = decodeBase32("gezd-g nbv gy3t qojq====");
+    expect(bytes).toEqual(new Uint8Array([49, 50, 51, 52, 53, 54, 55, 56, 57, 48]));
+  });
+
+  it("throws for empty base32 secret after normalization", () => {
+    expect(() => decodeBase32("   ---   ")).toThrow("OTP secret cannot be empty");
+  });
+
+  it("throws for invalid base32 character", () => {
+    expect(() => decodeBase32("ABC*")).toThrow("Invalid Base32 secret character: *");
+  });
+
+  it("converts bytes to lowercase hex", () => {
+    expect(toHex(new Uint8Array([0, 15, 16, 255]))).toBe("000f10ff");
+  });
+
+  it("converts counters to 8-byte hex", () => {
+    expect(counterToHex(1)).toBe("0000000000000001");
+    expect(counterToHex(123456789)).toBe("00000000075bcd15");
   });
 });
 
