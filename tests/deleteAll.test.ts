@@ -137,7 +137,9 @@ describe("deleteAll", () => {
       ],
     });
 
-    expect(replaceTemplateVariables).toHaveBeenCalledWith(mockFilter, [{ key: "active", value: "" }]);
+    expect(replaceTemplateVariables).toHaveBeenCalledWith(mockFilter, [
+      { key: "active", value: "" },
+    ]);
   });
 
   it("uses empty template vars when filterVars is undefined", async () => {

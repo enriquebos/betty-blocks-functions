@@ -6,39 +6,39 @@ describe("otpVerify", () => {
   const secret = "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ";
 
   it("validates a known RFC 6238 vector", async () => {
+    jest.spyOn(Date, "now").mockReturnValue(59_000);
+
     const result = await otpVerify({
       secret,
       otp: "94287082",
       digits: 8,
       period: 30,
-      window: 0,
-      timestamp: 59,
     });
 
     expect(result).toEqual({ isValid: true });
   });
 
   it("rejects an invalid OTP", async () => {
+    jest.spyOn(Date, "now").mockReturnValue(59_000);
+
     const result = await otpVerify({
       secret,
       otp: "00000000",
       digits: 8,
       period: 30,
-      window: 0,
-      timestamp: 59,
     });
 
     expect(result).toEqual({ isValid: false });
   });
 
-  it("accepts neighbor time steps when window allows it", async () => {
+  it("accepts neighbor time steps with fixed tolerance", async () => {
+    jest.spyOn(Date, "now").mockReturnValue(89_000);
+
     const result = await otpVerify({
       secret,
       otp: "94287082",
       digits: 8,
       period: 30,
-      window: 1,
-      timestamp: 89,
     });
 
     expect(result).toEqual({ isValid: true });
@@ -73,16 +73,6 @@ describe("otpVerify", () => {
     ).rejects.toThrow("Period must be a positive integer");
   });
 
-  it("throws for invalid window option", async () => {
-    await expect(
-      otpVerify({
-        secret,
-        otp: "123456",
-        window: -1,
-      }),
-    ).rejects.toThrow("Window must be a non-negative integer");
-  });
-
   it("returns false when otp has non-digit characters", async () => {
     const result = await otpVerify({
       secret,
@@ -100,7 +90,6 @@ describe("otpVerify", () => {
       otp: "94287082",
       digits: 8,
       period: 30,
-      window: 0,
     });
 
     expect(result).toEqual({ isValid: true });
@@ -117,8 +106,6 @@ describe("otpVerify", () => {
         otp: "94287082",
         digits: 8,
         period: 30,
-        window: 0,
-        timestamp: 59,
       }),
     ).resolves.toEqual({ isValid: false });
 

@@ -50,28 +50,6 @@
       "advanced": true
     },
     {
-      "name": "window",
-      "label": "Time window",
-      "info": "Allowed past/future time steps around the current one.",
-      "meta": {
-        "type": "Number",
-        "default": 1
-      },
-      "configuration": {
-        "placeholder": "1"
-      },
-      "advanced": true
-    },
-    {
-      "name": "timestamp",
-      "label": "Unix timestamp (seconds)",
-      "info": "Optional explicit time for verification. Defaults to now.",
-      "meta": {
-        "type": "Number"
-      },
-      "advanced": true
-    },
-    {
       "name": "isValid",
       "label": "Is valid as",
       "meta": {

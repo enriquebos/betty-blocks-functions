@@ -54,6 +54,4 @@ export declare interface OtpVerifyOptions {
   otp: string;
   digits?: number;
   period?: number;
-  window?: number;
-  timestamp?: number;
 }

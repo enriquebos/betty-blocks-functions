@@ -2,6 +2,8 @@ import CryptoJS from "../../utils/crypto/hmac-sha1.min.js";
 import type { OtpVerifyOptions } from "../../types/functions";
 import { decodeBase32, toHex, counterToHex } from "../../utils";
 
+const DEFAULT_TIME_WINDOW = 1;
+
 const generateTotp = (secret: Uint8Array, counter: number, digits: number): string => {
   const key = CryptoJS.enc.Hex.parse(toHex(secret));
   const message = CryptoJS.enc.Hex.parse(counterToHex(counter));
@@ -27,8 +29,6 @@ const otpVerify = async ({
   otp,
   digits = 6,
   period = 30,
-  window = 1,
-  timestamp,
 }: OtpVerifyOptions): Promise<{ isValid: boolean }> => {
   if (!Number.isInteger(digits) || digits < 4 || digits > 10) {
     throw new Error("Digits must be an integer between 4 and 10");
@@ -38,10 +38,6 @@ const otpVerify = async ({
     throw new Error("Period must be a positive integer");
   }
 
-  if (!Number.isInteger(window) || window < 0) {
-    throw new Error("Window must be a non-negative integer");
-  }
-
   const normalizedOtp = otp.replace(/\s/g, "");
 
   if (!new RegExp(`^\\d{${digits}}$`).test(normalizedOtp)) {
@@ -49,13 +45,10 @@ const otpVerify = async ({
   }
 
   const secretBytes = decodeBase32(secret);
-  const currentTimestamp =
-    typeof timestamp === "number" && Number.isFinite(timestamp)
-      ? Math.floor(timestamp)
-      : Math.floor(Date.now() / 1000);
+  const currentTimestamp = Math.floor(Date.now() / 1000);
   const baseCounter = Math.floor(currentTimestamp / period);
 
-  for (let offset = -window; offset <= window; offset += 1) {
+  for (let offset = -DEFAULT_TIME_WINDOW; offset <= DEFAULT_TIME_WINDOW; offset += 1) {
     const expectedOtp = generateTotp(secretBytes, baseCounter + offset, digits);
     if (expectedOtp === normalizedOtp) {
       return { isValid: true };
