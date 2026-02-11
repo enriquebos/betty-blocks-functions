@@ -1,6 +1,6 @@
 import CryptoJS from "../../utils/crypto/hmac-sha1.min.js";
 import "../../utils/crypto/enc-base64.min.js";
-import type { Oath1RequestOptions } from "../../types/functions";
+import type { Oath1RequestOptions } from "../../types/functions.js";
 
 type StringRecord = Record<string, string>;
 

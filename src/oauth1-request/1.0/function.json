@@ -1,6 +1,6 @@
 {
   "description": "Perform an OAuth 1.0 signed HTTP(S) request (HMAC-SHA1)",
-  "label": "Oath1 Request",
+  "label": "Oauth1 Request",
   "category": "Integration",
   "icon": {
     "name": "CloudIcon",
