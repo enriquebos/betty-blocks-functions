@@ -1,4 +1,4 @@
-import oath1Request from "../src/oath1-request/1.0";
+import oath1Request from "../src/oauth1-request/1.0";
 import CryptoJS from "../src/utils/crypto/hmac-sha1.min.js";
 
 global.fetch = jest.fn();
